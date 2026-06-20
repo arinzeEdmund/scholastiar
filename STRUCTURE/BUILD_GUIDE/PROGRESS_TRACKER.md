@@ -84,15 +84,15 @@ Update this board as implementation progresses.
 Foundation / app scaffold        completed ✅
 Auth and role routing            completed ✅
 Candidate onboarding/profile     completed ✅
-Employer company foundation      not started
+Employer company foundation      completed ✅
 Jobs schema and seed data        completed ✅
 Admin job moderation             not started
 Public job board                 completed ✅
 Candidate job feed               completed ✅
 Universal opportunity cards      not started
-Save/apply flow                  not started
-Application tracking             not started
-Employer applicant review        not started
+Save/apply flow                  completed ✅
+Application tracking             completed ✅
+Employer applicant review        completed ✅
 Basic AI fit/CV/application      not started
 Signia proof-of-work profiles    not started
 Employer Signia deep search      not started
@@ -100,14 +100,14 @@ Employer Signia deep search      not started
 
 ## In Progress
 
-- Service 1: Jobs — core public board and candidate feed complete. Apply flow next.
+- Service 1: Jobs — core vertical complete. Admin moderation + AI matching next.
 
 ## Next Up
 
-- Job application flow: `/jobs/[jobId]/apply` page + `applications` table + server action.
-- Saved jobs: toggle save on job cards and `/saved` page.
-- Employer dashboard: company profile, job posting form.
-- University, Scholarship, Fellowship services (Services 2–4).
+- Admin jobs moderation: `/admin/jobs` page to approve, reject, pause listings.
+- Supabase migrations 006–007 must be run in the SQL editor.
+- AI job fit analysis (Phase 2 of Jobs spec).
+- Service 2: Universities.
 
 ## Remaining Setup Items
 

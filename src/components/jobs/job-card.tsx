@@ -6,6 +6,7 @@ import type { JobWithDetails } from '@/types/database';
 
 interface JobCardProps {
   job: JobWithDetails;
+  saveButton?: React.ReactNode;
 }
 
 const WORK_MODE_LABELS: Record<string, string> = {
@@ -23,7 +24,7 @@ function formatSalary(min?: number | null, max?: number | null, currency?: strin
   return `Up to ${fmt(max!)}`;
 }
 
-export function JobCard({ job }: JobCardProps) {
+export function JobCard({ job, saveButton }: JobCardProps) {
   const salary = formatSalary(job.salary_min, job.salary_max, job.salary_currency);
   const sponsorship = job.job_sponsorship_metadata;
   const postedDays = job.published_at
@@ -64,12 +65,15 @@ export function JobCard({ job }: JobCardProps) {
             )}
           </div>
         </div>
-        {postedDays !== null && (
-          <span className="shrink-0 text-xs text-[#8A8F98]">
-            <Clock className="mb-0.5 mr-0.5 inline h-3 w-3" />
-            {postedDays === 0 ? 'Today' : postedDays === 1 ? '1d ago' : `${postedDays}d ago`}
-          </span>
-        )}
+        <div className="flex shrink-0 items-center gap-2">
+          {postedDays !== null && (
+            <span className="text-xs text-[#8A8F98]">
+              <Clock className="mb-0.5 mr-0.5 inline h-3 w-3" />
+              {postedDays === 0 ? 'Today' : postedDays === 1 ? '1d ago' : `${postedDays}d ago`}
+            </span>
+          )}
+          {saveButton}
+        </div>
       </div>
 
       <div className="mt-3 flex flex-wrap gap-2">

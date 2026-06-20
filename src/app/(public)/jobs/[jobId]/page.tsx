@@ -3,7 +3,10 @@ import { notFound } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { SponsorshipBadge } from '@/components/jobs/sponsorship-badge';
+import { SaveButton } from '@/components/jobs/save-button';
 import { getJobById } from '@/lib/actions/jobs';
+import { getSavedJobIds } from '@/lib/actions/saved-jobs';
+import { createClient } from '@/lib/supabase/server';
 import { MapPin, Building2, Briefcase, Calendar, Clock, Globe, CheckCircle2, Circle } from 'lucide-react';
 import type { Metadata } from 'next';
 
@@ -34,6 +37,11 @@ export default async function JobDetailPage({ params }: PageProps) {
   const result = await getJobById(jobId);
   if (!result.ok) notFound();
   const job = result.data;
+
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  const savedIds = user ? await getSavedJobIds() : [];
+  const isSaved = savedIds.includes(job.id);
 
   const sponsorship = job.job_sponsorship_metadata;
   const requirements = job.job_requirements ?? [];
@@ -101,7 +109,10 @@ export default async function JobDetailPage({ params }: PageProps) {
             <Button asChild className="flex-1">
               <Link href={`/jobs/${job.id}/apply`}>Apply now</Link>
             </Button>
-            <Button variant="outline">Save</Button>
+            {user
+              ? <SaveButton jobId={job.id} initialSaved={isSaved} />
+              : <Button asChild variant="outline"><Link href={`/auth/sign-in?next=/jobs/${job.id}`}>Save</Link></Button>
+            }
           </div>
         </div>
 
