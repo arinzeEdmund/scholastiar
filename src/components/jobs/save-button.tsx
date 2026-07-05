@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { Bookmark } from 'lucide-react';
-import { toggleSaveJob } from '@/lib/actions/saved-jobs';
+import { setSavedJob } from '@/lib/actions/saved-jobs';
 
 interface SaveButtonProps {
   jobId: string;
@@ -12,15 +13,36 @@ interface SaveButtonProps {
 
 export function SaveButton({ jobId, initialSaved = false, className = '' }: SaveButtonProps) {
   const [saved, setSaved] = useState(initialSaved);
-  const [pending, startTransition] = useTransition();
+  const [pending, setPending] = useState(false);
 
-  function handleClick(e: React.MouseEvent) {
+  async function handleClick(e: React.MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
-    startTransition(async () => {
-      const result = await toggleSaveJob(jobId);
-      setSaved(result.saved);
-    });
+    if (pending) return;
+
+    const shouldSave = !saved;
+
+    setPending(true);
+    const toastId = toast.loading(shouldSave ? 'Adding to saved…' : 'Removing from saved…');
+
+    try {
+      const result = await setSavedJob(jobId, shouldSave);
+
+      if (!result.ok) {
+        toast.error(result.error, { id: toastId });
+        return;
+      }
+
+      setSaved(result.data.saved);
+      toast.success(
+        result.data.saved ? 'Added to saved jobs' : 'Removed from saved jobs',
+        { id: toastId },
+      );
+    } catch {
+      toast.error('Something went wrong. Please try again.', { id: toastId });
+    } finally {
+      setPending(false);
+    }
   }
 
   return (
@@ -28,10 +50,12 @@ export function SaveButton({ jobId, initialSaved = false, className = '' }: Save
       onClick={handleClick}
       disabled={pending}
       aria-label={saved ? 'Unsave job' : 'Save job'}
-      className={`flex h-8 w-8 items-center justify-center rounded-lg border transition-colors
+      aria-pressed={saved}
+      title={saved ? 'Saved job' : 'Save job'}
+      className={`flex h-8 w-8 items-center justify-center rounded-lg border shadow-sm transition-all
         ${saved
-          ? 'border-[#10B65B]/30 bg-[#EAF6F0] text-[#10B65B]'
-          : 'border-[#E5E7EB] bg-white text-[#8A8F98] hover:border-[#10B65B]/30 hover:bg-[#EAF6F0] hover:text-[#10B65B]'
+          ? 'border-green bg-green text-white shadow-green/20 ring-2 ring-green/15 hover:bg-green-hover'
+          : 'border-border bg-white text-muted-text hover:border-green/30 hover:bg-soft-green hover:text-green'
         }
         ${pending ? 'opacity-50' : ''}
         ${className}`}

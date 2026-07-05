@@ -19,7 +19,7 @@ export async function createClient() {
             );
           } catch {
             // setAll called from a Server Component — cookies will be set by
-            // the middleware on the next request.
+            // the request proxy on the next request.
           }
         },
       },

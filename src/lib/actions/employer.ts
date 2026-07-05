@@ -2,6 +2,7 @@
 
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
+import type { ActionResult } from '@/types/database';
 
 async function getEmployerCompanyId(supabase: Awaited<ReturnType<typeof createClient>>) {
   const { data: { user } } = await supabase.auth.getUser();
@@ -58,7 +59,7 @@ export async function setupEmployerCompany(formData: FormData): Promise<void> {
   redirect('/employer/dashboard');
 }
 
-export async function createJob(formData: FormData): Promise<void> {
+export async function createJob(formData: FormData): Promise<ActionResult<{ jobId: string }>> {
   const supabase = await createClient();
   const companyId = await getEmployerCompanyId(supabase);
   if (!companyId) redirect('/employer/setup');
@@ -87,7 +88,7 @@ export async function createJob(formData: FormData): Promise<void> {
     .select('id')
     .single();
 
-  if (error) throw error;
+  if (error) return { ok: false, error: 'Failed to post job. Please try again.' };
 
   // Insert sponsorship metadata
   const sponsorshipStatus = formData.get('sponsorship_status') as string || 'unknown';
@@ -99,7 +100,7 @@ export async function createJob(formData: FormData): Promise<void> {
     employer_confirmed:              true,
   });
 
-  redirect('/employer/jobs?created=1');
+  return { ok: true, data: { jobId: job.id } };
 }
 
 export async function getMyCompany() {

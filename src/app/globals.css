@@ -142,6 +142,53 @@
   --sidebar-ring:          oklch(0.7 0.19 149.5);
 }
 
+/* ─── Score / application readiness pill animations ─────────── */
+
+/* Zap icon: dim → bright flash, once per 3-second cycle */
+@keyframes score-zap {
+  0%, 18%, 100% { transform: scale(1); opacity: 1; filter: none; }
+  6%            { transform: scale(0.65); opacity: 0.2; filter: none; }
+  12%           { transform: scale(1.4); opacity: 1;
+                  filter: drop-shadow(0 0 4px rgba(16, 182, 91, 0.9)); }
+}
+
+/* Border glow: low tier (≤30%) — subtle ring */
+@keyframes score-glow-low {
+  0%, 20%, 100% { box-shadow: none; }
+  8%            { box-shadow: 0 0 0 1.5px rgba(16, 182, 91, 0.35),
+                              0 0 6px  rgba(16, 182, 91, 0.18); }
+  14%           { box-shadow: none; }
+}
+
+/* Border glow: mid tier (31–50%) — thicker ring */
+@keyframes score-glow-mid {
+  0%, 20%, 100% { box-shadow: none; }
+  8%            { box-shadow: 0 0 0 2.5px rgba(16, 182, 91, 0.50),
+                              0 0 10px rgba(16, 182, 91, 0.28); }
+  14%           { box-shadow: none; }
+}
+
+/* Border glow: high tier (51–80%) and top (>80%) — thick ring + spread */
+@keyframes score-glow-high {
+  0%, 22%, 100% { box-shadow: none; }
+  8%            { box-shadow: 0 0 0 3.5px rgba(16, 182, 91, 0.62),
+                              0 0 14px rgba(16, 182, 91, 0.38),
+                              0 0 26px rgba(16, 182, 91, 0.15); }
+  16%           { box-shadow: none; }
+}
+
+/* Blinking dot for top tier (>80%) — gentle pulse */
+@keyframes score-dot-blink {
+  0%, 35%, 65%, 100% { opacity: 1; transform: scale(1); }
+  50%                { opacity: 0; transform: scale(0.4); }
+}
+
+.score-zap       { animation: score-zap       3s ease-in-out infinite; }
+.score-glow-low  { animation: score-glow-low  3s ease-in-out infinite; }
+.score-glow-mid  { animation: score-glow-mid  3s ease-in-out infinite; }
+.score-glow-high { animation: score-glow-high 3s ease-in-out infinite; }
+.score-dot-blink { animation: score-dot-blink 1.4s ease-in-out infinite; }
+
 /* ─── Base resets ────────────────────────────────────────────── */
 @layer base {
   * {

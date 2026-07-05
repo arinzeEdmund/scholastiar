@@ -90,6 +90,68 @@ Components should be domain-specific, reusable, and consistent.
 - AIConsentSheet
 - PlanGateSheet
 
+## Toast / Feedback Pattern
+
+Package: `react-hot-toast`
+
+A branded `<Toaster />` wrapper lives at `src/components/ui/toaster.tsx` and is mounted once in `src/app/layout.tsx` (inside `TooltipProvider`, after `PWAUpdateToast`). All pages inherit it automatically — never mount a second `<Toaster />`.
+
+### When to use toasts
+
+Every interactive mutation that can succeed or fail and takes any noticeable time must give the user loading → success/error feedback. This includes:
+
+- Saving/unsaving a job
+- Submitting a job application
+- Posting a job (employer)
+- Moderating a job (admin approve / reject / pause)
+- Any future form submission, AI trigger, document upload, or status change
+
+Do **not** use toasts for read-only operations (searching, filtering, navigating).
+
+### Pattern — client component + server action
+
+```tsx
+'use client';
+import { useTransition } from 'react';
+import toast from 'react-hot-toast';
+import { myServerAction } from '@/lib/actions/my-action';
+
+function MyButton() {
+  const [pending, startTransition] = useTransition();
+
+  function handleClick() {
+    const toastId = toast.loading('Doing the thing…');
+    startTransition(async () => {
+      const result = await myServerAction();
+      if (!result.ok) {
+        toast.error(result.error, { id: toastId });
+        return;
+      }
+      toast.success('Done!', { id: toastId });
+    });
+  }
+
+  return <button disabled={pending} onClick={handleClick}>Go</button>;
+}
+```
+
+Key rules:
+1. Always assign `toast.loading(…)` to a `toastId` variable.
+2. Always resolve every branch with `{ id: toastId }` so the loading toast is replaced, never stacked.
+3. Server actions must return `ActionResult<T>` (see `src/lib/actions/auth.ts` for the type), never `Promise<void>` when called from a toast-bearing client component.
+4. Navigation after success (`router.push(…)`) happens inside `startTransition`, after `toast.success(…)`.
+5. Never import `toast` in Server Components or server actions.
+
+### `ActionResult<T>` type
+
+```ts
+type ActionResult<T = undefined> =
+  | { ok: true; data: T }
+  | { ok: false; error: string };
+```
+
+Import from `@/lib/actions/auth` or define locally in the actions file. Every mutating server action that a client component calls must return this shape.
+
 ## Rules
 
 - Use `UI_BASE/ux_ui_base.md` for colors, spacing, tone, and UX principles.

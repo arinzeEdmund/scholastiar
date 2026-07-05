@@ -86,7 +86,7 @@ Auth and role routing            completed ✅
 Candidate onboarding/profile     completed ✅
 Employer company foundation      completed ✅
 Jobs schema and seed data        completed ✅
-Admin job moderation             not started
+Admin job moderation             completed ✅
 Public job board                 completed ✅
 Candidate job feed               completed ✅
 Universal opportunity cards      not started
@@ -100,14 +100,20 @@ Employer Signia deep search      not started
 
 ## In Progress
 
-- Service 1: Jobs — core vertical complete. Admin moderation + AI matching next.
+- Service 1: Jobs — fully complete including candidate dashboards.
 
 ## Next Up
 
-- Admin jobs moderation: `/admin/jobs` page to approve, reject, pause listings.
-- Supabase migrations 006–007 must be run in the SQL editor.
+- Service 2: Universities — schema, pages, admin moderation.
+
+## Session Notes (2026-06-20 continued)
+
+- On 2026-06-20, job dashboards built: /dashboard (redirect hub), /dashboard/jobs (personalized feed with match scores), /dashboard/jobs/visa-sponsored (sponsorship surface with country filters), /dashboard/jobs/saved (saved jobs with closing-soon and visa tabs), /dashboard/jobs/[jobId] (auth detail with skills gap analysis). Migration 008 adds 15 more seed jobs across Switzerland, UAE, Australia, Singapore. Match score utility in src/lib/utils/match-score.ts. Build: 38 routes, zero errors.
 - AI job fit analysis (Phase 2 of Jobs spec).
 - Service 2: Universities.
+- On 2026-07-03, auth forms were stabilized for clearer mutation feedback: sign-in, sign-up, and password reset now use explicit submitting state, duplicate-submit guards, inline error messages, toast loading/success/error feedback, server-action exception handling, router refresh after auth navigation, and Zod validation in auth server actions. Build passes with network access for Next font fetching.
+- On 2026-07-03, sign-in URL handling was hardened: email/password query parameters are stripped from `/auth/sign-in`, the form no longer pre-fills credentials from the URL, stale Supabase auth cookies are cleared by the request proxy, and the old middleware file was migrated to `proxy.ts` for Next 16 compatibility. Build passes with network access for Next font fetching.
+- On 2026-07-03, saved job interactions were fixed: save/remove now uses explicit intended state instead of a blind toggle, toast copy follows adding/removing and added/removed wording, saved jobs use a stronger green button state, saved-job pages are revalidated after mutations, saved job loading handles Supabase joined rows more reliably, and signed-in users missing a candidate profile now get one created automatically instead of seeing "Sign in to save jobs." Build passes with network access for Next font fetching.
 
 ## Remaining Setup Items
 

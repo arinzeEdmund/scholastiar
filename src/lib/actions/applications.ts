@@ -1,7 +1,7 @@
 'use server';
 
-import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
+import type { ActionResult } from '@/types/database';
 
 async function getCandidateProfileId(supabase: Awaited<ReturnType<typeof createClient>>) {
   const { data: { user } } = await supabase.auth.getUser();
@@ -14,17 +14,17 @@ async function getCandidateProfileId(supabase: Awaited<ReturnType<typeof createC
   return data?.id ?? null;
 }
 
-export async function submitApplication(formData: FormData): Promise<void> {
+export async function submitApplication(
+  formData: FormData,
+): Promise<ActionResult<{ applicationId: string }>> {
   const supabase = await createClient();
   const profileId = await getCandidateProfileId(supabase);
-  if (!profileId) redirect('/auth/sign-in');
+  if (!profileId) return { ok: false, error: 'You must be signed in to apply.' };
 
   const jobId = formData.get('job_id') as string;
   const consent = formData.get('consent') === 'true';
 
-  if (!consent) {
-    redirect(`/jobs/${jobId}/apply?error=consent`);
-  }
+  if (!consent) return { ok: false, error: 'Please confirm your consent before submitting.' };
 
   // Upsert so candidates can't double-apply (unique constraint on job+candidate)
   const { data: application, error } = await supabase
@@ -41,7 +41,7 @@ export async function submitApplication(formData: FormData): Promise<void> {
     .select('id')
     .single();
 
-  if (error) redirect(`/jobs/${jobId}/apply?error=failed`);
+  if (error) return { ok: false, error: 'Something went wrong. Please try again.' };
 
   // Log initial status history
   await supabase.from('application_status_history').insert({
@@ -50,7 +50,7 @@ export async function submitApplication(formData: FormData): Promise<void> {
     changed_by: (await supabase.auth.getUser()).data.user?.id,
   });
 
-  redirect(`/applications/${application.id}/confirmation`);
+  return { ok: true, data: { applicationId: application.id } };
 }
 
 export async function getMyApplications() {

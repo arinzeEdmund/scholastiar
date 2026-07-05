@@ -108,6 +108,14 @@ The codebase must never violate these rules:
 - Use mobile-first layouts.
 - Do not create noisy decorative interfaces.
 
+## Toast / User Feedback Rules
+
+- Every interactive mutation (save, apply, post, moderate, upload, trigger) must give loading → success/error feedback via `react-hot-toast`.
+- Use the `toast.loading(…)` → `toast.success/error(…, { id })` pattern described in `COMPONENT_SYSTEM.md`.
+- Mutating server actions called from client components must return `ActionResult<T>`, not `Promise<void>`. They must not call `redirect()` on the success path; client components handle navigation via `router.push()`.
+- Never mount a second `<Toaster />`. The one in `src/app/layout.tsx` covers all routes.
+- Use canonical design token classes in all new components (e.g. `text-green`, `bg-soft-green`, `text-primary-text`). Never use hardcoded hex colours like `text-[#10B65B]`.
+
 ## AI Rules
 
 - AI must not fabricate facts.

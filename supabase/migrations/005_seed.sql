@@ -63,12 +63,17 @@ values
     'aaaaaaaa-0001-0000-0000-000000000001',
     'Senior Backend Engineer (Visa Sponsored)',
     'senior-backend-engineer-luminary',
-    E'Luminary Tech is looking for a Senior Backend Engineer to join our platform team in London.\n\n'
-    E'**What you will do:**\n- Design and own distributed services handling millions of requests\n'
-    E'- Collaborate with product and infrastructure on reliability and performance\n'
-    E'- Mentor junior engineers and contribute to technical standards\n\n'
-    E'**What we offer:**\n- Tier 2 visa sponsorship available\n'
-    E'- Relocation package to London\n- Competitive salary + equity',
+    $$Luminary Tech is looking for a Senior Backend Engineer to join our platform team in London.
+
+What you will do:
+- Design and own distributed services handling millions of requests
+- Collaborate with product and infrastructure on reliability and performance
+- Mentor junior engineers and contribute to technical standards
+
+What we offer:
+- Tier 2 visa sponsorship available
+- Relocation package to London
+- Competitive salary + equity$$,
     'full_time', 'senior', 'on_site',
     'United Kingdom', 'London',
     90000, 120000, 'GBP', true,
@@ -80,10 +85,14 @@ values
     'aaaaaaaa-0001-0000-0000-000000000001',
     'Product Designer',
     'product-designer-luminary',
-    E'We are hiring a Product Designer to shape our customer-facing products.\n\n'
-    E'You will work closely with engineers and PMs to deliver clean, accessible UI.\n\n'
-    E'**Requirements:**\n- 3+ years of product design experience\n- Strong Figma skills\n'
-    E'- Experience designing data-dense interfaces',
+    $$We are hiring a Product Designer to shape our customer-facing products.
+
+You will work closely with engineers and PMs to deliver clean, accessible UI.
+
+Requirements:
+- 3+ years of product design experience
+- Strong Figma skills
+- Experience designing data-dense interfaces$$,
     'full_time', 'mid', 'hybrid',
     'United Kingdom', 'London',
     65000, 85000, 'GBP', true,
@@ -95,10 +104,14 @@ values
     'aaaaaaaa-0001-0000-0000-000000000002',
     'Clinical Data Analyst (LMIA Supported)',
     'clinical-data-analyst-medcore',
-    E'MedCore Health is expanding its analytics team in Toronto.\n\n'
-    E'This role supports LMIA-based work permit applications for international candidates.\n\n'
-    E'**Responsibilities:**\n- Analyse patient outcome datasets\n'
-    E'- Build dashboards for clinical leadership\n- Collaborate with data engineering',
+    $$MedCore Health is expanding its analytics team in Toronto.
+
+This role supports LMIA-based work permit applications for international candidates.
+
+Responsibilities:
+- Analyse patient outcome datasets
+- Build dashboards for clinical leadership
+- Collaborate with data engineering$$,
     'full_time', 'mid', 'hybrid',
     'Canada', 'Toronto',
     70000, 90000, 'CAD', true,
@@ -110,10 +123,12 @@ values
     'aaaaaaaa-0001-0000-0000-000000000003',
     'Graduate Structural Engineer',
     'graduate-structural-engineer-atlas',
-    E'Atlas Engineering welcomes applications from recent graduates in Civil or Structural Engineering.\n\n'
-    E'**What you need:**\n- Bachelor or Master in Civil/Structural Engineering\n'
-    E'- EU Blue Card eligibility or existing right to work in Germany\n'
-    E'- Basic German is a plus',
+    $$Atlas Engineering welcomes applications from recent graduates in Civil or Structural Engineering.
+
+What you need:
+- Bachelor or Master in Civil/Structural Engineering
+- EU Blue Card eligibility or existing right to work in Germany
+- Basic German is a plus$$,
     'full_time', 'junior', 'on_site',
     'Germany', 'Berlin',
     42000, 55000, 'EUR', true,
@@ -125,11 +140,14 @@ values
     'aaaaaaaa-0001-0000-0000-000000000004',
     'Senior Full-Stack Engineer (Remote, Global)',
     'senior-fullstack-remote-orbital',
-    E'Orbital Labs hires fully remote across timezones.\n\n'
-    E'**Stack:** TypeScript, Next.js, PostgreSQL, Supabase\n\n'
-    E'**What we offer:**\n- Remote-first, async-first culture\n'
-    E'- Competitive USD salary regardless of location\n'
-    E'- No sponsorship required — hire globally',
+    $$Orbital Labs hires fully remote across timezones.
+
+Stack: TypeScript, Next.js, PostgreSQL, Supabase
+
+What we offer:
+- Remote-first, async-first culture
+- Competitive USD salary regardless of location
+- No sponsorship required, hire globally$$,
     'full_time', 'senior', 'remote',
     'Netherlands', 'Amsterdam',
     110000, 145000, 'USD', true,
@@ -141,9 +159,9 @@ values
     'aaaaaaaa-0001-0000-0000-000000000005',
     'Retail Operations Manager',
     'retail-operations-manager-greenfield',
-    E'Greenfield Retail is hiring an Operations Manager for our New York flagship.\n\n'
-    E'**Note:** This role is open to US residents and US work-authorized candidates only. '
-    E'We are not offering sponsorship for this position.',
+    $$Greenfield Retail is hiring an Operations Manager for our New York flagship.
+
+Note: This role is open to US residents and US work-authorized candidates only. We are not offering sponsorship for this position.$$,
     'full_time', 'mid', 'on_site',
     'United States', 'New York',
     70000, 90000, 'USD', true,
@@ -157,27 +175,27 @@ insert into job_sponsorship_metadata
   (job_id, sponsorship_status, relocation_support_available,
    open_to_international_applicants, employer_confirmed)
 values
-  ('bbbbbbbb-0001-0000-0000-000000000001', 'available',              true,  true,  true),
-  ('bbbbbbbb-0001-0000-0000-000000000002', 'available',              false, true,  true),
-  ('bbbbbbbb-0001-0000-0000-000000000003', 'available',              false, true,  true),
-  ('bbbbbbbb-0001-0000-0000-000000000004', 'open_to_discussion',     false, true,  true),
-  ('bbbbbbbb-0001-0000-0000-000000000005', 'not_available',          false, true,  true),
-  ('bbbbbbbb-0001-0000-0000-000000000006', 'not_available',          false, false, true)
+  ('bbbbbbbb-0001-0000-0000-000000000001', 'available',          true,  true,  true),
+  ('bbbbbbbb-0001-0000-0000-000000000002', 'available',          false, true,  true),
+  ('bbbbbbbb-0001-0000-0000-000000000003', 'available',          false, true,  true),
+  ('bbbbbbbb-0001-0000-0000-000000000004', 'open_to_discussion', false, true,  true),
+  ('bbbbbbbb-0001-0000-0000-000000000005', 'not_available',      false, true,  true),
+  ('bbbbbbbb-0001-0000-0000-000000000006', 'not_available',      false, false, true)
 on conflict (job_id) do nothing;
 
 -- Seed job requirements ---------------------------------------
 insert into job_requirements (job_id, requirement_type, requirement_text, importance) values
-  ('bbbbbbbb-0001-0000-0000-000000000001', 'skill',      'Go or Rust',                     'required'),
-  ('bbbbbbbb-0001-0000-0000-000000000001', 'experience', '5+ years backend engineering',   'required'),
-  ('bbbbbbbb-0001-0000-0000-000000000001', 'skill',      'Distributed systems',            'required'),
-  ('bbbbbbbb-0001-0000-0000-000000000001', 'skill',      'Kubernetes',                     'preferred'),
-  ('bbbbbbbb-0001-0000-0000-000000000002', 'skill',      'Figma',                          'required'),
-  ('bbbbbbbb-0001-0000-0000-000000000002', 'experience', '3+ years product design',        'required'),
-  ('bbbbbbbb-0001-0000-0000-000000000003', 'skill',      'SQL',                            'required'),
-  ('bbbbbbbb-0001-0000-0000-000000000003', 'skill',      'Python or R',                    'required'),
-  ('bbbbbbbb-0001-0000-0000-000000000004', 'education',  'Bachelor in Civil Engineering',  'required'),
-  ('bbbbbbbb-0001-0000-0000-000000000005', 'skill',      'TypeScript',                     'required'),
-  ('bbbbbbbb-0001-0000-0000-000000000005', 'skill',      'React / Next.js',                'required'),
-  ('bbbbbbbb-0001-0000-0000-000000000005', 'skill',      'PostgreSQL',                     'required'),
-  ('bbbbbbbb-0001-0000-0000-000000000006', 'experience', '3+ years retail operations',     'required')
+  ('bbbbbbbb-0001-0000-0000-000000000001', 'skill',      'Go or Rust',                    'required'),
+  ('bbbbbbbb-0001-0000-0000-000000000001', 'experience', '5+ years backend engineering',  'required'),
+  ('bbbbbbbb-0001-0000-0000-000000000001', 'skill',      'Distributed systems',           'required'),
+  ('bbbbbbbb-0001-0000-0000-000000000001', 'skill',      'Kubernetes',                    'preferred'),
+  ('bbbbbbbb-0001-0000-0000-000000000002', 'skill',      'Figma',                         'required'),
+  ('bbbbbbbb-0001-0000-0000-000000000002', 'experience', '3+ years product design',       'required'),
+  ('bbbbbbbb-0001-0000-0000-000000000003', 'skill',      'SQL',                           'required'),
+  ('bbbbbbbb-0001-0000-0000-000000000003', 'skill',      'Python or R',                   'required'),
+  ('bbbbbbbb-0001-0000-0000-000000000004', 'education',  'Bachelor in Civil Engineering', 'required'),
+  ('bbbbbbbb-0001-0000-0000-000000000005', 'skill',      'TypeScript',                    'required'),
+  ('bbbbbbbb-0001-0000-0000-000000000005', 'skill',      'React / Next.js',               'required'),
+  ('bbbbbbbb-0001-0000-0000-000000000005', 'skill',      'PostgreSQL',                    'required'),
+  ('bbbbbbbb-0001-0000-0000-000000000006', 'experience', '3+ years retail operations',    'required')
 on conflict do nothing;

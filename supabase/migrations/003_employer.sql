@@ -30,41 +30,22 @@ create index if not exists employer_companies_slug_idx on employer_companies(slu
 
 alter table employer_companies enable row level security;
 
--- Public can read verified employers
+-- Only policy that doesn't reference employer_memberships yet
 create policy "employer_companies: public can read verified"
   on employer_companies for select
   using (verification_status = 'verified');
 
--- Members can read their own company
-create policy "employer_companies: members can read own"
-  on employer_companies for select
-  using (
-    exists (
-      select 1 from employer_memberships em
-      where em.employer_company_id = id
-        and em.user_id = auth.uid()
-        and em.status = 'active'
-    )
-  );
-
--- Owners/admins can update their company
-create policy "employer_companies: owners can update"
-  on employer_companies for update
-  using (
-    exists (
-      select 1 from employer_memberships em
-      where em.employer_company_id = id
-        and em.user_id = auth.uid()
-        and em.role in ('owner','admin')
-        and em.status = 'active'
-    )
-  );
+-- Any authenticated user can insert (they become owner via membership below)
+create policy "employer_companies: authenticated can insert"
+  on employer_companies for insert
+  with check (auth.uid() is not null);
 
 create trigger employer_companies_updated_at
   before update on employer_companies
   for each row execute procedure set_updated_at();
 
 -- employer_memberships -----------------------------------------
+-- Created before the cross-referencing policies on employer_companies
 create table if not exists employer_memberships (
   id                    uuid primary key default gen_random_uuid(),
   employer_company_id   uuid not null references employer_companies(id) on delete cascade,
@@ -83,9 +64,38 @@ create index if not exists employer_memberships_company_id_idx on employer_membe
 
 alter table employer_memberships enable row level security;
 
-create policy "employer_memberships: owner can read own"
+create policy "employer_memberships: user can read own"
   on employer_memberships for select
   using (auth.uid() = user_id);
+
+create policy "employer_memberships: user can insert own"
+  on employer_memberships for insert
+  with check (auth.uid() = user_id);
+
+-- Cross-referencing policies on employer_companies
+-- (employer_memberships now exists so these won't fail)
+create policy "employer_companies: members can read own"
+  on employer_companies for select
+  using (
+    exists (
+      select 1 from employer_memberships em
+      where em.employer_company_id = id
+        and em.user_id = auth.uid()
+        and em.status = 'active'
+    )
+  );
+
+create policy "employer_companies: owners can update"
+  on employer_companies for update
+  using (
+    exists (
+      select 1 from employer_memberships em
+      where em.employer_company_id = id
+        and em.user_id = auth.uid()
+        and em.role in ('owner','admin')
+        and em.status = 'active'
+    )
+  );
 
 -- employer_verification_records --------------------------------
 create table if not exists employer_verification_records (

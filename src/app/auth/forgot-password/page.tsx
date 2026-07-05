@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { ForgotPasswordForm } from '@/components/auth/auth-form';
-import { sendPasswordReset } from '@/lib/actions/auth';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = { title: 'Reset your password' };
@@ -14,7 +13,7 @@ export default function ForgotPasswordPage() {
           Enter your email and we&apos;ll send you a reset link.
         </p>
       </div>
-      <ForgotPasswordForm action={sendPasswordReset} />
+      <ForgotPasswordForm />
       <p className="text-center text-sm text-[#5F6368]">
         Remembered it?{' '}
         <Link href="/auth/sign-in" className="font-medium text-[#10B65B] hover:text-[#0E9F50]">

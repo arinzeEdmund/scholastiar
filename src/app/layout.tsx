@@ -3,6 +3,7 @@ import { Geist } from 'next/font/google';
 import './globals.css';
 
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { Toaster } from '@/components/ui/toaster';
 import { QueryProvider } from '@/providers/query-provider';
 import { ServiceWorkerRegistration } from '@/components/pwa/service-worker-registration';
 import { OfflineBanner } from '@/components/pwa/offline-banner';
@@ -48,6 +49,7 @@ export default function RootLayout({
             {children}
             <InstallPrompt />
             <PWAUpdateToast />
+            <Toaster />
           </TooltipProvider>
         </QueryProvider>
         <ServiceWorkerRegistration />
