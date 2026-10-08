@@ -3,7 +3,7 @@ import "server-only";
 import type { CvRepository } from "@/data/repositories/cvs";
 import type { CvVersion } from "@/data/types";
 
-import { now, readList, readOne, write } from "./store";
+import { now, readList, readOne, readSystem, write } from "./store";
 
 const newest = (a: CvVersion, b: CvVersion) => b.created_at.localeCompare(a.created_at);
 
@@ -38,6 +38,12 @@ export const mockCvRepository: CvRepository = {
       row.updated_at = now();
       return row;
     }),
+
+  countGeneratedSince: (userId, since) =>
+    readSystem(
+      (db) =>
+        db.cv_versions.filter((c) => c.user_id === userId && c.source === "generated" && c.created_at >= since).length,
+    ),
 
   remove: (userId, id) =>
     write((db) => {

@@ -8,6 +8,7 @@ import { fail, ok, type ActionResult } from "@/lib/actions/result";
 import { EMPTY_QUERY } from "@/lib/catalogue/query";
 import { buildCv, CV_FORMATS, keywordsFrom } from "@/lib/cv/build";
 import { getAiFailureSimulated } from "@/lib/dev-settings";
+import { aiCvMonthlyLimit, monthStart } from "@/lib/entitlements";
 import { getSession } from "@/lib/session";
 import { cvGenerateSchema, cvUpdateSchema, type CvGenerateInput } from "@/lib/validation/cv";
 
@@ -30,6 +31,17 @@ export async function generateCv(input: CvGenerateInput): Promise<ActionResult<{
   const parsed = cvGenerateSchema.safeParse(input);
   if (!parsed.success) return fail("Check the highlighted fields.", fieldErrors(parsed.error));
   const d = parsed.data;
+
+  const [subscription, used] = await Promise.all([
+    repos.billing.getSubscription(user.user_id),
+    repos.cvs.countGeneratedSince(user.user_id, monthStart()),
+  ]);
+  const limit = aiCvMonthlyLimit(subscription?.plan_id);
+  if (limit !== null && used >= limit) {
+    return fail(
+      `You've used all ${limit} tailored CVs for this month. Edit or duplicate an existing CV, or upgrade to Pro for unlimited CVs.`,
+    );
+  }
 
   await pause(1500);
   if (await getAiFailureSimulated()) {

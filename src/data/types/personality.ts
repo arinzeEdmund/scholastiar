@@ -1,4 +1,5 @@
 // PersonalityAI CV — DATABASE/db.md → PersonalityAI CV Tables, SERVICES/96-personality-ai-cv.md.
+// Videos are added by link (YouTube, Loom, Tella, Vimeo, Google Drive) and played through an embed.
 
 export type PersonalityVisibility = "applications" | "signia" | "hidden";
 
@@ -14,16 +15,15 @@ export interface PersonalityCvProfile {
   updated_at: string;
 }
 
-/** personality_cv_videos (Phase A keeps metadata only; the file goes to storage in Phase B). */
+/** personality_cv_videos */
 export interface PersonalityCvVideo {
   id: string;
   user_id: string;
   prompts: string[];
-  duration_seconds: number;
-  size_bytes: number;
-  mime_type: string;
-  source: "recorded" | "uploaded";
-  file_name: string;
+  /** The link we embed. */
+  video_url: string;
+  /** Platform name, e.g. "Loom". */
+  provider_label: string;
   moderation_status: "approved" | "pending";
   created_at: string;
 }

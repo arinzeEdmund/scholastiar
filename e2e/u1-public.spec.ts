@@ -46,14 +46,14 @@ test.describe("U1 public & marketing", () => {
     if (isMobile) {
       await page.getByRole("tab", { name: /Starter/ }).click();
       const panel = page.getByRole("tabpanel", { name: "Starter features" });
-      await expect(panel.getByText("Standard monthly credits")).toBeVisible();
+      await expect(panel.getByText("25 CVs + 250 answers a month")).toBeVisible();
       await expect(panel.getByText("Pro only").first()).toBeVisible();
       await page.getByRole("tab", { name: /Pro/ }).click();
-      await expect(page.getByRole("tabpanel", { name: "Pro features" }).getByText("Higher limits")).toBeVisible();
+      await expect(page.getByRole("tabpanel", { name: "Pro features" }).getByText("Unlimited").first()).toBeVisible();
     } else {
       const table = page.getByRole("table", { name: "Features included in each applicant plan" });
       await expect(table.getByRole("rowheader", { name: /Save opportunities/ })).toBeVisible();
-      await expect(table.getByText("Higher limits")).toBeVisible();
+      await expect(table.getByText("Unlimited").first()).toBeVisible();
       await page.getByRole("radio", { name: "Only differences" }).click();
       await expect(table.getByRole("rowheader", { name: /Save opportunities/ })).toHaveCount(0);
       await expect(table.getByRole("rowheader", { name: /Interview preparation/ })).toBeVisible();

@@ -5,6 +5,7 @@ import { z } from "zod";
 import { repos } from "@/data";
 import { fail, ok, type ActionResult } from "@/lib/actions/result";
 import { getAiFailureSimulated } from "@/lib/dev-settings";
+import { aiAnswerMonthlyLimit, monthStart } from "@/lib/entitlements";
 import { getSession } from "@/lib/session";
 
 // Phase A stand-in for AI drafting: canned output built only from facts in the candidate's
@@ -30,8 +31,20 @@ export async function draftStatement(
   const session = await getSession();
   if (!session || session.user.primary_role !== "candidate") return fail("Sign in to draft with AI.");
 
+  const [subscription, used] = await Promise.all([
+    repos.billing.getSubscription(session.user.user_id),
+    repos.ai.countSince(session.user.user_id, "answer", monthStart()),
+  ]);
+  const limit = aiAnswerMonthlyLimit(subscription?.plan_id);
+  if (limit !== null && used >= limit) {
+    return fail(
+      `You've used all ${limit} AI essays and answers for this month. Your allowance resets on the 1st — or upgrade to Pro for unlimited.`,
+    );
+  }
+
   await new Promise((resolve) => setTimeout(resolve, 1200));
   if (await getAiFailureSimulated()) {
+    await repos.ai.record(session.user.user_id, "answer", "failed");
     return fail("The AI couldn't write a draft right now. Your work is safe — try again in a moment.");
   }
 
@@ -67,5 +80,6 @@ export async function draftStatement(
     parts.push("[Add your education and experience to your profile so this draft can use your real story.]");
   }
 
+  await repos.ai.record(session.user.user_id, "answer", "succeeded");
   return ok({ text: parts.join(" "), facts });
 }

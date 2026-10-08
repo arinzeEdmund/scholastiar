@@ -963,8 +963,9 @@ Key fields:
 
 - id
 - candidate_profile_id
-- document_id
-- duration_seconds
+- video_url (YouTube, Loom, Tella, Vimeo or Google Drive link; no uploaded files, decided 2026-10-08)
+- provider
+- prompts text[]
 - transcript
 - moderation_status
 - created_at
@@ -1095,7 +1096,9 @@ Key fields:
 - id
 - signia_profile_id
 - signia_project_id nullable
-- document_id nullable
+- url (added by link only, decided 2026-10-08; video links are embedded)
+- host_label
+- thumbnail_url
 - media_type: video, image, deck, document, research, certificate, screenshot, audio, other
 - title
 - description

@@ -8,7 +8,7 @@ Source service spec: `SERVICES/96-personality-ai-cv.md`
 
 PersonalityAI CV pages should add a human trust layer to traditional applications.
 
-The feature should support direct video uploads, guided prompts, profile previews, and employer review.
+The feature supports guided prompts, a video added by link (YouTube, Loom, Tella, Vimeo or Google Drive — no recording or uploading on Scholastiar, decided 2026-10-08), reviewer previews and review by universities, scholarship panels and employers.
 
 It should also act as the entry point into Signia, where candidates expand their PersonalityAI CV into a broader proof-of-work and portfolio profile.
 
@@ -31,25 +31,23 @@ Key sections:
 
 Primary actions:
 
-- record
-- upload video
+- add or change the video link
 - generate avatar alternative later
 - preview employer view
 - continue to Signia
 
-### Recording Studio Page
+### Add Video Page
 
 Route: `/personality-cv/record`
 
-Purpose: Guided recording experience.
+Purpose: Add the PersonalityAI CV by link (decided 2026-10-08).
 
 Features:
 
-- prompt cards
-- camera/mic check
-- recording controls
-- retake
-- upload
+- choose up to 3 prompts (one minute in total)
+- paste a YouTube, Loom, Tella, Vimeo or Google Drive link
+- live embedded preview
+- save; other sites are refused
 
 ### PersonalityAI CV Preview Page
 
@@ -100,7 +98,7 @@ Purpose: Review flagged videos, storage issues, and moderation problems.
 ### MVP Priority
 
 - PersonalityAI CV Home Page
-- Recording Studio Page
+- Add Video Page
 - PersonalityAI CV Preview Page
 - Employer PersonalityAI CV Viewer
 

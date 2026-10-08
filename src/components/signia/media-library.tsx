@@ -1,11 +1,10 @@
 "use client";
 
-import { FileText, Film, ImageIcon, Loader2, Pencil, Presentation, Upload } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRef, useState, useTransition } from "react";
+import { ExternalLink, FileText, Film, ImageIcon, Loader2, Pencil, Presentation } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState, type ReactNode } from "react";
 import { Controller, useForm } from "react-hook-form";
-import toast from "react-hot-toast";
 import type { z } from "zod";
 
 import { ConfirmDelete } from "@/components/candidate/confirm-delete";
@@ -24,7 +23,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import type { SigniaMediaItem, SigniaMediaType, SigniaVisibility } from "@/data/types";
-import { addSigniaMedia, deleteSigniaMedia, updateSigniaMedia } from "@/lib/actions/signia";
+import { deleteSigniaMedia, updateSigniaMedia } from "@/lib/actions/signia";
 import { MEDIA_TYPES, VISIBILITY_LABELS } from "@/lib/signia/labels";
 import { signiaMediaUpdateSchema } from "@/lib/validation/signia";
 import { cn } from "@/lib/utils";
@@ -37,8 +36,6 @@ const ICONS = {
   certificate: FileText,
   other: FileText,
 };
-const size = (bytes: number) =>
-  bytes >= 1024 * 1024 ? `${(bytes / 1024 / 1024).toFixed(1)} MB` : `${Math.round(bytes / 1024)} KB`;
 
 type EditValues = z.infer<typeof signiaMediaUpdateSchema>;
 
@@ -84,7 +81,7 @@ function EditDialog({
         >
           <DialogHeader>
             <DialogTitle>Edit {MEDIA_TYPES[item.media_type].toLowerCase()}</DialogTitle>
-            <DialogDescription>{item.file_name}</DialogDescription>
+            <DialogDescription>{item.host_label}</DialogDescription>
           </DialogHeader>
           <BoxField id="md-title" label="Title" error={errors.title?.message}>
             <Input
@@ -159,86 +156,27 @@ function EditDialog({
   );
 }
 
-/** Upload and manage the media and documents shown on Signia. */
+/** Media and documents on Signia, all added by link: filter, edit, link to a project, delete. */
 export function MediaLibrary({
   items,
   projects,
+  addByLink,
 }: {
   items: SigniaMediaItem[];
   projects: { id: string; title: string }[];
+  /** The "add by link" form, shown above the list. */
+  addByLink: ReactNode;
 }) {
   const router = useRouter();
-  const input = useRef<HTMLInputElement>(null);
   const [filter, setFilter] = useState<SigniaMediaType | "all">("all");
   const [editing, setEditing] = useState<SigniaMediaItem | null>(null);
-  const [dragging, setDragging] = useState(false);
-  const [pending, startTransition] = useTransition();
-
-  function upload(file: File | undefined) {
-    if (!file) return;
-    const data = new FormData();
-    // Videos send their details only in Phase A; documents and images send the file.
-    if (file.type.startsWith("video/")) {
-      data.set("name", file.name);
-      data.set("type", file.type);
-      data.set("size", String(file.size));
-    } else {
-      data.set("file", file);
-    }
-    const toastId = toast.loading(`Uploading ${file.name}…`);
-    startTransition(async () => {
-      const result = await addSigniaMedia(data);
-      if (!result.ok) {
-        toast.error(result.error, { id: toastId });
-        return;
-      }
-      toast.success("Added to your media", { id: toastId });
-      router.refresh();
-    });
-  }
 
   const types = [...new Set(items.map((i) => i.media_type))];
   const shown = filter === "all" ? items : items.filter((i) => i.media_type === filter);
 
   return (
     <div className="space-y-5">
-      <div
-        onDragOver={(e) => {
-          e.preventDefault();
-          setDragging(true);
-        }}
-        onDragLeave={() => setDragging(false)}
-        onDrop={(e) => {
-          e.preventDefault();
-          setDragging(false);
-          upload(e.dataTransfer.files[0]);
-        }}
-        className={cn(
-          "flex flex-col items-center gap-3 rounded-2xl border-2 border-dashed bg-card p-8 text-center transition-colors dark:bg-white/[0.03]",
-          dragging && "border-green bg-soft-green/40",
-        )}
-      >
-        <Upload className="size-6 text-green-dark" aria-hidden />
-        <div>
-          <p className="font-semibold text-primary-text">Drop a file here, or choose one</p>
-          <p className="text-sm text-secondary-text">Videos up to 200 MB · images, PDFs, Word and slides up to 5 MB</p>
-        </div>
-        <input
-          ref={input}
-          type="file"
-          className="sr-only"
-          aria-label="Choose a file to add"
-          accept="video/*,image/*,application/pdf,.doc,.docx,.ppt,.pptx,text/plain"
-          onChange={(e) => {
-            upload(e.target.files?.[0]);
-            e.target.value = "";
-          }}
-        />
-        <Button type="button" onClick={() => input.current?.click()} disabled={pending} className="rounded-xl">
-          {pending ? <Loader2 className="animate-spin" aria-hidden /> : <Upload aria-hidden />}
-          Choose a file
-        </Button>
-      </div>
+      {addByLink}
 
       {items.length > 0 && (
         <nav aria-label="Filter media" className="flex flex-wrap gap-1.5">
@@ -274,23 +212,32 @@ export function MediaLibrary({
             const project = projects.find((p) => p.id === item.project_id);
             return (
               <li key={item.id} className="overflow-hidden rounded-2xl border bg-card shadow-xs dark:bg-white/[0.03]">
-                {item.preview_data_url ? (
-                  // eslint-disable-next-line @next/next/no-img-element -- inline demo preview (data URL)
-                  <img src={item.preview_data_url} alt="" className="aspect-video w-full object-cover" />
+                {item.thumbnail_url ? (
+                  // eslint-disable-next-line @next/next/no-img-element -- platform thumbnail
+                  <img src={item.thumbnail_url} alt="" className="aspect-video w-full object-cover" />
                 ) : (
                   <div className="flex aspect-video items-center justify-center bg-soft-green/60 dark:bg-green/10">
                     <Icon className="size-8 text-green-dark" aria-hidden />
                   </div>
                 )}
-                <div className="flex items-start gap-2 p-3">
+                <div className="flex items-start gap-1 p-3">
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-semibold text-primary-text">{item.title}</p>
                     <p className="truncate text-xs text-secondary-text">
-                      {MEDIA_TYPES[item.media_type]} · {size(item.size_bytes)} ·{" "}
-                      {VISIBILITY_LABELS[item.visibility].label}
+                      {MEDIA_TYPES[item.media_type]} · {item.host_label} · {VISIBILITY_LABELS[item.visibility].label}
                     </p>
                     {project && <p className="truncate text-xs text-green-dark">On “{project.title}”</p>}
                   </div>
+                  <Button asChild variant="ghost" size="icon" className="size-8">
+                    <a
+                      href={item.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Open ${item.title} (opens in a new tab)`}
+                    >
+                      <ExternalLink className="size-4" aria-hidden />
+                    </a>
+                  </Button>
                   <Button
                     type="button"
                     variant="ghost"
@@ -303,11 +250,11 @@ export function MediaLibrary({
                   </Button>
                   <ConfirmDelete
                     label={`Delete ${item.title}`}
-                    title="Delete this file?"
-                    description="It's removed from your portfolio and media library."
+                    title="Remove this item?"
+                    description="It's removed from your portfolio. The original stays wherever it's hosted."
                     action={() => deleteSigniaMedia(item.id)}
                     onDone={() => router.refresh()}
-                    successMessage="File deleted"
+                    successMessage="Removed"
                   />
                 </div>
               </li>

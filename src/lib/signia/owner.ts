@@ -21,6 +21,6 @@ export async function portfolioOwner(userId: string, audience: "public" | "revie
     nationalityCode: code,
     nationality: countries.find((c) => c.iso2 === code)?.name ?? null,
     education: latest ? `${latest.qualification_name}, ${latest.institution_name}` : null,
-    videoSeconds: videoAllowed ? video.duration_seconds : null,
+    videoUrl: videoAllowed ? video.video_url : null,
   };
 }

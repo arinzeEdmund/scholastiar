@@ -3,13 +3,14 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { MAX_PROMPTS, MAX_RECORDING_SECONDS, MAX_UPLOAD_BYTES, PERSONALITY_PROMPTS } from "@/config/personality";
+import { MAX_PROMPTS, PERSONALITY_PROMPTS } from "@/config/personality";
 import { repos } from "@/data";
 import { fail, ok, type ActionResult } from "@/lib/actions/result";
 import { getSession } from "@/lib/session";
+import { parseVideoLink, VIDEO_LINK_HELP, VIDEO_PROVIDERS } from "@/lib/video-embed";
 
-// PersonalityAI CV actions. Phase A stores the video's metadata; Phase B uploads the file
-// to storage behind the same action. Only the signed-in candidate's own video is touched.
+// PersonalityAI CV actions. Videos are added by link and embedded. Only the signed-in candidate's
+// own video is touched.
 
 const SIGNED_OUT = "Your session has ended. Sign in again to continue.";
 
@@ -18,27 +19,34 @@ async function candidateId() {
   return session?.user.primary_role === "candidate" ? session.user.user_id : null;
 }
 
-const videoSchema = z.object({
-  prompts: z
-    .array(z.enum(PERSONALITY_PROMPTS))
-    .min(1, "Choose at least one prompt.")
-    .max(MAX_PROMPTS, `Choose up to ${MAX_PROMPTS} prompts.`),
-  duration_seconds: z
-    .number()
-    .min(3, "That video is too short.")
-    .max(MAX_RECORDING_SECONDS + 60, "Keep it under three minutes."),
-  size_bytes: z.number().int().positive().max(MAX_UPLOAD_BYTES, "Videos can be up to 200 MB."),
-  mime_type: z.string().regex(/^video\//, "Choose a video file."),
-  source: z.enum(["recorded", "uploaded"]),
-  file_name: z.string().min(1).max(200),
+const promptsSchema = z
+  .array(z.enum(PERSONALITY_PROMPTS))
+  .min(1, "Choose at least one prompt.")
+  .max(MAX_PROMPTS, `Choose up to ${MAX_PROMPTS} prompts.`);
+
+const linkSchema = z.object({
+  prompts: promptsSchema,
+  url: z
+    .string()
+    .trim()
+    .max(500)
+    .refine((v) => parseVideoLink(v) !== null, VIDEO_LINK_HELP),
 });
 
-export async function savePersonalityVideo(input: z.infer<typeof videoSchema>): Promise<ActionResult<{ id: string }>> {
+/** Uses a video hosted elsewhere; we play it through the platform's embed player. */
+export async function savePersonalityVideoLink(
+  input: z.infer<typeof linkSchema>,
+): Promise<ActionResult<{ id: string }>> {
   const userId = await candidateId();
   if (!userId) return fail(SIGNED_OUT);
-  const parsed = videoSchema.safeParse(input);
-  if (!parsed.success) return fail(parsed.error.issues[0]?.message ?? "That video couldn't be saved.");
-  const video = await repos.personality.saveVideo(userId, parsed.data);
+  const parsed = linkSchema.safeParse(input);
+  if (!parsed.success) return fail(parsed.error.issues[0]?.message ?? VIDEO_LINK_HELP);
+  const link = parseVideoLink(parsed.data.url)!;
+  const video = await repos.personality.saveVideo(userId, {
+    prompts: parsed.data.prompts,
+    video_url: link.url,
+    provider_label: VIDEO_PROVIDERS[link.provider],
+  });
   revalidatePath("/personality-cv", "layout");
   return ok({ id: video.id });
 }

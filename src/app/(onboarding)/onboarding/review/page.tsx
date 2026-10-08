@@ -480,7 +480,7 @@ export default async function ReviewStepPage() {
               <Video className="size-4" aria-hidden />
             </span>
             <p className="text-sm text-secondary-text">
-              Not recorded yet. A 90-second video helps employers meet you — record it any time from your profile.
+              Not added yet. A one-minute video helps admissions teams meet you — add it any time from your profile.
             </p>
           </div>
         </ReviewCard>

@@ -9,9 +9,6 @@ export default defineConfig({
   use: {
     baseURL: "http://localhost:3100",
     trace: "retain-on-failure",
-    // Fake camera and microphone so the PersonalityAI CV recording studio can be tested.
-    permissions: ["camera", "microphone"],
-    launchOptions: { args: ["--use-fake-ui-for-media-stream", "--use-fake-device-for-media-stream"] },
   },
   projects: [
     { name: "desktop", use: { ...devices["Desktop Chrome"], viewport: { width: 1366, height: 860 } } },

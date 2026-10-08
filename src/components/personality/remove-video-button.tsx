@@ -46,8 +46,8 @@ export function RemoveVideoButton() {
           <AlertDialogHeader>
             <AlertDialogTitle>Remove your video?</AlertDialogTitle>
             <AlertDialogDescription>
-              Nobody will be able to watch it, and it won&apos;t be attached to new applications. You can record a new
-              one any time.
+              Nobody will be able to watch it, and it won&apos;t be attached to new applications. You can add a new one
+              any time.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

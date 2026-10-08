@@ -39,7 +39,7 @@ Includes:
 - success/fit score explanations
 - deadline reminders
 - document checklist
-- AI CV, essay, and application answer credits
+- 25 tailored AI CVs and 250 AI essays and application answers a month (decided 2026-10-08)
 - multiple CV versions
 - AI fit analysis
 - published Signia portfolio page and social link hub
@@ -63,7 +63,7 @@ $79/month (USD)
 
 Includes everything in Starter, plus:
 
-- higher AI generation limits
+- unlimited tailored AI CVs, essays and application answers
 - priority scoring and readiness checks
 - scholarship essay support
 - interview preparation
@@ -85,6 +85,11 @@ Jobs are not a headline service and not something the company promises to provid
 - Starter ($35): both sections are visible in the dashboard but locked; opening either shows an "Upgrade to Pro" prompt and no listings.
 - There is no public job board. Marketing pages mention jobs only as a Pro feature, worded as job connections with no promise of employment.
 - Employer plans are unchanged; employers' jobs are shown to Pro candidates only.
+
+### Downgrading From Pro (decided 2026-10-08)
+
+- Pro → Starter takes effect at the end of the paid period; no refund. The student keeps Pro until then and can undo it.
+- Before confirming, the student sees exactly what changes: the job section turns off; job applications already sent stop updating in the app and employers' replies reach them by email only; tailored CVs drop to 25 a month; interview preparation, essay support, application intelligence and priority support end. What stays (profile, CVs, Signia, saved items) is shown too, and "Keep Pro" is the primary action.
 
 ### Plan Structure Decision (2026-10-01)
 

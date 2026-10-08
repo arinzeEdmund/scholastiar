@@ -32,7 +32,7 @@ export interface Plan {
   active: boolean;
 }
 
-/** A cell in the plan comparison: included, not included, or a specific value ("Higher limits"). */
+/** A cell in the plan comparison: included, not included, or a specific value ("Unlimited"). */
 export type ComparisonValue = boolean | string;
 
 export type ComparisonGroup = "discover" | "prepare" | "apply" | "portfolio" | "support";

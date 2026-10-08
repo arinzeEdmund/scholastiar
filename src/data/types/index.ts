@@ -11,3 +11,4 @@ export * from "./cv";
 export * from "./personality";
 export * from "./signia";
 export * from "./threads";
+export * from "./ai";

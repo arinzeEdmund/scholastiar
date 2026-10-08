@@ -73,7 +73,7 @@ Features:
 
 Route: `/signia/media`
 
-Purpose: Manage videos, documents, decks, screenshots, work samples, and research proof used in Signia.
+Purpose: Manage videos, documents, decks, screenshots, work samples, and research proof used in Signia — all added by link (decided 2026-10-08). Video links from YouTube, Loom, Tella, Vimeo or Google Drive play in the page; other links open where they're hosted.
 
 ### Signia Social Links Page
 

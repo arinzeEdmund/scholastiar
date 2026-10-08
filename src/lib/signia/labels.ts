@@ -58,14 +58,6 @@ export const PLATFORMS: Record<SocialPlatform, { label: string; host?: string }>
   other: { label: "Other" },
 };
 
-export function mediaTypeFor(mime: string): SigniaMediaType {
-  if (mime.startsWith("video/")) return "video";
-  if (mime.startsWith("image/")) return "image";
-  if (mime.includes("presentation") || mime.includes("powerpoint")) return "deck";
-  if (mime === "application/pdf" || mime.includes("word") || mime.startsWith("text/")) return "document";
-  return "other";
-}
-
 /** Section order for a new portfolio: the video introduction and About first, then proof. */
 export const DEFAULT_SIGNIA_SECTIONS: SigniaProfile["sections"] = [
   { key: "personality_cv", visible: true },

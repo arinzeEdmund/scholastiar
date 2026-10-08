@@ -217,7 +217,7 @@ export default async function InsightsPage() {
             <li className="flex justify-between gap-3">
               <span className="text-secondary-text">PersonalityAI CV</span>
               <span className="font-medium text-primary-text">
-                {personality.video ? `Recorded · ${personality.views.length} views` : "Not recorded"}
+                {personality.video ? `Added · ${personality.views.length} views` : "Not added"}
               </span>
             </li>
             <li className="flex justify-between gap-3">
@@ -227,7 +227,7 @@ export default async function InsightsPage() {
           </ul>
           {!personality.video && (
             <Button asChild variant="outline" size="sm" className="mt-4 rounded-lg">
-              <Link href="/personality-cv/record">Record your video</Link>
+              <Link href="/personality-cv/record">Add your video</Link>
             </Button>
           )}
         </Panel>

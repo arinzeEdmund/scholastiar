@@ -2,6 +2,7 @@ import "server-only";
 
 import type {
   AuthAccount,
+  AiGeneration,
   AuthToken,
   BoardItem,
   ContactMessage,
@@ -149,6 +150,7 @@ export function createSeed() {
     signia_social_links: signiaSocialFixtures,
     message_threads: threadFixtures,
     thread_messages: threadMessageFixtures,
+    ai_generations: [] as AiGeneration[],
   });
 }
 

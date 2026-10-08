@@ -56,7 +56,7 @@ export function signiaCompleteness(bundle: SigniaBundle, hasPersonalityVideo: bo
     },
     {
       key: "video",
-      label: "Record your PersonalityAI CV",
+      label: "Add your PersonalityAI CV video",
       done: hasPersonalityVideo,
       weight: 15,
       href: "/personality-cv/record",

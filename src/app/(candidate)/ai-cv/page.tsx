@@ -24,6 +24,7 @@ import { profileStrength } from "@/lib/candidate/strength";
 import { entryRef } from "@/lib/catalogue/links";
 import { EMPTY_QUERY } from "@/lib/catalogue/query";
 import { CV_FORMATS } from "@/lib/cv/build";
+import { aiCvMonthlyLimit, monthStart } from "@/lib/entitlements";
 import { requireCandidate } from "@/lib/guards";
 import { safeLoad } from "@/lib/safe-load";
 
@@ -38,11 +39,14 @@ function targetParam(entry: CatalogueEntry) {
 
 export default async function AiCvHomePage() {
   const { user } = await requireCandidate();
-  const [result, bundle, saved] = await Promise.all([
+  const [result, bundle, saved, subscription, used] = await Promise.all([
     safeLoad(() => Promise.all([repos.cvs.list(user.user_id), repos.catalogue.search(EMPTY_QUERY)])),
     repos.candidate.getBundle(user.user_id),
     repos.opportunities.listSaved(user.user_id),
+    repos.billing.getSubscription(user.user_id),
+    repos.cvs.countGeneratedSince(user.user_id, monthStart()),
   ]);
+  const limit = aiCvMonthlyLimit(subscription?.plan_id);
   const gaps = profileStrength(bundle).next.filter((item) => CV_STRENGTH_KEYS.has(item.key));
 
   return (
@@ -184,6 +188,44 @@ export default async function AiCvHomePage() {
               </div>
 
               <div className="space-y-6">
+                <section
+                  aria-labelledby="allowance"
+                  className="rounded-2xl border bg-card p-4 shadow-xs sm:p-5 dark:bg-white/[0.03]"
+                >
+                  <h2 id="allowance" className="text-sm font-semibold text-primary-text">
+                    Tailored CVs this month
+                  </h2>
+                  {limit === null ? (
+                    <p className="mt-1.5 text-sm text-secondary-text">{used} created · unlimited on Pro</p>
+                  ) : (
+                    <>
+                      <p className="mt-1.5 text-sm text-secondary-text">
+                        <span className="font-semibold text-primary-text">{used}</span> of {limit} used · resets on the
+                        1st
+                      </p>
+                      <div
+                        className="mt-2 h-1.5 overflow-hidden rounded-full bg-soft-green dark:bg-white/10"
+                        role="meter"
+                        aria-label="Tailored CVs used this month"
+                        aria-valuemin={0}
+                        aria-valuemax={limit}
+                        aria-valuenow={Math.min(used, limit)}
+                      >
+                        <div
+                          className={used >= limit ? "h-full bg-warning" : "h-full bg-green"}
+                          style={{ width: `${Math.min(100, (used / limit) * 100)}%` }}
+                        />
+                      </div>
+                      <p className="mt-2 text-xs text-secondary-text">
+                        Editing and duplicating don&apos;t count.{" "}
+                        <Link href="/billing" className="font-medium text-green-dark hover:underline">
+                          Pro is unlimited
+                        </Link>
+                        .
+                      </p>
+                    </>
+                  )}
+                </section>
                 <section
                   aria-labelledby="gaps"
                   className="rounded-2xl border bg-card p-4 shadow-xs sm:p-5 dark:bg-white/[0.03]"

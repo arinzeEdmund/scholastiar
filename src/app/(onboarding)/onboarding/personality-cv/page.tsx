@@ -15,9 +15,9 @@ const PROMPTS = [
 ];
 
 const POINTS = [
-  { icon: Clock, text: "About 90 seconds, three short prompts" },
+  { icon: Clock, text: "One minute, up to three short prompts" },
   { icon: Eye, text: "Only shared with the universities and panels you apply to" },
-  { icon: MessageCircle, text: "Re-record as often as you like" },
+  { icon: MessageCircle, text: "Record on Loom, Tella or your phone, then paste the link" },
 ];
 
 export default async function PersonalityStepPage() {
@@ -65,7 +65,7 @@ export default async function PersonalityStepPage() {
           <p className="text-xs text-secondary-text">Optional — you can record it any time from your profile.</p>
           <RouteButton href="/personality-cv/record" variant="outline" className="rounded-xl">
             <Video aria-hidden />
-            Record now
+            Add your video
           </RouteButton>
         </div>
       </div>

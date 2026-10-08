@@ -48,9 +48,9 @@ Example prompts:
 - describe your strongest project
 - why are you seeking international opportunities?
 
-### Video Recording Or Upload
+### Video By Link
 
-Candidates record or upload a short video.
+Candidates record a one-minute video wherever they like (Loom, Tella, their phone) and add it by link — YouTube, Loom, Tella, Vimeo or Google Drive. Scholastiar does not record or store video files (decided 2026-10-08); it plays the video through the platform's embed player.
 
 ### Preview And Consent
 

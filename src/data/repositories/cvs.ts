@@ -9,4 +9,6 @@ export interface CvRepository {
   create(userId: string, input: NewCv): Promise<CvVersion>;
   update(userId: string, id: string, update: { title?: string; content?: CvContent }): Promise<CvVersion | null>;
   remove(userId: string, id: string): Promise<boolean>;
+  /** AI-generated CVs created since a date (duplicates don't count). System read. */
+  countGeneratedSince(userId: string, since: string): Promise<number>;
 }

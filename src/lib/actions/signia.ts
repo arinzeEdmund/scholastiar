@@ -6,7 +6,8 @@ import { z } from "zod";
 import { repos } from "@/data";
 import { fail, ok, type ActionResult } from "@/lib/actions/result";
 import { getSession } from "@/lib/session";
-import { mediaTypeFor } from "@/lib/signia/labels";
+import { parseVideoLink, VIDEO_PROVIDERS } from "@/lib/video-embed";
+import { mediaLinkFormSchema, type MediaLinkFormInput } from "@/lib/validation/video";
 import {
   signiaLinksSchema,
   signiaMediaUpdateSchema,
@@ -33,11 +34,6 @@ const RESERVED = new Set([
   "signia",
   "support",
 ]);
-
-/** Small images keep an inline preview in Phase A; everything else keeps its details only. */
-const INLINE_PREVIEW_LIMIT = 1.5 * 1024 * 1024;
-const MAX_FILE_BYTES = 5 * 1024 * 1024;
-const MAX_VIDEO_BYTES = 200 * 1024 * 1024;
 
 async function candidateId() {
   const session = await getSession();
@@ -113,47 +109,6 @@ export async function saveSigniaLinks(input: SigniaLinksFormInput): Promise<Acti
   return ok(null);
 }
 
-/**
- * Adds a media item. Documents and images (up to 5 MB) are sent as a file; videos send their
- * details only in Phase A (up to 200 MB), and are uploaded to storage in Phase B.
- */
-export async function addSigniaMedia(formData: FormData): Promise<ActionResult<{ id: string }>> {
-  const userId = await candidateId();
-  if (!userId) return fail(SIGNED_OUT);
-
-  const file = formData.get("file");
-  const name = String(file instanceof File ? file.name : (formData.get("name") ?? "")).slice(0, 160);
-  const type = String(file instanceof File ? file.type : (formData.get("type") ?? ""));
-  const size = file instanceof File ? file.size : Number(formData.get("size") ?? 0);
-  if (!name || !type || !size) return fail("Choose a file to upload.");
-
-  const isVideo = type.startsWith("video/");
-  if (isVideo ? size > MAX_VIDEO_BYTES : size > MAX_FILE_BYTES) {
-    return fail(isVideo ? "Videos can be up to 200 MB." : "Files can be up to 5 MB.");
-  }
-  const allowed = isVideo || type.startsWith("image/") || /pdf|word|presentation|powerpoint|text\//.test(type);
-  if (!allowed) return fail("Upload a video, image, PDF, Word or slide file.");
-
-  const preview =
-    file instanceof File && type.startsWith("image/") && size <= INLINE_PREVIEW_LIMIT
-      ? `data:${type};base64,${Buffer.from(await file.arrayBuffer()).toString("base64")}`
-      : null;
-
-  const item = await repos.signia.addMedia(userId, {
-    project_id: null,
-    media_type: mediaTypeFor(type),
-    title: name.replace(/\.[^.]+$/, "").replace(/[-_]+/g, " "),
-    description: "",
-    file_name: name,
-    mime_type: type,
-    size_bytes: size,
-    preview_data_url: preview,
-    visibility: "public",
-  });
-  refresh();
-  return ok({ id: item.id });
-}
-
 export async function updateSigniaMedia(input: z.infer<typeof signiaMediaUpdateSchema>): Promise<ActionResult<null>> {
   const userId = await candidateId();
   if (!userId) return fail(SIGNED_OUT);
@@ -171,4 +126,25 @@ export async function deleteSigniaMedia(id: string): Promise<ActionResult<null>>
   if (!(await repos.signia.deleteMedia(userId, id))) return fail("That file no longer exists.");
   refresh();
   return ok(null);
+}
+
+/** Adds a media item by link (no uploads). Video links play on the portfolio through an embed. */
+export async function addSigniaMediaLink(input: MediaLinkFormInput): Promise<ActionResult<{ id: string }>> {
+  const userId = await candidateId();
+  if (!userId) return fail(SIGNED_OUT);
+  const parsed = mediaLinkFormSchema.safeParse(input);
+  if (!parsed.success) return fail("Check the highlighted fields.", fieldErrors(parsed.error));
+  const video = parseVideoLink(parsed.data.url);
+  const item = await repos.signia.addMedia(userId, {
+    project_id: null,
+    media_type: parsed.data.media_type,
+    title: parsed.data.title,
+    description: "",
+    url: video?.url ?? parsed.data.url,
+    host_label: video ? VIDEO_PROVIDERS[video.provider] : new URL(parsed.data.url).hostname.replace(/^www\./, ""),
+    thumbnail_url: video?.thumbnailUrl ?? null,
+    visibility: "public",
+  });
+  refresh();
+  return ok({ id: item.id });
 }

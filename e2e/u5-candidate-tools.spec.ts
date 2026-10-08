@@ -79,41 +79,34 @@ test.describe("U5 candidate tools — AI CV", () => {
 });
 
 test.describe("U5 candidate tools — PersonalityAI CV", () => {
-  test("record with the camera, preview as a reviewer, change privacy, remove", async ({ page }) => {
+  test("add a video by link, preview as a reviewer, change privacy, remove", async ({ page }) => {
     await signIn(page);
     await page.goto("/personality-cv");
-    await page.getByRole("link", { name: "Start recording" }).click();
+    await page.getByRole("link", { name: "Add your video" }).click();
     await expect(page).toHaveURL(/\/personality-cv\/record/);
 
     const prompts = page.getByRole("group", { name: "Prompts" });
     await expect(prompts.getByRole("checkbox", { checked: true })).toHaveCount(2);
     await prompts.getByRole("checkbox", { name: /proud of/ }).click();
     await expect(prompts.getByRole("checkbox", { name: /new place, language/ })).toBeDisabled();
+    await page.getByRole("button", { name: "Next: add your video" }).click();
 
-    await page.getByRole("button", { name: "Check camera and mic" }).click();
-    // A fresh browser sometimes refuses the first camera request; students retry the same way.
-    const meter = page.getByRole("meter", { name: "Microphone level" });
-    const retry = page.getByRole("button", { name: "Try again" });
-    await expect(meter.or(retry)).toBeVisible();
-    if (await retry.isVisible()) await retry.click();
-    await expect(meter).toBeVisible();
-    await page.getByRole("button", { name: "Start recording" }).click();
-    await expect(page.getByText(/Recording 0:0/)).toBeVisible();
-    await expect(page.getByText("Prompt 1 of 3")).toBeVisible();
-    await page.getByRole("button", { name: "Next prompt" }).click();
-    await expect(page.getByText("Prompt 2 of 3")).toBeVisible();
-    await page.waitForTimeout(3500);
-    await page.getByRole("button", { name: "Stop" }).click();
-    await expect(page.getByRole("heading", { name: "Happy with it?" })).toBeVisible();
+    await page.getByLabel("Video link").fill("https://example.com/my-video");
+    await expect(page.getByText(/YouTube, Loom, Tella, Vimeo or Google Drive/).first()).toBeVisible();
+    await expect(page.getByRole("button", { name: "Use this video" })).toBeDisabled();
+    await page.getByLabel("Video link").fill("https://www.loom.com/share/abc123def456");
+    await expect(page.locator('iframe[src="https://www.loom.com/embed/abc123def456"]')).toBeVisible();
     await page.getByRole("button", { name: "Use this video" }).click();
 
     await expect(page).toHaveURL(/\/personality-cv$/);
     await expect(page.getByText(/Published ·/)).toBeVisible();
+    await expect(page.getByText("Plays from Loom.")).toBeVisible();
     await expect(page.getByText("Watched 0 times")).toBeVisible();
     await noHorizontalScroll(page);
 
     await page.getByRole("link", { name: "See it as a reviewer" }).click();
     await expect(page.getByRole("article", { name: "Reviewer view" })).toContainText(/proud of/);
+    await expect(page.locator('iframe[src="https://www.loom.com/embed/abc123def456"]')).toBeVisible();
 
     await page.goto("/personality-cv/settings");
     await page.getByRole("radio", { name: /Nobody for now/ }).click();
@@ -130,7 +123,7 @@ test.describe("U5 candidate tools — PersonalityAI CV", () => {
     await page.goto("/personality-cv");
     await page.getByRole("button", { name: "Remove" }).click();
     await page.getByRole("alertdialog").getByRole("button", { name: "Remove video" }).click();
-    await expect(page.getByRole("heading", { name: "Record in about two minutes" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Add your video introduction" })).toBeVisible();
   });
 
   test("views show who watched", async ({ page }) => {
@@ -196,25 +189,44 @@ test.describe("U5 candidate tools — Signia", () => {
     await expect(page.getByRole("link", { name: /Campus water quality survey/ })).toHaveCount(0);
   });
 
-  test("media upload, edit and delete; links validate", async ({ page }) => {
+  test("media by link: video links play, other links open; links validate", async ({ page, browser }) => {
     await signIn(page);
     await page.goto("/signia/media");
-    await page.getByLabel("Choose a file to add").setInputFiles({
-      name: "lab-photo.png",
-      mimeType: "image/png",
-      buffer: Buffer.from(
-        "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
-        "base64",
-      ),
-    });
+    // A video must come from a platform we can play.
+    await page.getByLabel("Link", { exact: true }).fill("https://example.com/demo.mp4");
+    await page.getByLabel("Title", { exact: true }).fill("Project demo");
+    await page.getByRole("button", { name: "Add to media" }).click();
+    await expect(page.getByText(/YouTube, Loom, Tella, Vimeo or Google Drive link\./)).toBeVisible();
+    await page.getByLabel("Link", { exact: true }).fill("https://youtu.be/dQw4w9WgXcQ");
+    await page.getByRole("button", { name: "Add to media" }).click();
     await expect(page.getByText("Added to your media")).toBeVisible();
-    await page.getByRole("button", { name: "Edit lab photo" }).click();
-    await page.getByRole("dialog").getByLabel("Title").fill("Lab bench photo");
+
+    // A document link.
+    await page.getByLabel("Type").click();
+    await page.getByRole("option", { name: "Document" }).click();
+    await page.getByLabel("Link", { exact: true }).fill("https://example.org/papers/water-quality.pdf");
+    await page.getByLabel("Title", { exact: true }).fill("Water quality paper");
+    await page.getByRole("button", { name: "Add to media" }).click();
+    await expect(page.getByText(/Document · example\.org/)).toBeVisible();
+
+    const visitor = await browser.newPage();
+    await visitor.goto("/s/amara-okafor");
+    await expect(visitor.locator('iframe[src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ"]')).toBeVisible();
+    await expect(visitor.getByRole("link", { name: /Water quality paper/ })).toHaveAttribute(
+      "href",
+      "https://example.org/papers/water-quality.pdf",
+    );
+    await visitor.close();
+
+    await page.getByRole("button", { name: "Edit Water quality paper" }).click();
+    await page.getByRole("dialog").getByLabel("Title").fill("Campus water paper");
     await page.getByRole("dialog").getByRole("button", { name: "Save" }).click();
-    await expect(page.getByText("Lab bench photo")).toBeVisible();
-    await page.getByRole("button", { name: "Delete Lab bench photo" }).click();
-    await page.getByRole("alertdialog").getByRole("button", { name: "Delete" }).click();
-    await expect(page.getByText("Lab bench photo")).toHaveCount(0);
+    await expect(page.getByText("Campus water paper")).toBeVisible();
+    for (const title of ["Campus water paper", "Project demo"]) {
+      await page.getByRole("button", { name: `Delete ${title}` }).click();
+      await page.getByRole("alertdialog").getByRole("button", { name: "Delete" }).click();
+      await expect(page.getByText(title, { exact: true })).toHaveCount(0);
+    }
 
     await page.goto("/signia/social-links");
     await page.getByRole("button", { name: "Add a link" }).click();
@@ -261,7 +273,11 @@ test.describe("U5 candidate tools — billing", () => {
     // Schedule the move back, then undo it.
     await page.goto("/billing");
     await page.getByRole("button", { name: "Switch to Starter" }).click();
-    await page.getByRole("alertdialog").getByRole("button", { name: "Switch at period end" }).click();
+    const warning = page.getByRole("alertdialog");
+    await expect(warning).toContainText("The job section turns off.");
+    await expect(warning).toContainText("employers' replies reach you by email only");
+    await expect(warning).toContainText("Tailored CVs drop to 25 a month, and AI essays and answers to 250.");
+    await warning.getByRole("button", { name: "Switch at period end" }).click();
     await expect(page.getByText(/You're moving to Starter on/)).toBeVisible();
     await page.getByRole("button", { name: "Keep Pro" }).click();
     await expect(page.getByText("You're staying on Pro")).toBeVisible();
@@ -340,5 +356,18 @@ test.describe("U5 candidate tools — messages, notifications, insights", () => 
     await expect(page.getByRole("region", { name: "Fix these first" })).toContainText(/needed by/);
     await expect(page.getByRole("link", { name: "See Pro" })).toBeVisible();
     await noHorizontalScroll(page);
+  });
+});
+
+test.describe("U5 candidate tools — limits and video links", () => {
+  test("Starter sees the monthly CV allowance; Pro is unlimited", async ({ page }) => {
+    await signIn(page);
+    await page.goto("/ai-cv");
+    await expect(page.getByRole("meter", { name: "Tailored CVs used this month" })).toBeVisible();
+    await expect(page.getByText(/of 25 used/)).toBeVisible();
+    await page.context().clearCookies();
+    await signIn(page, "kwame.mensah@example.com");
+    await page.goto("/ai-cv");
+    await expect(page.getByText(/unlimited on Pro/)).toBeVisible();
   });
 });

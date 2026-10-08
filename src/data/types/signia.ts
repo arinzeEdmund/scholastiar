@@ -59,7 +59,7 @@ export interface SigniaProject {
 
 export type SigniaMediaType = "video" | "image" | "document" | "deck" | "certificate" | "other";
 
-/** signia_media_items (Phase A keeps small images inline for preview; files go to storage in Phase B) */
+/** signia_media_items — added by link only (decided 2026-10-08); video links play through an embed. */
 export interface SigniaMediaItem {
   id: string;
   user_id: string;
@@ -67,10 +67,10 @@ export interface SigniaMediaItem {
   media_type: SigniaMediaType;
   title: string;
   description: string;
-  file_name: string;
-  mime_type: string;
-  size_bytes: number;
-  preview_data_url: string | null;
+  url: string;
+  /** Where it lives, e.g. "YouTube" or "drive.google.com". */
+  host_label: string;
+  thumbnail_url: string | null;
   visibility: SigniaVisibility;
   created_at: string;
 }

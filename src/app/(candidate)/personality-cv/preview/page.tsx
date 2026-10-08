@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { SubPageHeader } from "@/components/candidate/sub-page-header";
-import { VideoPoster } from "@/components/personality/video-poster";
+import { VideoEmbed } from "@/components/video/video-embed";
 import { EmptyState } from "@/components/states/empty-state";
 import { ErrorState } from "@/components/states/error-state";
 import { ReloadButton } from "@/components/states/reload-button";
@@ -51,10 +51,10 @@ export default async function PersonalityPreviewPage() {
         <EmptyState
           icon={Video}
           title="Nothing to preview yet"
-          description="Record your PersonalityAI CV first — it takes about two minutes."
+          description="Add your PersonalityAI CV video first — it takes a minute."
           action={
             <Button asChild className="rounded-xl">
-              <Link href="/personality-cv/record">Start recording</Link>
+              <Link href="/personality-cv/record">Add your video</Link>
             </Button>
           }
         />
@@ -75,7 +75,7 @@ export default async function PersonalityPreviewPage() {
               Reviewer view · application to MSc Public Health, Volga Federal Medical University (example)
             </div>
             <div className="grid gap-6 p-5 sm:p-6 md:grid-cols-[1.3fr_1fr]">
-              <VideoPoster name={user.full_name} seconds={video.duration_seconds} />
+              <VideoEmbed url={video.video_url} title={`${user.full_name}, PersonalityAI CV`} />
               <div>
                 <p className="text-lg font-semibold text-primary-text">{user.full_name}</p>
                 {bundle.profile.headline && <p className="text-sm text-secondary-text">{bundle.profile.headline}</p>}
@@ -106,9 +106,6 @@ export default async function PersonalityPreviewPage() {
               Reviewers are asked to judge motivation and communication only — never appearance, accent or background.
             </p>
           </article>
-          <p className="text-center text-xs text-secondary-text">
-            In this preview the video shows as a cover. Stored playback for reviewers arrives with secure video storage.
-          </p>
         </>
       )}
     </div>

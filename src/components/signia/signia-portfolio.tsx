@@ -1,6 +1,7 @@
 import { ArrowUpRight, FileText, Film, GraduationCap, ImageIcon, Link2, MapPin, Presentation } from "lucide-react";
 
-import { VideoPoster } from "@/components/personality/video-poster";
+import { VideoEmbed } from "@/components/video/video-embed";
+import { parseVideoLink } from "@/lib/video-embed";
 import type { SigniaBundle } from "@/data/repositories/signia";
 import type { SigniaMediaItem, SigniaVisibility } from "@/data/types";
 import { flag } from "@/lib/flags";
@@ -12,8 +13,8 @@ export interface PortfolioOwner {
   nationalityCode: string | null;
   nationality: string | null;
   education: string | null;
-  /** Seconds of the PersonalityAI CV video, when it may be shown here. */
-  videoSeconds: number | null;
+  /** The PersonalityAI CV video link, when it may be shown here. */
+  videoUrl: string | null;
 }
 
 const MEDIA_ICONS = {
@@ -35,20 +36,37 @@ export function visibleTo(audience: "public" | "reviewer") {
 
 function MediaTile({ item }: { item: SigniaMediaItem }) {
   const Icon = MEDIA_ICONS[item.media_type];
+  if (parseVideoLink(item.url)) {
+    return (
+      <li className="col-span-full overflow-hidden rounded-xl border bg-card md:col-span-2 dark:bg-white/[0.03]">
+        <VideoEmbed url={item.url} title={item.title} className="rounded-none" />
+        <div className="p-3">
+          <p className="truncate text-sm font-semibold text-primary-text">{item.title}</p>
+          {item.description && <p className="line-clamp-2 text-xs text-secondary-text">{item.description}</p>}
+        </div>
+      </li>
+    );
+  }
   return (
     <li className="overflow-hidden rounded-xl border bg-card dark:bg-white/[0.03]">
-      {item.preview_data_url ? (
-        // eslint-disable-next-line @next/next/no-img-element -- inline demo preview (data URL)
-        <img src={item.preview_data_url} alt={item.title} className="aspect-video w-full object-cover" />
-      ) : (
-        <div className="flex aspect-video items-center justify-center bg-soft-green/60 dark:bg-green/10">
-          <Icon className="size-8 text-green-dark" aria-hidden />
+      <a href={item.url} target="_blank" rel="noopener noreferrer nofollow" className="group block">
+        {item.thumbnail_url ? (
+          // eslint-disable-next-line @next/next/no-img-element -- platform thumbnail
+          <img src={item.thumbnail_url} alt="" className="aspect-video w-full object-cover" />
+        ) : (
+          <div className="flex aspect-video items-center justify-center bg-soft-green/60 dark:bg-green/10">
+            <Icon className="size-8 text-green-dark" aria-hidden />
+          </div>
+        )}
+        <div className="p-3">
+          <p className="flex items-center gap-1 truncate text-sm font-semibold text-primary-text group-hover:text-green-dark">
+            {item.title}
+            <ArrowUpRight className="size-3.5 shrink-0" aria-hidden />
+            <span className="sr-only">(opens in a new tab)</span>
+          </p>
+          <p className="truncate text-xs text-secondary-text">{item.host_label}</p>
         </div>
-      )}
-      <div className="p-3">
-        <p className="truncate text-sm font-semibold text-primary-text">{item.title}</p>
-        {item.description && <p className="line-clamp-2 text-xs text-secondary-text">{item.description}</p>}
-      </div>
+      </a>
     </li>
   );
 }
@@ -75,9 +93,9 @@ export function SigniaPortfolio({
     .map((s) => {
       switch (s.key) {
         case "personality_cv":
-          return owner.videoSeconds ? (
+          return owner.videoUrl ? (
             <section key={s.key} aria-label={SECTION_LABELS[s.key]}>
-              <VideoPoster name={owner.name} seconds={owner.videoSeconds} className="max-w-2xl" />
+              <VideoEmbed url={owner.videoUrl} title={`${owner.name}, video introduction`} className="max-w-2xl" />
             </section>
           ) : null;
         case "overview":

@@ -19,6 +19,12 @@ import { ErrorState } from "@/components/states/error-state";
 import { ReloadButton } from "@/components/states/reload-button";
 import { Button } from "@/components/ui/button";
 import { repos, type Plan } from "@/data";
+import {
+  aiAnswerMonthlyLimit,
+  aiCvMonthlyLimit,
+  monthStart as monthStartIso,
+  STARTER_MONTHLY_AI_CVS,
+} from "@/lib/entitlements";
 import { requireCandidate } from "@/lib/guards";
 import { safeLoad } from "@/lib/safe-load";
 import { cn } from "@/lib/utils";
@@ -38,15 +44,16 @@ export default async function BillingPage({ searchParams }: PageProps<"/billing"
   const changed = (await searchParams).changed === "1";
   const result = await safeLoad(async () => {
     const subscription = await repos.billing.getSubscription(user.user_id);
-    const [plans, payments, cvs, personality, signia, saved] = await Promise.all([
+    const [plans, payments, cvs, personality, signia, saved, answers] = await Promise.all([
       repos.billing.listPlans("candidate"),
       repos.billing.listPayments(user.user_id),
       repos.cvs.list(user.user_id),
       repos.personality.get(user.user_id),
       repos.signia.get(user.user_id),
       repos.opportunities.listSaved(user.user_id),
+      repos.ai.countSince(user.user_id, "answer", monthStartIso()),
     ]);
-    return { subscription, plans, payments, cvs, personality, signia, saved };
+    return { subscription, plans, payments, cvs, personality, signia, saved, answers };
   });
 
   const header = (
@@ -64,21 +71,34 @@ export default async function BillingPage({ searchParams }: PageProps<"/billing"
       </div>
     );
   }
-  const { subscription, plans, payments, cvs, personality, signia, saved } = result.data;
+  const { subscription, plans, payments, cvs, personality, signia, saved, answers } = result.data;
   const current = plans.find((p) => p.id === subscription?.plan_id) ?? null;
   const renews = subscription ? day(subscription.current_period_end) : "";
   const scheduled = subscription?.scheduled_plan_id ?? null;
   const monthStart = new Date();
   monthStart.setUTCDate(1);
   monthStart.setUTCHours(0, 0, 0, 0);
-  const cvsThisMonth = cvs.filter((c) => new Date(c.created_at) >= monthStart).length;
+  const cvsThisMonth = cvs.filter((c) => c.source === "generated" && new Date(c.created_at) >= monthStart).length;
+  const cvLimit = aiCvMonthlyLimit(current?.id);
+  const answerLimit = aiAnswerMonthlyLimit(current?.id);
 
   const usage = [
-    { icon: FileText, label: "Tailored CVs this month", value: String(cvsThisMonth), href: "/ai-cv" },
+    {
+      icon: FileText,
+      label: "Tailored CVs this month",
+      value: cvLimit === null ? `${cvsThisMonth} · unlimited` : `${cvsThisMonth} of ${cvLimit}`,
+      href: "/ai-cv",
+    },
+    {
+      icon: Sparkles,
+      label: "AI essays and answers this month",
+      value: answerLimit === null ? `${answers} · unlimited` : `${answers} of ${answerLimit}`,
+      href: "/dashboard#shortlist",
+    },
     {
       icon: Video,
       label: "PersonalityAI CV",
-      value: personality.video ? "Recorded" : "Not recorded",
+      value: personality.video ? "Added" : "Not added",
       href: "/personality-cv",
     },
     { icon: FolderOpen, label: "Signia projects", value: String(signia.projects.length), href: "/signia" },
@@ -141,7 +161,12 @@ export default async function BillingPage({ searchParams }: PageProps<"/billing"
               </Link>
             </Button>
           ) : (
-            <DowngradeButton scheduled={scheduled === plan.id} endsOn={renews} />
+            <DowngradeButton
+              scheduled={scheduled === plan.id}
+              endsOn={renews}
+              cvsThisMonth={cvsThisMonth}
+              starterCvLimit={STARTER_MONTHLY_AI_CVS}
+            />
           )}
         </div>
       </section>
@@ -180,7 +205,7 @@ export default async function BillingPage({ searchParams }: PageProps<"/billing"
         <h2 id="usage" className="text-sm font-semibold text-primary-text">
           This month
         </h2>
-        <ul className="mt-3 grid grid-cols-2 gap-2 lg:grid-cols-4">
+        <ul className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
           {usage.map(({ icon: Icon, label, value, href }) => (
             <li key={label}>
               <Link

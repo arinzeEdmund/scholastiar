@@ -477,7 +477,9 @@ export default async function ProfilePage() {
           </Panel>
 
           <Panel title="PersonalityAI CV" icon={Video}>
-            <p className="text-sm text-secondary-text">Not recorded yet. A 90-second video helps employers meet you.</p>
+            <p className="text-sm text-secondary-text">
+              Not added yet. A one-minute video helps admissions teams meet you.
+            </p>
             <RouteButton href="/personality-cv/record" variant="outline" size="sm" className="mt-3 rounded-lg">
               <Video aria-hidden />
               Record

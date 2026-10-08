@@ -11,6 +11,9 @@ export const PERSONALITY_PROMPTS = [
 ] as const;
 
 export const MAX_PROMPTS = 3;
-/** Seconds of recording allowed in total. */
-export const MAX_RECORDING_SECONDS = 120;
-export const MAX_UPLOAD_BYTES = 200 * 1024 * 1024;
+
+/**
+ * Videos are added by link only — no recording or uploading on Scholastiar (decided 2026-10-08).
+ * Students are asked to keep it to one minute.
+ */
+export const VIDEO_GUIDE_SECONDS = 60;

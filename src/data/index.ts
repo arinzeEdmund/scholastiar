@@ -2,6 +2,7 @@ import "server-only";
 
 import { dataSource } from "@/lib/env";
 
+import { mockAiRepository } from "./mock/ai";
 import { mockAuthRepository } from "./mock/auth";
 import { mockBillingRepository } from "./mock/billing";
 import { mockCandidateRepository } from "./mock/candidate";
@@ -17,6 +18,7 @@ import { mockReferenceRepository } from "./mock/reference";
 import { mockSigniaRepository } from "./mock/signia";
 import { mockThreadsRepository } from "./mock/threads";
 import { mockUsersRepository } from "./mock/users";
+import type { AiRepository } from "./repositories/ai";
 import type { AuthRepository } from "./repositories/auth";
 import type { BillingRepository } from "./repositories/billing";
 import type { CandidateRepository } from "./repositories/candidate";
@@ -55,6 +57,7 @@ interface Repositories {
   personality: PersonalityRepository;
   signia: SigniaRepository;
   threads: ThreadsRepository;
+  ai: AiRepository;
 }
 
 function createRepositories(): Repositories {
@@ -78,6 +81,7 @@ function createRepositories(): Repositories {
     personality: mockPersonalityRepository,
     signia: mockSigniaRepository,
     threads: mockThreadsRepository,
+    ai: mockAiRepository,
   };
 }
 

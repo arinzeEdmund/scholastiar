@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { SubPageHeader } from "@/components/candidate/sub-page-header";
 import { MediaLibrary } from "@/components/signia/media-library";
+import { MediaLinkForm } from "@/components/signia/media-link-form";
 import { ErrorState } from "@/components/states/error-state";
 import { ReloadButton } from "@/components/states/reload-button";
 import { repos } from "@/data";
@@ -19,12 +20,13 @@ export default async function SigniaMediaPage() {
         backHref="/signia"
         backLabel="Signia"
         title="Media and documents"
-        description="Posters, papers, slides, certificates and videos that prove your work. Link each one to a project."
+        description="Posters, papers, slides, certificates and videos that prove your work — all added by link. Link each one to a project."
       />
       {result.ok ? (
         <MediaLibrary
           items={result.data.media}
           projects={result.data.projects.map((p) => ({ id: p.id, title: p.title }))}
+          addByLink={<MediaLinkForm />}
         />
       ) : (
         <ErrorState action={<ReloadButton />} />

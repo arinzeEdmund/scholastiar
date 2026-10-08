@@ -7,7 +7,6 @@ import {
   RotateCcw,
   Settings2,
   ShieldCheck,
-  Upload,
   Video,
 } from "lucide-react";
 import type { Metadata } from "next";
@@ -16,7 +15,7 @@ import Link from "next/link";
 import { PageHeader } from "@/components/layout/page-header";
 import { RouteButton } from "@/components/layout/route-button";
 import { RemoveVideoButton } from "@/components/personality/remove-video-button";
-import { VideoPoster } from "@/components/personality/video-poster";
+import { VideoEmbed } from "@/components/video/video-embed";
 import { ErrorState } from "@/components/states/error-state";
 import { ReloadButton } from "@/components/states/reload-button";
 import { Button } from "@/components/ui/button";
@@ -67,22 +66,16 @@ export default async function PersonalityHomePage() {
               <span className="flex size-12 items-center justify-center rounded-2xl bg-white/10 ring-1 ring-white/20">
                 <Video className="size-6 text-mint" aria-hidden />
               </span>
-              <h2 className="mt-4 text-2xl font-bold">Record in about two minutes</h2>
+              <h2 className="mt-4 text-2xl font-bold">Add your video introduction</h2>
               <p className="mt-2 max-w-lg text-sm text-white/75">
-                Pick up to three prompts, check your camera, and talk. Re-record as often as you like — only the version
-                you choose is kept.
+                Pick up to three prompts, record a one-minute video on Loom, Tella or your phone, then paste the link.
+                YouTube, Vimeo and Google Drive links work too.
               </p>
               <div className="mt-6 flex flex-wrap gap-2">
                 <Button asChild variant="inverse" size="lg" className="rounded-xl">
                   <Link href="/personality-cv/record">
                     <Video aria-hidden />
-                    Start recording
-                  </Link>
-                </Button>
-                <Button asChild variant="outline-inverse" size="lg" className="rounded-xl">
-                  <Link href="/personality-cv/record">
-                    <Upload aria-hidden />
-                    Upload a video
+                    Add your video
                   </Link>
                 </Button>
               </div>
@@ -102,7 +95,7 @@ export default async function PersonalityHomePage() {
         </section>
         <ul className="grid gap-4 sm:grid-cols-3">
           {[
-            { icon: Clock, title: "Short", text: "About 30 seconds a prompt, two minutes at most." },
+            { icon: Clock, title: "Short", text: "One minute at most, across up to three prompts." },
             { icon: ShieldCheck, title: "Private", text: "Only reviewers of applications you attach it to can watch." },
             {
               icon: GraduationCap,
@@ -137,7 +130,8 @@ export default async function PersonalityHomePage() {
               Published · {when(video.created_at)}
             </span>
           </div>
-          <VideoPoster name={user.full_name} seconds={video.duration_seconds} />
+          <VideoEmbed url={video.video_url} title="Your PersonalityAI CV" />
+          <p className="text-xs text-secondary-text">Plays from {video.provider_label}.</p>
           <div>
             <p className="text-xs font-medium text-secondary-text">You answered</p>
             <ol className="mt-1.5 space-y-1">
@@ -159,7 +153,7 @@ export default async function PersonalityHomePage() {
             <Button asChild variant="outline" className="rounded-xl">
               <Link href="/personality-cv/record">
                 <RotateCcw aria-hidden />
-                Record a new version
+                Change video
               </Link>
             </Button>
             <RemoveVideoButton />
