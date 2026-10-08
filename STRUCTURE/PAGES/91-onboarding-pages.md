@@ -36,6 +36,7 @@ Inputs:
 - date of birth
 - current location
 - phone
+- WhatsApp number and consent to receive Scholastiar's official WhatsApp messages (opt-in; email is always sent)
 - languages
 - preferred communication style
 
@@ -43,7 +44,7 @@ Inputs:
 
 Route: `/onboarding/visa`
 
-Purpose: Understand international mobility and sponsorship needs.
+Purpose: Understand study status, study visa work conditions, post-study permit plans and target countries.
 
 Inputs:
 
@@ -52,7 +53,7 @@ Inputs:
 - countries lived/worked in
 - target countries
 - relocation willingness
-- sponsorship needs
+- study visa work conditions, post-study permit and whether they will need visa sponsorship after graduating
 - work authorization notes
 
 ### Education Step
@@ -146,7 +147,7 @@ Purpose: Confirm onboarding completion and route to dashboard.
 Primary actions:
 
 - go to dashboard
-- browse jobs
+- explore universities and scholarships
 - generate CV
 
 ## Employer Pages
@@ -176,14 +177,14 @@ Inputs:
 
 Route: `/employers/onboarding/hiring`
 
-Purpose: Understand hiring needs and sponsorship capability.
+Purpose: Understand hiring needs: student jobs, sponsored post-study graduate jobs, or both.
 
 Inputs:
 
 - roles hired for
 - seniority levels
-- visa sponsorship capability
-- sponsorship countries
+- hires students (study visa holders)
+- sponsors graduate work visas (routes and countries)
 - remote/relocation policy
 
 ### Team Step

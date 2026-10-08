@@ -1,47 +1,36 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { RefreshCw } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { useEffect } from "react";
+import toast from "react-hot-toast";
 
+import { usePwaStore } from "@/store/pwa-store";
+
+/** Offers a refresh when a new version of the app has been downloaded. */
 export function PWAUpdateToast() {
-  const [waitingWorker, setWaitingWorker] = useState<ServiceWorker | null>(null);
+  const waitingWorker = usePwaStore((s) => s.waitingWorker);
 
   useEffect(() => {
-    if (!('serviceWorker' in navigator)) return;
-
-    navigator.serviceWorker.ready.then((reg) => {
-      reg.addEventListener('updatefound', () => {
-        const worker = reg.installing;
-        if (!worker) return;
-        worker.addEventListener('statechange', () => {
-          if (worker.state === 'installed' && navigator.serviceWorker.controller) {
-            setWaitingWorker(worker);
-          }
-        });
-      });
-    });
-  }, []);
-
-  function applyUpdate() {
     if (!waitingWorker) return;
-    waitingWorker.postMessage({ type: 'SKIP_WAITING' });
-    window.location.reload();
-  }
+    const id = toast(
+      (t) => (
+        <span className="flex items-center gap-3 text-sm">
+          A new version of Scholastiar.ai is ready.
+          <button
+            type="button"
+            className="font-semibold text-green-dark underline-offset-4 hover:underline"
+            onClick={() => {
+              waitingWorker.postMessage({ type: "SKIP_WAITING" });
+              toast.dismiss(t.id);
+            }}
+          >
+            Refresh
+          </button>
+        </span>
+      ),
+      { duration: Infinity, id: "pwa-update" },
+    );
+    return () => toast.dismiss(id);
+  }, [waitingWorker]);
 
-  if (!waitingWorker) return null;
-
-  return (
-    <div
-      role="alert"
-      className="fixed bottom-20 inset-x-4 z-50 mx-auto max-w-sm rounded-lg border border-border bg-white p-4 shadow-lg md:bottom-6 md:right-6 md:left-auto md:inset-x-auto"
-    >
-      <p className="text-sm font-medium text-[#1E1E1E]">A new version is available</p>
-      <p className="mt-1 text-xs text-[#5F6368]">Refresh to get the latest updates.</p>
-      <Button size="sm" onClick={applyUpdate} className="mt-3 gap-2">
-        <RefreshCw className="h-3.5 w-3.5" />
-        Refresh now
-      </Button>
-    </div>
-  );
+  return null;
 }

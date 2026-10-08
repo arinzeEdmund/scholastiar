@@ -1,15 +1,14 @@
-import { MobileBottomTabs } from '@/components/pwa/mobile-bottom-tabs';
+import { SurfaceShell } from "@/components/layout/surface-shell";
+import { repos } from "@/data";
+import { requireCandidate } from "@/lib/guards";
 
-export default function CandidateLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+/** Candidate workspace: signed-in, paid, verified candidates only. */
+export default async function CandidateLayout({ children }: LayoutProps<"/">) {
+  const { user } = await requireCandidate();
+  const unreadCount = await repos.messages.countUnread(user.user_id);
   return (
-    <>
-      {/* Main content — pb-16 to clear the fixed bottom nav on mobile */}
-      <div className="flex min-h-screen flex-col pb-16 md:pb-0">{children}</div>
-      <MobileBottomTabs />
-    </>
+    <SurfaceShell shell="candidate" user={user} unreadCount={unreadCount}>
+      {children}
+    </SurfaceShell>
   );
 }

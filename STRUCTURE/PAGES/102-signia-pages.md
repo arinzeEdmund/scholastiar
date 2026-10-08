@@ -131,7 +131,7 @@ Primary actions:
 
 Route: `/employers/signia/compare`
 
-Purpose: Compare shortlisted Signia profiles by role fit, evidence depth, skill proof, communication signals, and visa/sponsorship context.
+Purpose: Compare shortlisted Signia profiles by role fit, evidence depth, skill proof, communication signals, and study status and work eligibility.
 
 ## Admin Pages
 

@@ -4,18 +4,16 @@ Status: Unified ordered service index
 
 Build Scholastiar.ai as one platform, but implement services one after another in this order:
 
-1. `01-jobs.md` - not started
-2. `02-universities.md` - not started
-3. `03-scholarships.md` - not started
-4. `04-fellowships.md` - not started
-5. `05-grants.md` - not started
-6. `06-competitions.md` - not started
-7. `07-conferences-training.md` - not started
-8. `08-awards.md` - not started
-9. `09-ai-apply-agent.md` - not started
-10. `10-apply-for-me.md` - not started
-11. `11-discovery-engine.md` - not started
-12. `12-migration-agencies.md` - not started
+1. `02-universities.md` - not started
+2. `03-scholarships.md` - not started
+3. `09-ai-apply-agent.md` - not started
+4. `10-apply-for-me.md` - not started
+5. `11-discovery-engine.md` - not started
+6. `12-relocation.md` - not started
+7. `13-migration-agencies.md` - not started
+8. `14-jobs.md` - not started (Pro-only job connections in the dashboard; formerly 01, moved last on 2026-10-07)
+
+School-related services only (decided 2026-10-07): Fellowships, Grants, Competitions, Conferences / Training and Awards were removed.
 
 When implementation begins, update statuses in `STRUCTURE/BUILD_GUIDE/PROGRESS_TRACKER.md`.
 
@@ -27,7 +25,8 @@ Use:
 Supporting platform services:
 
 ```txt
-20-visa-sponsored-jobs.md
+20-work-eligibility.md
+21-study-catalogue.md
 90-auth.md
 91-onboarding-intelligence.md
 92-candidate-profile.md

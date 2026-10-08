@@ -16,6 +16,8 @@ It needs public discovery pages, student workspace pages, AI answer and document
 
 ## Public Discovery Pages
 
+Study catalogue (draft 2026-10-07): scholarship pages are public and indexed, and link to the programmes, universities or countries they fund. "Apply" opens the hosted application (`/scholarships/[scholarshipSlug]/apply`) when the scholarship is set up on Scholastiar; otherwise a preparation step inside the app, then the official application page through a tracked link. Public pages never link to the funder's website or form; they show locked sign-up prompts instead. Visitors are sent to sign-up and returned to the scholarship. See `SERVICES/21-study-catalogue.md`.
+
 ### Scholarships Home Page
 
 Route: `/scholarships`

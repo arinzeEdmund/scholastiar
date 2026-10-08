@@ -53,7 +53,7 @@ Users manage skills, tools, languages, certifications, and proficiency.
 
 ### Visa And Mobility Profile
 
-Users maintain sponsorship needs, work authorization, relocation preferences, and target countries.
+Users maintain study status, study visa work conditions, post-study permit, sponsorship need after graduating and target countries.
 
 ### Document Vault Connection
 

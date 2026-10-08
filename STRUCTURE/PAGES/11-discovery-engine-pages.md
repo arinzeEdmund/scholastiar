@@ -55,12 +55,7 @@ Categories:
 
 - jobs
 - scholarships
-- grants
 - universities
-- fellowships
-- awards
-- competitions
-- conferences/training
 
 Each category should show:
 

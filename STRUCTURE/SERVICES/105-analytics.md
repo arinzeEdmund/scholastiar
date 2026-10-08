@@ -48,7 +48,7 @@ Track:
 - time-to-hire
 - candidate source
 - geographic applicant distribution
-- visa sponsorship demand
+- student job and post-study job demand
 - screening drop-off
 
 ### Admin Analytics

@@ -14,6 +14,25 @@ Core promise:
 
 > Users should never miss an important opportunity or hiring update.
 
+### Every Process Sends Email And WhatsApp (decided 2026-10-02)
+
+Every process on the platform — on every surface (candidates, employers, providers, forwarders, pilots, housing providers, offices, admins) — sends:
+
+1. an **email**
+2. a **WhatsApp message from Scholastiar's official WhatsApp account**, sent automatically
+3. an **in-app notification**
+
+Examples: account created, email verified, payment received / failed / refunded (card, local or crypto), plan renewed, onboarding step saved, profile changes that matter, application submitted / status changed, messages received, interview invitations, deadlines (7 days, 3 days, 24 hours), relocation steps due and completed, bookings, pilot assignments, cohort changes, support case updates, renewals.
+
+Rules:
+
+- **Message catalogue:** every event has an entry (`message_templates` in `db.md`) with email subject and body, WhatsApp template and in-app text. A new feature is not done until its events are in the catalogue.
+- **WhatsApp opt-in:** WhatsApp requires each user's consent. Sign-up and onboarding ask for the WhatsApp number with a consent checkbox (`whatsapp_consents`); users can change it in settings. Users without opt-in still receive email and in-app messages.
+- **Approved templates:** WhatsApp business messages outside a conversation use pre-approved templates; each catalogue entry names its template.
+- **Locked messages:** security, payment and emergency messages cannot be switched off.
+- **Delivery tracking:** queued, sent, delivered, read, failed per channel (`notification_delivery_logs`). A failed WhatsApp message never blocks the email.
+- **Phase A:** a dev **Message outbox** shows every email and WhatsApp message that would be sent, so flows can be checked before real providers are connected.
+
 ## Problem Being Solved
 
 Users miss:
@@ -21,7 +40,7 @@ Users miss:
 - employer messages
 - interview invitations
 - job deadlines
-- scholarship, fellowship, grant, competition, conference, university, and award deadlines
+- scholarship and university deadlines
 - application status changes
 - new strong job matches
 - strong-fit opportunities across all categories
@@ -72,7 +91,7 @@ Types:
 
 ### Notification Preferences
 
-Users control email and in-app notifications.
+Users control email, WhatsApp, in-app and push notifications per category (`/settings/notifications`). Security, payment and emergency messages stay on.
 
 Email preferences should include:
 
@@ -136,7 +155,9 @@ Important UX:
 - opportunity card metrics
 - application readiness scoring
 - email provider
+- WhatsApp Business Platform (provider to be chosen) for the official Scholastiar account
 - Supabase Realtime
+- relocation (`12-relocation.md`) — journey, booking, pilot, cohort and support case events
 
 ## Risks And Constraints
 
@@ -154,6 +175,7 @@ Important UX:
 - Daily digest is optional for active users.
 - Deadline reminders use 7-day, 3-day, and 24-hour triggers.
 - Promo/conversion emails are limited to 1-2 per week and must be behavior-based.
+- Promotional content is never sent by WhatsApp; WhatsApp carries process and account messages only.
 
 ## Implementation Roadmap
 

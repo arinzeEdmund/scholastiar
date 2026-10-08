@@ -9,14 +9,9 @@ The Publishing Intelligence Engine is Scholastiar.ai's article, news, immigratio
 It should help Scholastiar.ai become a trusted global source for:
 
 - jobs abroad
-- visa-sponsored jobs
+- student jobs and post-study jobs
 - universities
 - scholarships
-- fellowships
-- grants
-- competitions
-- conferences and training
-- awards
 - immigration and relocation updates
 - application readiness
 - country comparison
@@ -113,17 +108,12 @@ Do not blindly copy the same article everywhere. Each platform version should ma
 
 ### Opportunity Content
 
-- visa-sponsored job alerts
+- student job and post-study job alerts
 - top jobs abroad by country
 - profession-based relocation job guides
 - scholarship roundups
 - fully funded scholarship guides
 - university admission guides
-- fellowship opportunity reports
-- grant opportunity reports
-- competition roundups
-- conference and training opportunity lists
-- award opportunity lists
 - deadline calendars
 
 ### Immigration And Mobility Content
@@ -133,7 +123,7 @@ Do not blindly copy the same article everywhere. Each platform version should ma
 - work permit explainers
 - study visa explainers
 - proof of funds explainers
-- sponsorship explainers
+- study visa work rules and post-study permit explainers
 - relocation guide by country
 - country comparison guides
 - immigration document checklists
@@ -145,8 +135,6 @@ Do not blindly copy the same article everywhere. Each platform version should ma
 - statement of purpose guides
 - cover letter guides
 - scholarship essay guides
-- fellowship proposal guides
-- grant proposal guides
 - document readiness checklists
 - interview preparation guides
 - portfolio/profile improvement guides
@@ -158,7 +146,7 @@ Use anonymized, aggregated platform metrics to create useful reports.
 Examples:
 
 - top countries users are applying to this month
-- most saved visa-sponsored job categories
+- most saved student job categories
 - scholarships with the highest readiness gaps
 - average application time by opportunity type
 - common missing documents by destination country
@@ -204,7 +192,7 @@ article
 -> readiness score
 -> missing document alert
 -> full score breakdown locked
--> Starter/Pro/Premium upgrade
+-> Starter/Pro subscription
 ```
 
 ### AI Apply Agent Funnel
@@ -439,7 +427,7 @@ Topic sources:
 - deadline spikes
 - immigration news
 - provider announcements
-- scholarship/fellowship/grant deadlines
+- scholarship deadlines
 - creator/community requests
 
 ### Step 2: Brief Creation
@@ -476,7 +464,7 @@ Required for:
 - legal/regulatory claims
 - government program updates
 - deadline-sensitive scholarship/funding information
-- employer sponsorship claims
+- employer hours and permit claims
 
 ### Step 6: Canonical Publishing
 
@@ -606,7 +594,7 @@ Start with a lean version:
 
 First five content categories:
 
-1. Visa-sponsored jobs abroad
+1. Student jobs and post-study jobs abroad
 2. Fully funded scholarships
 3. Immigration and visa updates
 4. Application readiness guides

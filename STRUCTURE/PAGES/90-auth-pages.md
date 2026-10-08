@@ -38,7 +38,17 @@ Primary actions:
 
 Route: `/auth/sign-up/candidate`
 
-Purpose: Register job seekers and route them into candidate onboarding.
+Purpose: Register students and applicants, take their plan choice and payment, and route them into candidate onboarding.
+
+There is no free applicant plan (decided 2026-10-01). Every candidate chooses Starter ($35/month) or Pro ($79/month) during sign-up.
+
+Flow:
+
+1. account details
+2. choose plan (Starter or Pro), with a clear comparison
+3. checkout at `/billing/checkout`
+4. verify email
+5. continue to onboarding
 
 Inputs:
 
@@ -46,78 +56,107 @@ Inputs:
 - email
 - password
 - country/current location
+- WhatsApp number (optional) with opt-in to official Scholastiar WhatsApp messages
+- plan choice
 - terms acceptance
 
 Primary actions:
 
 - create candidate account
+- choose plan
+- pay and start subscription
 - verify email
 - continue to onboarding
+
+States:
+
+- payment failed: keep the account and plan choice, explain what happened, offer retry or another payment method
+- account created but unpaid: signing in returns the user to plan choice/checkout, not to the app
 
 ### Employer Sign Up Page
 
 Route: `/auth/sign-up/employer`
 
-Purpose: Register employer users and route them into employer onboarding.
+Purpose: Register employer users, create their company and take payment for an employer plan.
 
-Inputs:
+Steps:
 
-- work email
-- password
-- company name
-- company website
-- hiring role/title
-- terms acceptance
+1. Your account — full name, job title, work email, password.
+2. Your company — company name, website, country where you hire, who you are hiring (students, graduates with visa sponsorship, or both).
+3. Your plan — Employer Starter ($99/month) or Employer Pro ($249/month), terms acceptance. Enterprise is sales-led (`/contact?topic=employer_sales`).
 
-Primary actions:
+Rules:
 
-- create employer account
-- verify email
-- continue to employer onboarding
+- Employers hiring graduates with sponsorship must choose Employer Pro; Starter is disabled in the wizard and rejected at checkout and on the server.
+- `?plan=` from the pricing page preselects the plan.
+- Creates the account, employer profile, `employer_owner` role, company and owner membership, then goes to checkout.
+
+### Provider Sign Up Page
+
+Route: `/auth/sign-up/provider`
+
+Purpose: Register universities, funders and programme organisers and take payment for a provider plan.
+
+Steps:
+
+1. Your account — full name, job title, work email, password.
+2. Your organisation — name, type, website, country.
+3. Your plan — Provider Verified ($149/month) or Provider Pro ($399/month), terms acceptance. Enterprise is sales-led.
 
 ### Generic Role Selection Page
 
 Route: `/auth/choose-role`
 
-Purpose: Handle users who enter through a generic signup path.
+Purpose: Entry point for "Get started". Three cards — candidate (from $35/month), employer (from $99/month), provider (from $149/month) — each leading to its sign-up flow.
 
-Primary actions:
+### Checkout Page
 
-- continue as candidate
-- continue as employer
+Route: `/billing/checkout`
+
+Purpose: Pay for the plan chosen at sign-up. Every paid account type is sent here until its plan is active.
+
+- Distraction-free layout: logo, "Secure checkout", theme toggle; no site navigation.
+- Step indicator continues the sign-up steps (Payment, then Verify email).
+- Order summary: plan, price, features, due today, and switching between self-serve plans the account may hold.
+- Card tab (Stripe in Phase B) or Local payment tab (Paystack or Flutterwave).
+- Declined and insufficient-funds cards show an error and keep the user on checkout.
+- Mock mode shows test cards (4242… succeeds, 4000 0000 0000 0002 declined, 4000 0000 0000 9995 insufficient funds).
+- If the plan is already active: "Your plan is active" with a continue button.
 
 ### Forgot Password Page
 
 Route: `/auth/forgot-password`
 
-Purpose: Request password reset email.
+Purpose: Request a password reset email.
 
-Primary actions:
-
-- send reset link
-- return to sign in
+- The same success message is shown whether or not the account exists, so accounts can't be discovered.
+- Primary actions: send reset link, use a different email, return to sign in.
 
 ### Reset Password Page
 
-Route: `/auth/reset-password`
+Route: `/auth/reset-password?token=`
 
 Purpose: Set a new password from an email token.
 
-Primary actions:
-
-- update password
-- return to sign in
+- An invalid, used or expired token (links last 1 hour and work once) shows "This link has expired" with a request-new-link button.
+- A valid token shows a new password with a strength meter and a confirmation field. Resetting also confirms the email address.
+- Success: "Your password has been changed" and sign in.
 
 ### Verify Email Page
 
 Route: `/auth/verify-email`
 
-Purpose: Confirm email verification status and continue onboarding.
+Purpose: Confirm the email address after payment, then continue to onboarding.
 
-Primary actions:
+- Requires a session (signed-out visitors go to sign-in, except the "Email verified" result).
+- Unverified: "Check your inbox", resend with a 60-second cooldown, and "Sign out and start again" for a wrong address.
+- `?status=invalid`: expired or used link warning.
+- Verified: "You're all set" with continue to onboarding or the workspace.
+- The emailed link goes to `/auth/verify-email/confirm?token=` (route handler), which confirms the address and redirects back here.
 
-- resend verification email
-- continue after verified
+### Dev Inbox (mock mode only)
+
+No real email is sent in Phase A. Forgot-password and verify-email show a "Dev inbox" box with the link the email would contain. It is never rendered outside mock mode. Phase B replaces it with transactional email.
 
 ## Admin Pages
 

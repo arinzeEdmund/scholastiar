@@ -49,7 +49,7 @@ Review employer profiles, verify companies, inspect jobs, and handle abuse.
 
 ### Job Moderation
 
-Review jobs, remove scams, flag unclear sponsorship claims, and enforce listing standards.
+Review jobs, remove scams, flag unclear hours or sponsorship claims, and block post-study jobs without employer-confirmed sponsorship, and enforce listing standards.
 
 ### Application Oversight
 

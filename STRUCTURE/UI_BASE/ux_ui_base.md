@@ -72,6 +72,8 @@ Green Dark: #087A3E
 
 Green should be a signal color, not a wall of color.
 
+Accessibility note (decided 2026-10-01): Scholastiar Green #10B65B has only 2.67:1 contrast with white text, below WCAG AA. Use it for signals (logo dot, progress, icons, badges, focus rings), not as a fill behind text. Filled primary buttons use Action Green #0B8743 (4.6:1 with white). Green text uses Green Dark #087A3E. Muted Text #8A8F98 is for placeholders and non-essential decoration only; use Secondary Text #5F6368 for readable small text.
+
 Use green for:
 
 - primary CTAs
@@ -131,9 +133,9 @@ Headlines should be direct.
 Good:
 
 ```txt
-Your strongest visa-sponsored matches
+Your strongest student job matches
 Generate a CV for this role
-Complete your sponsorship profile
+Complete your visa work conditions
 ```
 
 Avoid:
@@ -256,7 +258,7 @@ Cards should include:
 
 ## Universal Opportunity Card Pattern
 
-Every card that displays an apply-able opportunity, including jobs, universities, scholarships, fellowships, grants, competitions, conferences/training, and awards, should show enough decision information for the user to act quickly.
+Every card that displays an apply-able opportunity, including jobs, universities and scholarships, should show enough decision information for the user to act quickly.
 
 Opportunity cards should include:
 
@@ -266,7 +268,7 @@ Opportunity cards should include:
 - deadline or intake/application window
 - estimated application effort, such as `2 min apply`, `15 min apply`, or `1 hour prep`
 - success score or fit score, such as `92% success score`, with responsible tooltip copy explaining it is an estimate, not a guarantee
-- funding, salary, prize, stipend, travel, relocation, sponsorship, or visa-support signals where relevant
+- funding, salary, prize, stipend, travel, relocation, work-eligibility, or visa-support signals where relevant
 - verification/trust status
 - save action
 - direct apply action when available
@@ -301,7 +303,7 @@ Tone:
 Example:
 
 ```txt
-This helps us identify jobs where sponsorship is realistic.
+This helps us show jobs that fit your study visa's working hours.
 ```
 
 Not:
@@ -332,7 +334,7 @@ Employer dashboard should prioritize:
 - highest-fit candidates
 - pipeline bottlenecks
 - unread messages
-- sponsorship complexity alerts
+- work eligibility questions (student hours, graduate visa sponsorship)
 
 Admin dashboard should prioritize:
 
@@ -383,7 +385,7 @@ Candidate patterns:
 - show next best action
 - show progress
 - show job fit clearly
-- explain visa/sponsorship context calmly
+- explain visa work rules and permit context calmly
 - make AI suggestions actionable
 - keep application history visible
 - let users save drafts
@@ -393,7 +395,7 @@ Avoid:
 
 - shame-based completion prompts
 - noisy job feeds
-- unclear sponsorship labels
+- unclear visa-hours or permit labels
 - generic AI language
 - turning Signia into a noisy social feed or unstructured link dump
 
@@ -406,7 +408,7 @@ Employers need to:
 - post jobs quickly
 - review candidates quickly
 - understand fit
-- understand sponsorship indicators
+- understand work eligibility indicators
 - communicate
 - move candidates through pipeline
 
@@ -449,7 +451,7 @@ Trust is central to Scholastiar.ai.
 Use trust indicators for:
 
 - verified employers
-- visa-sponsored jobs
+- student jobs that fit study visa hours and post-study jobs with employer-confirmed visa sponsorship
 - AI-reviewed applications
 - completed profile sections
 - verified partner agencies in the unified platform
@@ -472,7 +474,7 @@ The platform must be globally aware.
 Consider:
 
 - countries and regions
-- visa sponsorship
+- study visa work conditions, post-study permits and work visa sponsorship
 - relocation preferences
 - currency
 - date formats
@@ -487,7 +489,7 @@ Use language like:
 
 ```txt
 Visa guidance
-Sponsorship indicator
+Work eligibility indicator
 Work authorization requirement
 ```
 
@@ -534,6 +536,44 @@ Minimum accessibility expectations:
 - buttons with clear names
 
 Green status should include text or icon, not color alone.
+
+## Light And Dark Mode
+
+Adopted 2026-10-01. Every screen supports a light and a dark theme.
+
+- Users choose Light, Dark or System from the theme toggle in every header. System (the default) follows the device setting and updates live when it changes.
+- The choice is remembered per browser (`localStorage`) and applied before the first paint, so pages never flash the wrong theme. Phase B may also store it on the user profile.
+- Build with theme-aware tokens only: `bg-background`, `bg-card`, `bg-soft`, `bg-soft-green`, `text-primary-text`, `text-secondary-text`, `text-green-dark`, `border`, status tokens. Never use `bg-white` or `text-brand-black` for page surfaces or body text.
+- Constants that never change: Brand Black, Near Black, Scholastiar Green, Action Green (`primary`), Green Deep (solid green panels), Mint. Atmosphere dark surfaces stay dark in both themes.
+- Dark palette: background `#0B0D0C`, cards `#131715`, soft `#101412`, soft green `#0E2419`, border `#262C29`, primary text `#ECEFED`, secondary text `#A1A9A4`, green text `#3DD27F`. Every text pairing meets WCAG AA.
+- Green is still a signal, not a wall, in dark mode. Filled buttons stay Action Green with white text.
+- Each screen must be checked in both themes before it is marked done.
+
+## Atmosphere: Gradients, Glow And Grain
+
+Adopted 2026-10-01 for public and marketing surfaces, inspired by `UI_DESIGN_INSPIRATION/landing_page.png` and translated into the Scholastiar palette. Fonts, spacing and colour tokens stay as defined above.
+
+Principle: green is a light source, never a wall. Dark surfaces are Brand Black lit by green glows; light surfaces are soft neutrals with faint green blooms.
+
+Building blocks (CSS utilities in `src/app/globals.css`):
+
+- `aurora-dark`: page heroes and closing calls to action. Brand Black with a green glow rising from below.
+- `aurora-dark-side`: dark showcase sections. A quieter glow from one side.
+- `aurora-light`: page headers and highlight sections. Soft background with green blooms in opposite corners.
+- `grain` / `grain-light`: subtle film grain over dark / light atmosphere surfaces.
+- `beams`: diagonal light beams across a solid or dark panel.
+- `text-gradient-mint` (on dark) and `text-gradient-green` (on light, large headings only): one emphasis phrase per page at most.
+- Mint `#7EE2A8`: highlight tint of brand green, used only on dark surfaces (eyebrows, icons, badges).
+
+Rules:
+
+- Use at most one solid green panel per page (Green Dark `#087A3E` with `beams`), for the most important secondary audience call to action.
+- On dark surfaces, cards become glass: `bg-white/5`, `border-white/10`. Content cards that must be read (opportunity cards) stay white.
+- The featured pricing plan is a dark `aurora-dark` card; other plans stay white.
+- On dark and solid green surfaces, use the `inverse` (white) and `outline-inverse` button variants; the primary green button stays the main action on dark heroes.
+- Atmosphere is for public and marketing surfaces. Product dashboards, forms, editors and admin tools stay calm and flat.
+- Glows are static. No animated orbs, bokeh or moving gradients.
+- Text on atmosphere surfaces must still meet contrast rules: white or `white/70`+ on dark, mint and brand green allowed as text on Brand Black.
 
 ## Motion And Animation
 
@@ -634,6 +674,19 @@ Example:
 We could not upload this file. Try a PDF under 10MB or choose another document.
 ```
 
+## Form Fields And Validation Errors
+
+Decided 2026-10-01. Every form uses contained fields (`BoxField` in `src/components/forms/box-field.tsx`):
+
+- The label sits inside the box, top-left, in small secondary text. It turns green while the field is focused.
+- Focus: green border and a soft green ring on the box.
+- Validation error: a small alert icon and a short message (9px, soft red `danger-text`: #ef5b5b light, #f6b8b8 dark) inside the box, top-right, on the label row (`FieldErrorText`). The label, border and input never turn red, and there is no red text under the field.
+- Checkbox rows (e.g. accepting the terms) are boxes too: the error sits inside the box on the right ("Required").
+- Keep field error messages short enough to fit on the label row ("Enter a valid email.", "Use at least 8 characters."). Longer guidance belongs in the hint below the box, which is hidden while an error shows.
+- Option groups (radio tiles, checkboxes) have no box: show the same small icon and message under the group (`InlineError`).
+- Form-level failures (wrong password, declined card) use `FormAlert`: a soft tinted panel with an icon, no border.
+- Controls inside a box use `boxControl` classes and `boxControlProps(id, error)`, which links the error with `aria-describedby` and sets `aria-invalid`.
+
 ## Page Template Patterns
 
 ### Public Page Pattern
@@ -683,7 +736,7 @@ Use clear domain names:
 ```txt
 JobCard
 ApplicationTimeline
-VisaSponsorshipBadge
+WorkEligibilityBadge
 CandidateFitScore
 AICVPreview
 PersonalityCVPlayer

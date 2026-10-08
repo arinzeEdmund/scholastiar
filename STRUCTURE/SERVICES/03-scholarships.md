@@ -4,6 +4,8 @@ Status: Unified Platform Service
 
 ## Feature Vision
 
+Study catalogue (draft 2026-10-07): scholarships are part of the public study catalogue and are linked to the programmes, universities or countries they fund. "Apply" opens the hosted application on Scholastiar when the scholarship is set up on our system, otherwise the official application page through a tracked link. See `SERVICES/21-study-catalogue.md`.
+
 Scholastiar.ai Scholarships is a future AI-powered scholarship application system that helps students discover, prepare for, and apply to scholarships globally with far less repetition, confusion, and missed opportunity.
 
 The platform should turn scholarship applications from a scattered, exhausting process into an intelligent application workspace where the student's profile, documents, goals, achievements, financial background, academic history, mobility goals, target countries, and personal story are reused strategically across multiple scholarship opportunities.
@@ -453,7 +455,6 @@ The AI must never fabricate:
 
 - grades
 - certificates
-- awards
 - publications
 - leadership positions
 - financial hardship
@@ -527,7 +528,8 @@ Core entities may include:
 
 Important modeling principles:
 
-- scholarships should support both external and platform-hosted application modes
+- scholarships should support both external and platform-hosted application modes (`application_routes` in `DATABASE/db.md` → Study Catalogue Tables)
+- scholarships link to programmes, universities or countries (`scholarship_links`)
 - each question should be stored as a first-class structured record
 - generated answers should be versioned
 - generated answers should store source profile facts used

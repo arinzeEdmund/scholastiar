@@ -61,7 +61,7 @@ Components should be domain-specific, reusable, and consistent.
 
 - JobCard
 - JobFilters
-- VisaSponsorshipBadge
+- WorkEligibilityBadge
 - CandidateFitScore
 - CandidateProfileSummary
 - ApplicationTimeline
@@ -164,7 +164,7 @@ Import from `@/lib/actions/auth` or define locally in the actions file. Every mu
 - Prefer Server Components for static/data-read surfaces.
 - Keep form components accessible with labels, validation text, and focus states.
 - Use lucide-react icons where possible.
-- Use the shared `OpportunityCard` pattern for jobs, universities, scholarships, fellowships, grants, competitions, conferences/training, and awards.
+- Use the shared `OpportunityCard` pattern for jobs, universities and scholarships.
 - Opportunity cards must show application effort, success/fit score, save action, direct apply action when available, and board actions for AI Apply Agent or Apply For Me when allowed by subscription.
 - Opportunity success scores must include responsible tooltip copy and must not imply guaranteed outcomes.
 - Mobile web/PWA screens must support bottom navigation, sticky action bars, install prompts, offline-aware states, and push permission flows where relevant.

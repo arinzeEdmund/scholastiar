@@ -38,13 +38,13 @@ This is infrastructure for the future of international employability.
 
 # Project Overview
 
-Scholastiar.ai is an AI-powered international opportunity and mobility platform designed to eliminate the friction, repetition, and complexity of applying for cross-border jobs, universities, scholarships, fellowships, grants, competitions, conferences, awards, and migration support.
+Scholastiar.ai is an AI-powered international opportunity and mobility platform designed to eliminate the friction, repetition, and complexity of applying for cross-border jobs, universities and scholarships, and migration support.
 
 The platform combines:
 
 * AI-generated CV creation
 * AI-assisted application answering
-* visa-sponsored job discovery
+* student job and post-study job discovery
 * employer recruitment infrastructure
 * intelligent candidate ranking
 * PersonalityAI CV video profiles
@@ -62,7 +62,7 @@ Core opportunity principle:
 
 > Every major opportunity on Scholastiar.ai should help a user move toward a better life across borders.
 
-Jobs, scholarships, universities, grants, fellowships, awards, competitions, conferences, and future opportunity services must be treated as international mobility pathways, not isolated listings. Each service should help users understand how an opportunity can help them travel abroad, migrate from one country to another, access greener pastures, build global credibility, secure funding, gain legal/visa clarity, and move closer to the country or region where they want to study, work, build, or grow.
+Jobs, scholarships, universities, and future school-related services must be treated as international mobility pathways, not isolated listings. Each service should help users understand how an opportunity can help them travel abroad, migrate from one country to another, access greener pastures, build global credibility, secure funding, gain legal/visa clarity, and move closer to the country or region where they want to study, work, build, or grow.
 
 ---
 
@@ -72,22 +72,20 @@ Scholastiar.ai is now planned as one unified opportunity and mobility platform.
 
 Build all major services as part of one product, but implement them strictly one after another in this order:
 
-1. Jobs
-2. Universities
-3. Scholarships
-4. Fellowships
-5. Grants
-6. Competitions
-7. Conferences / Training
-8. Awards
-9. AI Apply Agent
-10. Apply For Me
-11. Discovery Engine
-12. Migration Agencies
+1. Universities
+2. Scholarships
+3. AI Apply Agent
+4. Apply For Me
+5. Discovery Engine
+6. Relocation
+7. Migration Agencies
+8. Jobs (Pro-only job connections in the candidate dashboard; moved last on 2026-10-07)
 
 Shared platform systems such as auth, onboarding, profiles, documents, AI CV generation, AI-assisted applications, application tracking, employer/provider infrastructure, candidate ranking, messaging, notifications, billing, analytics, admin operations, and security/RLS should be built when the active ordered service needs them.
 
-Do not treat universities, scholarships, grants, fellowships, awards, competitions, conferences, AI Apply Agent, Apply For Me, Discovery Engine, or migration agencies as separate future versions. They are all part of the same unified platform plan.
+Build strategy: UI first. The entire platform UI is built and made fully functional against a mock data layer before any backend work begins. Then the backend is wired in behind the same interfaces, in the same order. See `STRUCTURE/BUILD_GUIDE/UI_FIRST_BUILD_PLAN.md`.
+
+Do not treat universities, scholarships, AI Apply Agent, Apply For Me, Discovery Engine, or migration agencies as separate future versions. They are all part of the same unified platform plan.
 
 
 # The Problem Being Solved
@@ -97,7 +95,7 @@ Modern job applications are repetitive, exhausting, fragmented, and psychologica
 International applicants face additional problems:
 
 * visa uncertainty
-* sponsorship anxiety
+* uncertainty about study visa work rules and post-study permits
 * regional CV differences
 * lack of visibility
 * cultural barriers
@@ -468,9 +466,9 @@ The discovery engine should NOT behave like a traditional job board.
 
 The platform should proactively surface:
 
-* compatible jobs
-* sponsorship-friendly employers
-* relocation-friendly opportunities
+* compatible student jobs that fit the user's study visa working hours
+* post-study jobs where the employer sponsors the graduate's work visa
+* student-friendly employers
 * regionally appropriate roles
 
 based on:
@@ -482,7 +480,7 @@ based on:
 * preferred destinations
 * and work history.
 
-Listings with visa sponsorship must be clearly distinguished.
+Jobs are a Pro-plan feature inside the candidate dashboard, not a headline service and never a promise of employment (decided 2026-10-07): Pro candidates can get connected to job openings employers post; Starter candidates see Jobs and Post-study jobs locked with an upgrade prompt; there is no public job board. Jobs cover student jobs and post-study jobs only (decided 2026-10-01; see `STRUCTURE/SERVICES/14-jobs.md`). Student jobs must clearly show whether they fit the user's study visa working hours. Post-study jobs are jobs after graduation where the employer sponsors the graduate's work visa; every post-study listing must clearly show employer-confirmed sponsorship, the visa route, and whether the graduate can start on a post-study permit.
 
 ---
 
@@ -496,7 +494,7 @@ Employers should receive:
 * filtering systems
 * messaging infrastructure
 * PersonalityAI CV previews
-* sponsorship indicators
+* work eligibility indicators (study visa hours, graduate visa sponsorship)
 
 Employers should never feel overwhelmed by raw applications. 
 
@@ -658,7 +656,7 @@ Core entities include:
 * application answers
 * messages
 * notifications
-* sponsorship metadata
+* work eligibility metadata
 * and onboarding intelligence.
 
 Design normalized schemas carefully.

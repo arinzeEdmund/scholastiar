@@ -14,10 +14,9 @@ It should support:
 - promoted visa-sponsored jobs
 - featured employer profiles
 - sponsored university programs
-- sponsored scholarship/fellowship/grant listings
+- sponsored scholarship listings
 - featured migration agency profiles
 - sponsored training programs
-- sponsored conference, competition, and award listings
 - newsletter sponsorships
 - sponsored articles/guides
 - country page sponsorships
@@ -86,7 +85,7 @@ Universities can sponsor:
 
 ### Opportunity Providers
 
-Scholarship, grant, fellowship, competition, conference, training, and award providers can sponsor:
+Scholarship providers can sponsor:
 
 - verified opportunity listings
 - deadline campaigns
@@ -182,11 +181,6 @@ Possible placements:
 Applies to:
 
 - scholarships
-- fellowships
-- grants
-- competitions
-- conferences/training
-- awards
 
 Purpose:
 

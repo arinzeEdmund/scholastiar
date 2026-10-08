@@ -19,9 +19,8 @@ Purpose: Public pricing page for candidates and employers.
 Sections:
 
 - candidate plans
+- detailed feature comparison (from `plan_comparison_rows`): grouped by Find and organise, AI preparation, Applying and tracking, Signia and documents, Support; each row has a one-line description and a real value per plan ("Standard monthly credits" vs "Higher limits"); sticky plan headers with prices and "Choose" actions; Pro column highlighted; "All features / Only differences" switch; on mobile a plan switcher with a readable list and "Pro only" markers
 - employer plans
-- AI generation limits
-- feature comparison
 - FAQ
 
 ## Candidate Pages
@@ -46,6 +45,8 @@ Sections:
 Route: `/billing/checkout`
 
 Purpose: Complete plan purchase or upgrade.
+
+Payment methods (every checkout on the platform, decided 2026-10-02): **Card** (Stripe), **Local payment** (Paystack, Flutterwave) and **Crypto** (Cryptomus first): choose asset and network, price locked for 15 minutes, wallet address and QR code, live status (awaiting payment → confirming → paid), re-quote when expired. See `SERVICES/103-billing-subscriptions.md`.
 
 ## Employer Pages
 

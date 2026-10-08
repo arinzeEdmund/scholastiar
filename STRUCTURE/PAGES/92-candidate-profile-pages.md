@@ -76,7 +76,7 @@ Purpose: Manage skills, proficiency, tools, certifications, and endorsements lat
 
 Route: `/profile/visa`
 
-Purpose: Manage sponsorship needs, relocation preferences, and work authorization.
+Purpose: Manage study status, study visa work conditions, post-study permit, sponsorship need after graduating and target countries.
 
 ### Job Preferences Page
 
@@ -113,7 +113,7 @@ Key sections:
 - skills
 - experience
 - education
-- visa/sponsorship indicators
+- work eligibility indicators
 - compatibility report
 - application answers
 

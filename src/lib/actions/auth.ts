@@ -1,153 +1,180 @@
-'use server';
+"use server";
 
-import { redirect } from 'next/navigation';
-import { z } from 'zod';
-import { createClient } from '@/lib/supabase/server';
-import type { ActionResult } from '@/types/database';
+import { revalidatePath } from "next/cache";
+import { z } from "zod";
 
-const signInSchema = z.object({
-  email: z.string().trim().email('Enter a valid email address.'),
-  password: z.string().min(1, 'Enter your password.'),
-  next: z.string().optional(),
-});
+import { repos } from "@/data";
+import { fail, ok, type ActionResult } from "@/lib/actions/result";
+import { nextStepFor } from "@/lib/auth-flow";
+import { isMock } from "@/lib/env";
+import { notify } from "@/lib/messages/notify";
+import { toE164 } from "@/lib/phone";
+import { endSession, getSession, startSession } from "@/lib/session";
+import {
+  forgotPasswordSchema,
+  resetPasswordSchema,
+  signInSchema,
+  signUpSchema,
+  type ForgotPasswordInput,
+  type ResetPasswordInput,
+  type SignInInput,
+  type SignUpInput,
+} from "@/lib/validation/auth";
 
-const signUpCandidateSchema = z.object({
-  full_name: z.string().trim().min(2, 'Enter your full name.'),
-  email: z.string().trim().email('Enter a valid email address.'),
-  password: z.string().min(8, 'Use at least 8 characters for your password.'),
-  country: z.string().trim().optional(),
-});
+// Phase A auth actions against the mock auth store. Phase B: Supabase Auth.
 
-const signUpEmployerSchema = z.object({
-  full_name: z.string().trim().min(2, 'Enter your full name.'),
-  company_name: z.string().trim().min(2, 'Enter your company name.'),
-  email: z.string().trim().email('Enter a valid work email address.'),
-  password: z.string().min(8, 'Use at least 8 characters for your password.'),
-});
+const fieldErrors = (error: z.ZodError) => z.flattenError(error).fieldErrors;
 
-const updatePasswordSchema = z.object({
-  password: z.string().min(8, 'Use at least 8 characters for your password.'),
-});
+/** A link the mock "email" would contain; only returned in mock mode so it can be shown on screen. */
+const devLink = (path: string) => (isMock ? path : undefined);
 
-function formValue(formData: FormData, key: string) {
-  const value = formData.get(key);
-  return typeof value === 'string' ? value : undefined;
+export async function signIn(input: SignInInput): Promise<ActionResult<{ redirectTo: string }>> {
+  const parsed = signInSchema.safeParse(input);
+  if (!parsed.success) return fail("Check the highlighted fields.", fieldErrors(parsed.error));
+
+  const userId = await repos.auth.verifyCredentials(parsed.data.email, parsed.data.password);
+  // Same message for unknown email and wrong password, so accounts can't be discovered.
+  if (!userId) return fail("That email and password don't match an account. Check them and try again.");
+
+  await startSession(userId);
+  revalidatePath("/", "layout");
+  return ok({ redirectTo: await nextStepFor(userId) });
 }
 
-function firstValidationError(error: z.ZodError) {
-  return error.issues[0]?.message ?? 'Check the form and try again.';
-}
+export async function signUp(input: SignUpInput): Promise<ActionResult<{ redirectTo: string }>> {
+  const parsed = signUpSchema.safeParse(input);
+  if (!parsed.success) return fail("Check the highlighted fields.", fieldErrors(parsed.error));
+  const data = parsed.data;
 
-function safeNextPath(next?: string) {
-  if (!next || !next.startsWith('/') || next.startsWith('//')) return '/discover';
-  return next;
-}
-
-export async function signInWithEmail(
-  formData: FormData,
-): Promise<ActionResult<{ next: string }>> {
-  const parsed = signInSchema.safeParse({
-    email: formValue(formData, 'email'),
-    password: formValue(formData, 'password'),
-    next: formValue(formData, 'next'),
-  });
-
-  if (!parsed.success) {
-    return { ok: false, error: firstValidationError(parsed.error) };
+  const countries = await repos.reference.listCountries();
+  if (!countries.some((c) => c.iso2 === data.countryCode)) {
+    return fail("Check the highlighted fields.", { countryCode: ["Choose your country from the list."] });
+  }
+  const plan = await repos.billing.getPlan(data.planId);
+  if (
+    !plan ||
+    plan.sales_led ||
+    plan.audience !== (data.accountType === "candidate" ? "candidate" : data.accountType)
+  ) {
+    return fail("Check the highlighted fields.", { planId: ["Choose one of the plans shown."] });
+  }
+  if (await repos.auth.findAccountByEmail(data.email)) {
+    return fail("Check the highlighted fields.", {
+      email: ["An account with this email already exists. Sign in instead, or reset your password."],
+    });
   }
 
-  const { email, password } = parsed.data;
-  const next = safeNextPath(parsed.data.next);
+  const userId = await repos.auth.createAccount({ email: data.email, password: data.password });
 
-  const supabase = await createClient();
-  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-
-  if (error) return { ok: false, error: error.message };
-  if (!data.session) return { ok: false, error: 'Sign in did not complete. Please try again.' };
-
-  return { ok: true, data: { next } };
-}
-
-export async function signUpCandidate(
-  formData: FormData,
-): Promise<ActionResult<{ next: string }>> {
-  const parsed = signUpCandidateSchema.safeParse({
-    full_name: formValue(formData, 'full_name'),
-    email: formValue(formData, 'email'),
-    password: formValue(formData, 'password'),
-    country: formValue(formData, 'country'),
-  });
-
-  if (!parsed.success) {
-    return { ok: false, error: firstValidationError(parsed.error) };
+  if (data.accountType === "candidate") {
+    await repos.users.createProfile({
+      userId,
+      fullName: data.fullName,
+      email: data.email,
+      primaryRole: "candidate",
+      organizationName: null,
+      headline: null,
+      countryCode: data.countryCode,
+    });
+    await repos.users.addRole(userId, "candidate");
+  } else if (data.accountType === "employer") {
+    await repos.users.createProfile({
+      userId,
+      fullName: data.fullName,
+      email: data.email,
+      primaryRole: "employer",
+      organizationName: data.companyName,
+      headline: data.jobTitle,
+      countryCode: data.countryCode,
+    });
+    await repos.users.addRole(userId, "employer_owner");
+    await repos.organizations.createEmployerCompany({
+      name: data.companyName,
+      websiteUrl: data.companyWebsite || null,
+      countryCode: data.countryCode,
+      hiresStudents: data.hiringFocus !== "graduates",
+      sponsorsGraduateWorkVisas: data.hiringFocus !== "students",
+      ownerUserId: userId,
+    });
+  } else {
+    await repos.users.createProfile({
+      userId,
+      fullName: data.fullName,
+      email: data.email,
+      primaryRole: "provider",
+      organizationName: data.organizationName,
+      headline: data.jobTitle,
+      countryCode: data.countryCode,
+    });
+    await repos.users.addRole(userId, "provider_owner");
+    await repos.organizations.createProviderOrganization({
+      name: data.organizationName,
+      organizationType: data.organizationType,
+      websiteUrl: data.organizationWebsite || null,
+      countryCode: data.countryCode,
+      ownerUserId: userId,
+    });
   }
 
-  const { full_name: fullName, email, password, country } = parsed.data;
-
-  const supabase = await createClient();
-  const { error } = await supabase.auth.signUp({
-    email,
-    password,
-    options: {
-      data: { full_name: fullName, primary_role: 'candidate', country },
-      emailRedirectTo: `${process.env.APP_URL}/auth/callback?next=/onboarding`,
-    },
-  });
-
-  if (error) return { ok: false, error: error.message };
-  return { ok: true, data: { next: '/auth/verify-email' } };
-}
-
-export async function signUpEmployer(
-  formData: FormData,
-): Promise<ActionResult<{ next: string }>> {
-  const parsed = signUpEmployerSchema.safeParse({
-    full_name: formValue(formData, 'full_name'),
-    company_name: formValue(formData, 'company_name'),
-    email: formValue(formData, 'email'),
-    password: formValue(formData, 'password'),
-  });
-
-  if (!parsed.success) {
-    return { ok: false, error: firstValidationError(parsed.error) };
+  if (data.whatsapp) {
+    await repos.messages.setWhatsAppConsent(userId, {
+      phoneE164: toE164(data.whatsapp),
+      optedIn: true,
+      source: "sign_up",
+    });
   }
-
-  const { full_name: fullName, email, password, company_name: companyName } = parsed.data;
-
-  const supabase = await createClient();
-  const { error } = await supabase.auth.signUp({
-    email,
-    password,
-    options: {
-      data: { full_name: fullName, primary_role: 'employer', company_name: companyName },
-      emailRedirectTo: `${process.env.APP_URL}/auth/callback?next=/employers/onboarding`,
-    },
-  });
-
-  if (error) return { ok: false, error: error.message };
-  return { ok: true, data: { next: '/auth/verify-email' } };
+  await repos.billing.startSubscription(userId, plan.id);
+  await notify("account.created", { userId });
+  await startSession(userId);
+  revalidatePath("/", "layout");
+  return ok({ redirectTo: "/billing/checkout" });
 }
 
-export async function updatePassword(
-  formData: FormData,
-): Promise<ActionResult<{ next: string }>> {
-  const parsed = updatePasswordSchema.safeParse({
-    password: formValue(formData, 'password'),
-  });
-
-  if (!parsed.success) {
-    return { ok: false, error: firstValidationError(parsed.error) };
-  }
-
-  const supabase = await createClient();
-  const { error } = await supabase.auth.updateUser({ password: parsed.data.password });
-
-  if (error) return { ok: false, error: error.message };
-  return { ok: true, data: { next: '/discover' } };
+export async function signOut(): Promise<ActionResult<{ redirectTo: string }>> {
+  await endSession();
+  revalidatePath("/", "layout");
+  return ok({ redirectTo: "/" });
 }
 
-export async function signOut(): Promise<void> {
-  const supabase = await createClient();
-  await supabase.auth.signOut();
-  redirect('/auth/sign-in');
+export async function requestPasswordReset(input: ForgotPasswordInput): Promise<ActionResult<{ devLink?: string }>> {
+  const parsed = forgotPasswordSchema.safeParse(input);
+  if (!parsed.success) return fail("Check your email address.", fieldErrors(parsed.error));
+
+  const account = await repos.auth.findAccountByEmail(parsed.data.email);
+  if (!account) return ok({}); // Same response either way, so accounts can't be discovered.
+  const token = await repos.auth.issueToken(account.user_id, "reset_password");
+  await notify(
+    "password.reset_requested",
+    { userId: account.user_id },
+    { link: `/auth/reset-password?token=${token}` },
+  );
+  return ok({ devLink: devLink(`/auth/reset-password?token=${token}`) });
+}
+
+export async function resetPassword(input: ResetPasswordInput): Promise<ActionResult<undefined>> {
+  const parsed = resetPasswordSchema.safeParse(input);
+  if (!parsed.success) return fail("Check the highlighted fields.", fieldErrors(parsed.error));
+
+  const userId = await repos.auth.consumeToken(parsed.data.token, "reset_password");
+  if (!userId) return fail("This reset link has expired or was already used. Request a new one.");
+  await repos.auth.updatePassword(userId, parsed.data.password);
+  // A reset link proves the person controls the email address.
+  await repos.auth.markEmailVerified(userId);
+  await notify("password.changed", { userId });
+  return ok(undefined);
+}
+
+export async function resendVerificationEmail(): Promise<ActionResult<{ devLink?: string }>> {
+  const session = await getSession();
+  if (!session) return fail("Sign in to resend the verification email.");
+  const account = await repos.auth.getAccount(session.user.user_id);
+  if (!account) return fail("We couldn't find your account. Sign in again.");
+  if (account.email_verified_at) return fail("Your email is already verified.");
+  const token = await repos.auth.issueToken(session.user.user_id, "verify_email");
+  await notify(
+    "email.verification_sent",
+    { userId: session.user.user_id },
+    { link: `/auth/verify-email/confirm?token=${token}` },
+  );
+  return ok({ devLink: devLink(`/auth/verify-email/confirm?token=${token}`) });
 }

@@ -21,8 +21,7 @@ Status: Role matrix
 
 Can:
 
-- view public pages
-- view limited public jobs
+- view public pages (no job listings: jobs are Pro only, inside the dashboard)
 - sign up/sign in
 
 Cannot:
@@ -38,7 +37,7 @@ Can:
 - manage own profile
 - upload own documents
 - generate CVs
-- apply to jobs
+- apply to jobs (Pro plan only; Starter sees Jobs locked with an upgrade prompt)
 - view own applications
 - message employers through applications
 
@@ -63,6 +62,30 @@ Viewer can:
 
 - view assigned jobs/applications
 - not mutate key records
+
+## Relocation Roles (2026-10-02)
+
+Pilot:
+
+- status Applicant → Verified (freelance) → Staff (set by an admin; employment is handled by management off-platform)
+- sees and manages only their own bookings, cohorts and (staff only) assigned Year Check-in cases
+- sees only their own referral code, referred students' membership status (not their cases) and their own commissions and award results; cannot see vote counts or who voted
+
+Housing provider owner / member:
+
+- manages their listings, availability, bookings, contracts and payouts
+
+Settlement staff:
+
+- processes payout tasks in their country, uploads proof; a second approver is required above the threshold
+
+Case handler:
+
+- triages and manages Year Check-in support cases
+
+Rules editor:
+
+- proposes changes to country rules, embassies, cities and schools for assigned countries; admins approve, publish and activate
 
 ## Admin Roles
 

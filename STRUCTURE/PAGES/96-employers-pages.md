@@ -6,7 +6,7 @@ Source service specs: `SERVICES/97-employers.md`, `SERVICES/98-candidate-ranking
 
 ## Page System Vision
 
-Employer pages should help hiring teams post jobs, review ranked candidates, communicate, and manage sponsorship-aware pipelines without recruiter fatigue.
+Employer pages should help hiring teams post jobs, review ranked candidates, communicate, and manage work-eligibility-aware pipelines for student hiring and graduate sponsorship without recruiter fatigue.
 
 Signia should be part of the employer product as a deep search and evidence review layer for candidate projects, media, documents, social links, and professional proof.
 
@@ -22,7 +22,7 @@ Key sections:
 
 - hiring value proposition
 - AI ranking
-- visa sponsorship indicators
+- work eligibility indicators (student hours, graduate sponsorship needs)
 - PersonalityAI CV preview
 - Signia proof-of-work search
 - pricing CTA
@@ -51,7 +51,7 @@ Key sections:
 - Signia evidence highlights
 - pipeline summary
 - recent messages
-- visa complexity alerts
+- work eligibility alerts (hours above a student's recorded limit, permit validity)
 
 ### Company Profile Page
 
@@ -66,7 +66,7 @@ Sections:
 - industry
 - locations
 - website
-- sponsorship policy
+- hires students / sponsors graduate work visas
 - benefits
 
 ### Employer Job Listings Page
@@ -123,11 +123,11 @@ Route: `/employers/settings`
 
 Purpose: Company account, notifications, billing shortcuts, and privacy settings.
 
-### Visa Complexity Page
+### Work Eligibility Page
 
-Route: `/employers/visa-complexity`
+Route: `/employers/work-eligibility`
 
-Purpose: Reference tool for sponsorship complexity by nationality and destination.
+Purpose: Reference for typical study visa working hours, graduate work visa routes and post-study permits by country, so employers set hours and sponsorship details correctly. Guidance, not legal advice; employers still carry out right-to-work checks.
 
 ## Admin Pages
 
@@ -151,7 +151,7 @@ Purpose: Manage employer accounts, verification, abuse, and support.
 - `/employers/screening-questions`
 - `/employers/team`
 - `/employers/settings`
-- `/employers/visa-complexity`
+- `/employers/work-eligibility`
 - `/admin/employers`
 
 ## Page Priority
@@ -174,4 +174,4 @@ Purpose: Manage employer accounts, verification, abuse, and support.
 - Screening Question Library Page
 - Employer Signia Search Page
 - Employer Team Settings Page
-- Visa Complexity Page
+- Work Eligibility Page

@@ -4,6 +4,8 @@ Status: Unified Platform Service
 
 ## Feature Vision
 
+Study catalogue (draft 2026-10-07): Universities is built around a public, searchable catalogue of thousands of programmes (foundation to PhD, including PGD and short courses) and their universities, with three apply routes — hosted on Scholastiar, partner, or the official university page (reached only from inside the app). See `SERVICES/21-study-catalogue.md`, which takes precedence over this file where they differ.
+
 Scholastiar.ai Universities is a future global admissions and study-abroad mobility operating system for international students.
 
 The platform should become a one-stop place where students can discover, compare, prepare for, apply to, and communicate with universities around the world without moving between scattered school websites, agencies, email threads, PDFs, embassy pages, social media messages, and unreliable information sources.
@@ -153,11 +155,7 @@ University profiles should include:
 - official photos
 - campus videos
 - student vlog links
-- official website
-- admissions email
-- phone numbers
-- WhatsApp or Telegram contacts when available
-- social media handles
+- official website, admissions email, phone numbers, WhatsApp or Telegram contacts and social media handles — shown to signed-in students only, never on public pages (decided 2026-10-07)
 - programs offered
 - tuition by program
 - admission requirements
@@ -361,7 +359,6 @@ It must not invent:
 - publications
 - research experience
 - language scores
-- awards
 - achievements
 - financial documents
 
@@ -519,7 +516,7 @@ Core entities may include:
 
 Important modeling principles:
 
-- separate universities from programs
+- separate universities from programs (tables in `DATABASE/db.md` → Study Catalogue Tables)
 - separate program tuition from university-level data
 - support country-specific requirement schemas
 - store source URLs and verification timestamps for university data
@@ -551,7 +548,7 @@ Important UX surfaces:
 - family or sponsor view
 - human support request flow
 - translation request flow
-- pre-departure checklist
+- pre-departure checklist — delivered by Relocation: accepting an offer starts a relocation journey with Pre-Arrival and Post-Arrival Processes (`12-relocation.md`)
 
 Premium UX features:
 
@@ -717,6 +714,9 @@ Recommended starting point: Study In Russia.
 
 Build:
 
+- public study catalogue: programme search, programme pages, level and field landing pages (`SERVICES/21-study-catalogue.md`)
+- the three apply routes (hosted, partner, official) with tracked outbound links
+
 - country study hub
 - curated Russian university directory
 - university profile pages
@@ -769,20 +769,17 @@ Build:
 
 ### Phase 5: Expansion By Country
 
-Expand to:
+Expand to, in this order (decided 2026-10-07):
 
 - Belarus
 - Kazakhstan
-- Turkey
-- China
-- Poland
-- Germany
-- France
+- Moldova
+- Georgia
+- Armenia
 - UAE
-- UK
-- USA
-- Canada
-- Australia
+- Saudi Arabia
+- Qatar
+- Kuwait
 
 Each country should have its own study hub, requirements model, visa guidance, and application workflows.
 

@@ -22,6 +22,36 @@ inside one connected experience.
 
 ## Public Discovery Pages
 
+Study catalogue (draft 2026-10-07): the public pages below are indexed by search engines and work for visitors. Fit scores, eligibility, saving and applying need a signed-in Starter or Pro account. See `SERVICES/21-study-catalogue.md`.
+
+### Programme Search Page
+
+Route: `/programs`
+
+Purpose: Public search across every programme in the catalogue — foundation, diploma, bachelor's, medicine, PGD, master's, PhD, language and short courses — plus universities and scholarships.
+
+Key sections:
+
+- search box (programme, subject or university)
+- category tabs with counts: All · Foundation · Diploma · Bachelor's · Medicine · PGD / PGCert · Master's · PhD · Language courses · Short courses · Universities · Scholarships
+- filters: level, field, country, city, tuition range, scholarships available, fully funded only, intake month, deadline, duration, language of instruction, study mode, full-time or part-time, minimum qualification, English test accepted, verified only
+- sort: best fit (signed in), relevance, deadline soonest, tuition low to high, recently updated
+- result count and active filter chips
+- programme cards: programme name, award, university, city and country, duration, tuition, next intake and deadline, language, on campus / online / blended badge, linked scholarships, verification badge; fit score and save when signed in, a locked fit score preview for visitors
+- empty state with suggestions to widen filters
+
+Primary actions:
+
+- open programme
+- save (sign in prompt for visitors)
+- compare (signed in)
+
+### Programme Landing Pages
+
+Routes: `/programs/[levelSlug]`, `/programs/[levelSlug]/[fieldSlug]`
+
+Purpose: Search-engine entry pages such as "Master's degrees" or "Master's in Data Science", showing the programme search pre-filtered, a short official-source-based introduction, top countries, linked scholarships and related fields. Indexed only with at least 10 live listings.
+
 ### Universities Home Page
 
 Route: `/universities`
@@ -161,11 +191,7 @@ Key sections:
 - official photos
 - campus videos
 - student vlog links
-- official website
-- admissions email
-- phone numbers
-- WhatsApp or Telegram contacts when available
-- social handles
+- official website, admissions email, phone numbers, WhatsApp or Telegram contacts and social handles — signed-in students only; never on the public page (`SERVICES/21-study-catalogue.md`)
 - verified profile badge/status
 - programs offered
 - tuition by program
@@ -197,7 +223,16 @@ Primary actions:
 
 Route: `/universities/[universitySlug]/programs/[programSlug]`
 
-Purpose: Show details for a specific program at a university.
+Purpose: Show details for a specific program at a university. Public and indexed; MVP (draft 2026-10-07).
+
+Apply button by route (`SERVICES/21-study-catalogue.md` → The Apply Button):
+
+- Hosted: "Apply on Scholastiar"
+- Partner: "Apply with Scholastiar" (no partner label or fee notice)
+- Official: "Prepare and apply" (preparation step inside the app, then the official application page through a tracked link)
+- Visitors: every variant leads to sign-up and returns here
+
+Also shows: linked scholarships, "last checked" date and verification badge, "Report incorrect information", and the locked sign-up prompts (fit score, eligibility, document readiness, funding, total cost, visa and arrival steps, AI help). No link to the university's website or application page on the public page.
 
 Example: Medicine at Kazan Federal University.
 
@@ -1034,8 +1069,12 @@ Primary actions:
 
 For the first country MVP, do not build all pages immediately.
 
-Start with:
+Start with (routes as in `BUILD_GUIDE/ROUTES.md`):
 
+- `/programs`
+- `/programs/[levelSlug]`
+- `/programs/[levelSlug]/[fieldSlug]`
+- `/universities/[universitySlug]/programs/[programSlug]`
 - `/universities`
 - `/universities/countries/[countrySlug]`
 - `/universities/search`
@@ -1058,6 +1097,9 @@ This gives the product enough shape to feel real and premium without trying to b
 
 ### MVP Priority
 
+- Programme Search Page
+- Programme Landing Pages
+- Program Detail Page
 - Universities Home Page
 - Country Study Hub Page
 - University Directory Page
@@ -1076,7 +1118,6 @@ This gives the product enough shape to feel real and premium without trying to b
 
 ### Phase 2 Priority
 
-- Program Detail Page
 - AI Application Review Page
 - Single Application Builder Page
 - Translation Services Page

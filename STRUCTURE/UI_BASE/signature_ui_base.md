@@ -71,7 +71,7 @@ Scholastiar.ai adaptation:
 - use the search-first structure, but make it global mobility-first
 - replace generic job categories with opportunity/migration categories
 - show `application time`, `success score`, `mobility fit`, and `deadline`
-- make cards work across jobs, universities, scholarships, fellowships, grants, competitions, conferences, awards, and agencies
+- make cards work across jobs, universities, scholarships and agencies
 - use tabs for "Best matches", "Fast apply", "Visa support", "Fully funded", "High readiness", and "Deadline soon"
 
 Do not copy:
@@ -97,7 +97,7 @@ Useful patterns:
 Scholastiar.ai adaptation:
 
 - create country-specific trust pages for applicants in Africa, Asia, Latin America, the Middle East, and other high-mobility markets
-- use quick links for common searches like `Canada visa-sponsored jobs`, `Germany scholarships`, `UK care jobs`, `fully funded fellowships`, and `travel-funded conferences`
+- use quick links for common searches like `Toronto student jobs`, `Germany scholarships`, `fully funded scholarships`, and `UK universities`
 - convert experience-level browsing into readiness-level browsing
 - make "complete your profile" a major conversion path
 - promote AI tools as useful execution help, not a gimmick
@@ -194,7 +194,7 @@ Example:
 ```txt
 Find opportunities that can move you abroad
 [Role, program, scholarship, keyword] [Destination country] [Opportunity type] [Search]
-Canada jobs  Germany scholarships  UK care sponsorship  Fully funded conferences
+Germany scholarships  UK universities  Fully funded scholarships  Study in Canada
 ```
 
 Design notes:
@@ -237,8 +237,8 @@ Primary action      Secondary board actions
 
 Card behavior:
 
-- free users see basic score preview
-- paid users see full score reasoning
+- visitors and users without a plan see a basic score preview
+- subscribers see full score reasoning
 - blocked actions should explain the plan requirement
 - sponsored cards must be clearly labeled
 
@@ -727,8 +727,8 @@ Add to Apply For Me
 
 Plan behavior:
 
-- free users can save limited items
-- paid users unlock deeper boards
+- saving and board limits follow the user's plan (Starter or Pro)
+- Pro unlocks deeper boards
 - unavailable actions explain why
 
 ### Readiness Preview

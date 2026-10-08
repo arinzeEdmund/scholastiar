@@ -6,9 +6,11 @@ Use this file before creating the app scaffold or writing implementation code.
 
 ## Start Decision
 
-Implementation starts with Service 1: Jobs.
+Implementation is UI-first (decided 2026-10-01). See `STRUCTURE/BUILD_GUIDE/UI_FIRST_BUILD_PLAN.md`.
 
-Jobs should be built as the first full vertical slice of the unified opportunity platform, not as an isolated job board.
+Phase A starts with stage U0 Foundation: the app scaffold plus a mock data layer. Then every screen of the platform is built in order. Universities is the first opportunity service and the first full UI journey. Jobs became a Pro-only dashboard feature and the last ordered service (decided 2026-10-07; see `SERVICES/14-jobs.md`).
+
+Supabase, AI provider keys and payment keys are not needed until Phase B.
 
 ## Code Location Decision
 
@@ -94,7 +96,7 @@ Use:
 ## First Launch Product Defaults
 
 - employer job posts require admin approval before public visibility
-- employer signup may start without mandatory work email, but unverified employers cannot publish public jobs
+- employer signup may start without mandatory work email, but unverified employers cannot publish jobs
 - admin MFA is mandatory before public beta and mandatory for production super admin/platform admin access
 - billing can begin with stubbed plan entitlements before checkout UI
 - checkout provider order is Stripe primary, Paystack fallback, Flutterwave fallback/additional rail
@@ -104,27 +106,27 @@ Use:
 
 ## First Build Sequence
 
-1. App scaffold
-2. Design system and base layouts
-3. PWA app shell, manifest, mobile bottom navigation, and offline-aware base states
-4. Supabase client/server utilities
-5. Auth and role routing
-6. RLS foundation
-7. Candidate onboarding/profile essentials
-8. Employer company essentials
-9. Jobs schema and seed data
-10. Admin job moderation
-11. Public job board
-12. Candidate job feed
-13. Universal opportunity card actions
-14. Save/apply flow
-15. Application tracking
-16. Employer applicant review
-17. Basic AI fit/CV/application support
+### Phase A — UI Build (stage U0, then U1 → U18 per `UI_FIRST_BUILD_PLAN.md`)
+
+1. App scaffold (Next.js, TypeScript, Tailwind, shadcn/ui, lint, format)
+2. Design tokens and base components from `UI_BASE/ux_ui_base.md` and `COMPONENT_SYSTEM.md`
+3. Layout shells for public, candidate, employer, provider, forwarder, office/agency and admin
+4. PWA app shell, manifest, mobile bottom navigation, and offline-aware base states
+5. `src/data` domain types (shaped after `db.md`), repository interfaces, fixtures and the in-memory mock store
+6. Mock session plus the dev role, plan and state switchers
+7. Utility pages and the `/dev/gallery` component gallery
+8. Then the screens, stage by stage, as listed on the UI Screen Board in `PROGRESS_TRACKER.md`
+
+### Phase B — Backend Build (after the UI Freeze gate)
+
+Follow the Phase B stages B0 → B14 in `UI_FIRST_BUILD_PLAN.md`.
 
 ## Stop Conditions
 
 Pause implementation and update planning docs if:
+
+- a screen needs behavior no `SERVICES/` or `PAGES/` spec defines
+- a UI component would need to import fixtures or call Supabase directly instead of going through `src/data`
 
 - RLS ownership rules are unclear
 - a route requires a missing page spec

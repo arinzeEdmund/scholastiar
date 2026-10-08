@@ -46,7 +46,7 @@ Generate role-specific cover letters with human tone and factual grounding.
 
 ### Visa Question Support
 
-Help candidates answer work authorization and sponsorship questions clearly and consistently.
+Help candidates answer right-to-work questions (study visa hours, post-study permit, sponsorship needed) clearly and consistently, from what they recorded.
 
 ### Competency Answer Builder
 

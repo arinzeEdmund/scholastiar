@@ -23,13 +23,13 @@ Traditional signup forms fail because they:
 - do not personalize future applications
 - force users to repeat themselves later
 
-International applicants especially need onboarding that captures sponsorship needs, relocation goals, regional CV context, language ability, and career direction.
+International applicants especially need onboarding that captures study status, study visa work conditions, post-study permit plans, relocation goals, regional CV context, language ability, and career direction.
 
 ## Target Users
 
 - candidates
 - international job seekers
-- visa-sponsored applicants
+- international students and post-study graduates
 - early-career applicants
 - experienced professionals
 - employers indirectly through better candidate data

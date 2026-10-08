@@ -61,7 +61,7 @@ Metrics:
 - time-to-hire
 - candidate source breakdown
 - geographic distribution
-- visa sponsorship demand
+- student job and post-study job demand
 - candidate drop-off
 
 ### Job Analytics Page

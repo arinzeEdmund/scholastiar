@@ -9,13 +9,14 @@ Before building, read from the repository root:
 1. `STRUCTURE/AGENTS.md`
 2. `STRUCTURE/MAP.md`
 3. `STRUCTURE/BUILD_GUIDE/MASTER_BUILD_PLAN.md`
-4. `STRUCTURE/BUILD_GUIDE/MVP_SCOPE.md`
-5. `STRUCTURE/DATABASE/db.md`
-6. `STRUCTURE/UI_BASE/ux_ui_base.md`
-7. relevant service spec in `STRUCTURE/SERVICES/`
-8. relevant page spec in `STRUCTURE/PAGES/`
-9. `STRUCTURE/BUILD_GUIDE/IMPLEMENTATION_START_CHECKLIST.md`
-10. `STRUCTURE/BUILD_GUIDE/PROGRESS_TRACKER.md`
+4. `STRUCTURE/BUILD_GUIDE/UI_FIRST_BUILD_PLAN.md` (active build strategy)
+5. `STRUCTURE/BUILD_GUIDE/MVP_SCOPE.md`
+6. `STRUCTURE/DATABASE/db.md`
+7. `STRUCTURE/UI_BASE/ux_ui_base.md`
+8. relevant service spec in `STRUCTURE/SERVICES/`
+9. relevant page spec in `STRUCTURE/PAGES/`
+10. `STRUCTURE/BUILD_GUIDE/IMPLEMENTATION_START_CHECKLIST.md`
+11. `STRUCTURE/BUILD_GUIDE/PROGRESS_TRACKER.md`
 
 ## Scope Rules
 
@@ -27,24 +28,40 @@ Before building, read from the repository root:
 - If a change cannot be verified end to end quickly, split it.
 - Do not infer or invent product behavior that is not defined in the specs.
 
+## Build Phase Rules
+
+The project is built UI-first. Check `PROGRESS_TRACKER.md` for the current phase and stage before writing code.
+
+Phase A — UI Build:
+
+- Build one screen at a time, in the stage order in `UI_FIRST_BUILD_PLAN.md`.
+- Pages and components read and write only through `src/data` repositories and `src/lib/actions`. They never import fixtures and never call Supabase.
+- Keep production contracts even when the data is mocked: Zod validation, `ActionResult<T>`, toast feedback, Server Components where production would use them.
+- Shape domain types after `DATABASE/db.md`. If a screen needs a field `db.md` lacks, add it to `db.md` in the same session.
+- Simulate AI, uploads, payments, realtime and email with the documented stand-ins. Never add real provider calls in Phase A.
+- Dev switchers and the mock layer must only be active when `DATA_SOURCE=mock`.
+- A screen is done only when it meets the Definition Of UI Done. Update its row on the UI Screen Board.
+
+Phase B — Backend Build:
+
+- Do not start before the UI Freeze gate is checked off in `PROGRESS_TRACKER.md`.
+- Wire one domain at a time by implementing `src/data/supabase/<domain>` against the existing interface. Avoid reworking screens.
+- All architecture invariants, RLS rules and AI rules below apply in full.
+
 ## Unified Service Sequence
 
-1. Jobs
-2. Universities
-3. Scholarships
-4. Fellowships
-5. Grants
-6. Competitions
-7. Conferences / Training
-8. Awards
-9. AI Apply Agent
-10. Apply For Me
-11. Discovery Engine
-12. Migration Agencies
+1. Universities
+2. Scholarships
+3. AI Apply Agent
+4. Apply For Me
+5. Discovery Engine
+6. Relocation
+7. Migration Agencies
+8. Jobs (Pro-only job connections in the candidate dashboard; moved last on 2026-10-07)
 
 ## Cross-Border Opportunity Rule
 
-Every opportunity service must support international mobility. Jobs, universities, scholarships, fellowships, grants, competitions, conferences/training, awards, AI application systems, discovery, and migration agencies should help users move toward work abroad, study abroad, funded travel, relocation, migration, international credibility, or a chosen destination country.
+Every opportunity service must support international mobility. Jobs, universities, scholarships, AI application systems, discovery, and migration agencies should help users move toward work abroad, study abroad, funded travel, relocation, migration, international credibility, or a chosen destination country.
 
 ## When To Split Work
 
@@ -133,7 +150,14 @@ After meaningful implementation:
 - run relevant checks/tests
 - explain what changed and what remains
 
-## Before Moving To The Next Service
+## Before Moving To The Next Stage (Phase A)
+
+1. Every screen in the stage meets the Definition Of UI Done in `UI_FIRST_BUILD_PLAN.md`.
+2. Every screen in the stage is marked on the UI Screen Board.
+3. `pnpm build` and lint pass.
+4. Any spec, route or `db.md` changes found while building are written back.
+
+## Before Moving To The Next Service (Phase B)
 
 Before moving on:
 

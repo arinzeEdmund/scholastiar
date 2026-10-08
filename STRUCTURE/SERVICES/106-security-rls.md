@@ -55,6 +55,17 @@ Candidates can access their own profile, documents, CVs, applications, and messa
 
 Employers can only access candidate data through submitted applications or permitted candidate views.
 
+### Relocation Data Protection (2026-10-02)
+
+Relocation holds sensitive data: travel plans and arrival location, health and legal support cases, faith and diet preferences on roommate profiles, payout bank details.
+
+- support cases are visible only to the student, assigned staff (case handler, staff pilot, partner lawyer) and admins; internal notes and costs are staff-only
+- pilots see only the students on their bookings and cohorts, and only what the service needs (name, meeting point, contact during the service)
+- roommate private fields (faith, diet) are hidden unless the student chooses to show them; they are never used for matching or recommendations without that choice
+- community submissions are hidden until an admin approves them
+- payout bank details are encrypted and visible only to settlement staff
+- rules editors can propose changes for their country; only admins publish and activate
+
 ### Employer Data Protection
 
 Employer members can only access their company data based on membership and role.

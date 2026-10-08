@@ -52,7 +52,7 @@ OPENAI_MODEL=gpt-5.5
 OPENAI_REASONING_MODEL=gpt-5.5
 ```
 
-Use the general model for ordinary drafting, summaries, and lightweight matching. Use the reasoning model for higher-stakes scoring explanations, application review, grant/fellowship/scholarship reasoning, and admin review assistance.
+Use the general model for ordinary drafting, summaries, and lightweight matching. Use the reasoning model for higher-stakes scoring explanations, application review, scholarship reasoning, and admin review assistance.
 
 Do not hardcode model IDs in business logic. Read them from environment variables so the platform can upgrade or fail over when provider model lineups change.
 
@@ -96,7 +96,7 @@ Output:
 - fit score
 - strengths
 - gaps
-- sponsorship compatibility
+- work eligibility (study visa hours, graduate visa sponsorship)
 - recommended application angle
 
 ### Generate CV
@@ -135,7 +135,7 @@ Output:
 - score
 - strengths
 - concerns
-- visa/sponsorship notes
+- visa work conditions and permit notes
 - explanation
 
 ### Message Draft

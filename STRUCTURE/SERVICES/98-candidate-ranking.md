@@ -34,19 +34,19 @@ Employers receive applications that are hard to compare because:
 
 ### Candidate Fit Score
 
-Score applicants against job requirements, skills, experience, seniority, location, and sponsorship needs.
+Score applicants against job requirements, skills, experience, location, available hours and work eligibility.
 
 ### AI Candidate Summary
 
 Generate a short recruiter-friendly summary of strengths, risks, and fit.
 
-### Sponsorship Indicators
+### Work Eligibility Indicators
 
-Show work authorization and visa-related compatibility signals.
+Show each applicant's study status, available hours within their study visa conditions, or post-study permit, its expiry and the sponsored visa they need, as the applicant recorded them.
 
 ### Applicant Sorting And Filtering
 
-Employers filter by fit score, skills, visa status, location, PersonalityAI CV, Signia proof-of-work depth, and pipeline stage.
+Employers filter by fit score, skills, study or permit status, available hours, location, PersonalityAI CV, Signia proof-of-work depth, and pipeline stage.
 
 ### Human Decision Layer
 
@@ -60,7 +60,7 @@ Ranking should support decisions, not make final hiring decisions.
 - experience relevance analysis
 - screening answer assessment
 - Signia project and skill-evidence assessment
-- visa/sponsorship compatibility explanation
+- work eligibility explanation
 - recruiter next-step suggestions
 
 ## Data Model Notes

@@ -56,20 +56,22 @@ STRUCTURE/PAGES/[ordered-page-spec].md
 
 Build the platform as one product, but implement services one after another in this order:
 
-1. Jobs
-2. Universities
-3. Scholarships
-4. Fellowships
-5. Grants
-6. Competitions
-7. Conferences / Training
-8. Awards
-9. AI Apply Agent
-10. Apply For Me
-11. Discovery Engine
-12. Migration Agencies
+1. Universities
+2. Scholarships
+3. AI Apply Agent
+4. Apply For Me
+5. Discovery Engine
+6. Relocation
+7. Migration Agencies
+8. Jobs (Pro-only job connections in the candidate dashboard; moved last on 2026-10-07)
 
-Do not jump ahead until the current service works end to end within its defined scope.
+The build is **UI-first** (`BUILD_GUIDE/UI_FIRST_BUILD_PLAN.md`):
+
+- **Phase A — UI Build:** every screen of every service is built, one by one, in this order. Each screen is fully interactive against a mock data layer.
+- **UI Freeze gate:** user sign-off on the complete, working UI.
+- **Phase B — Backend Build:** Supabase, RLS, auth, AI, storage, payments and email are wired in behind the same data layer, in the same order.
+
+Do not jump ahead until the current stage meets its definition of done.
 
 ## Folder Guide
 
@@ -95,6 +97,7 @@ Execution guidance for AI agents and developers.
 Key files:
 
 - `MASTER_BUILD_PLAN.md` - unified build order from setup to launch
+- `UI_FIRST_BUILD_PLAN.md` - active build strategy: UI Build phase, UI Freeze gate, Backend Build phase
 - `MVP_SCOPE.md` - launch boundary and service order
 - `ROUTES.md` - canonical route map
 - `DATABASE_IMPLEMENTATION_PLAN.md` - database build order
@@ -125,24 +128,20 @@ Ordered service specs for the unified platform.
 Core opportunity and automation services:
 
 ```txt
-01-jobs.md
 02-universities.md
 03-scholarships.md
-04-fellowships.md
-05-grants.md
-06-competitions.md
-07-conferences-training.md
-08-awards.md
 09-ai-apply-agent.md
 10-apply-for-me.md
 11-discovery-engine.md
-12-migration-agencies.md
+12-relocation.md
+13-migration-agencies.md
+14-jobs.md            (formerly 01; Pro-only, built last)
 ```
 
 Supporting platform services:
 
 ```txt
-20-visa-sponsored-jobs.md
+20-work-eligibility.md
 90-auth.md
 91-onboarding-intelligence.md
 92-candidate-profile.md
@@ -209,7 +208,7 @@ Defines:
 
 ## Build Principle
 
-Scholastiar.ai is now planned as one unified platform. The product is broad, but the work must remain sequential, verified, and service-by-service.
+Scholastiar.ai is now planned as one unified platform. The product is broad, but the work must remain sequential, verified, and service-by-service. The UI is built first for the whole platform, and the backend follows.
 
 For any feature:
 
@@ -219,7 +218,7 @@ For any feature:
 4. Check `STRUCTURE/DATABASE/db.md`.
 5. Check `STRUCTURE/UI_BASE/ux_ui_base.md`.
 6. Check relevant files in `STRUCTURE/BUILD_GUIDE/`.
-7. Build only the current service unit until it works end to end.
+7. Build only the current stage, as listed on the UI Screen Board in `PROGRESS_TRACKER.md` during Phase A or on the Backend Board during Phase B, until it meets its definition of done.
 
 Before creating implementation code, also read:
 

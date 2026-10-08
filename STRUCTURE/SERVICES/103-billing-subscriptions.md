@@ -72,8 +72,27 @@ Payment providers:
 - Stripe: primary global payment provider
 - Paystack: first fallback and African/local payment rail where supported
 - Flutterwave: second fallback and additional Africa/global payment rail
+- **Cryptomus: crypto payments (decided 2026-10-02)** — more crypto providers can be added
 
 Checkout must use a provider abstraction so failed or unavailable providers can fall back to the next eligible provider before payment authorization.
+
+### Crypto At Every Checkout (decided 2026-10-02)
+
+Every checkout on the platform offers three methods: **Card**, **Local payment** and **Crypto** — candidate and organisation plans, Year Check-in, accommodation, pilot services, Apply For Me missions, office services, AI Apply Agent add-ons and sponsored placements.
+
+Crypto flow:
+
+1. the student chooses an asset and network (stablecoins USDT/USDC first; others optional per `payment_provider_configs`)
+2. the provider (Cryptomus) creates an invoice; the price in crypto is **locked for 15 minutes**
+3. the screen shows the amount, wallet address and QR code, and updates live: awaiting payment → confirming → paid
+4. underpaid or expired invoices can be topped up or re-quoted
+5. receipts by email + WhatsApp + in-app; refunds go back in crypto
+
+Provider-agnostic: crypto providers are configured in `payment_provider_configs` (method, regions, assets, priority); checkout reads the enabled providers, so adding a provider needs a new adapter only. Records: `payment_attempts` (method `crypto`) and `crypto_payments`.
+
+### Paying Third Parties (Relocation, decided 2026-10-02)
+
+For accommodation and freelance pilot services the customer always pays Scholastiar, which holds the funds until the service is delivered. Settlement staff in the destination country then pay the provider in local currency through local banks (Russia first) using **payout tasks** with proof of payment, two-person approval above a threshold and reconciliation. See `12-relocation.md` → Payments and Settlement.
 
 ### Usage Tracking
 

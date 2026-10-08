@@ -1,58 +1,61 @@
-import type { Metadata, Viewport } from 'next';
-import { Geist } from 'next/font/google';
-import './globals.css';
+import type { Metadata, Viewport } from "next";
+import { Geist_Mono, Inter } from "next/font/google";
 
-import { TooltipProvider } from '@/components/ui/tooltip';
-import { Toaster } from '@/components/ui/toaster';
-import { QueryProvider } from '@/providers/query-provider';
-import { ServiceWorkerRegistration } from '@/components/pwa/service-worker-registration';
-import { OfflineBanner } from '@/components/pwa/offline-banner';
-import { InstallPrompt } from '@/components/pwa/install-prompt';
-import { PWAUpdateToast } from '@/components/pwa/pwa-update-toast';
+import { DevToolbar } from "@/components/dev/dev-toolbar";
+import { Providers } from "@/components/providers";
+import { InstallPrompt } from "@/components/pwa/install-prompt";
+import { OfflineBanner } from "@/components/pwa/offline-banner";
+import { PWAUpdateToast } from "@/components/pwa/pwa-update-toast";
+import { ServiceWorkerRegistration } from "@/components/pwa/service-worker-registration";
+import { Toaster } from "@/components/ui/toaster";
+import { THEME_COLORS, THEME_INIT_SCRIPT } from "@/lib/theme";
 
-const geist = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
+import "./globals.css";
+
+const inter = Inter({ variable: "--font-inter", subsets: ["latin", "latin-ext"] });
+const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: {
-    default: 'Scholastiar.ai — International Opportunities & Mobility',
-    template: '%s | Scholastiar.ai',
-  },
-  description:
-    'Discover jobs, scholarships, fellowships, grants, and universities that advance your international career and mobility goals.',
-  manifest: '/manifest.webmanifest',
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: 'default',
-    title: 'Scholastiar',
-  },
+  title: { default: "Scholastiar.ai", template: "%s · Scholastiar.ai" },
+  description: "Find universities, scholarships and funding abroad, and apply with AI that knows your profile.",
+  applicationName: "Scholastiar.ai",
+  appleWebApp: { capable: true, title: "Scholastiar", statusBarStyle: "default" },
+  formatDetection: { telephone: false },
 };
 
 export const viewport: Viewport = {
-  themeColor: '#10B65B',
-  width: 'device-width',
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: THEME_COLORS.light },
+    { media: "(prefers-color-scheme: dark)", color: THEME_COLORS.dark },
+  ],
+  width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
+  viewportFit: "cover",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${geist.variable} h-full antialiased`}>
-      <body className="min-h-full bg-background text-foreground">
-        <QueryProvider>
-          <TooltipProvider>
-            <OfflineBanner />
-            {children}
-            <InstallPrompt />
-            <PWAUpdateToast />
-            <Toaster />
-          </TooltipProvider>
-        </QueryProvider>
-        <ServiceWorkerRegistration />
+    // suppressHydrationWarning: the theme script sets the "dark" class before React hydrates.
+    <html lang="en" className={`${inter.variable} ${geistMono.variable} antialiased`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
+      <body className="min-h-dvh">
+        <a
+          href="#main"
+          className="sr-only z-[60] rounded-md bg-card px-3 py-2 text-sm font-medium focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+        >
+          Skip to content
+        </a>
+        <Providers>
+          {children}
+          <OfflineBanner />
+          <InstallPrompt />
+          <ServiceWorkerRegistration />
+          <PWAUpdateToast />
+          <Toaster />
+          <DevToolbar />
+        </Providers>
       </body>
     </html>
   );

@@ -29,7 +29,7 @@ Employers lose track of:
 - applicant review stages
 - candidate communications
 - pipeline bottlenecks
-- sponsorship complexity
+- work eligibility questions
 
 ## Target Users
 

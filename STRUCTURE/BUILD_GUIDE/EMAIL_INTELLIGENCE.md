@@ -228,26 +228,9 @@ Avoid generic sales spam.
 
 ## Plan-Based Email Frequency
 
-### Free
-
-Default:
-
-- weekly opportunity digest
-- deadline reminders
-- limited score previews
-- limited promo emails
+There is no free applicant plan (decided 2026-10-01). Emails to people without a subscription (newsletter subscribers, unfinished sign-ups) are limited to the weekly digest and conversion emails above.
 
 ### Starter
-
-Default:
-
-- weekly digest
-- readiness updates
-- deadline reminders
-- save/apply recommendations
-- document checklist prompts
-
-### Pro
 
 Default:
 
@@ -257,7 +240,7 @@ Default:
 - readiness updates
 - deadline reminders
 
-### Premium
+### Pro
 
 Default:
 
@@ -266,16 +249,6 @@ Default:
 - Apply For Me recommendations
 - deadline planning
 - advanced readiness insights
-
-### Concierge
-
-Default:
-
-- weekly high-touch strategy email
-- human support prompts
-- campaign planning
-- priority reminders
-- migration agency consult suggestions
 
 ## User Preferences
 
@@ -332,7 +305,7 @@ Premium can generate your answers and document checklist.
 ```
 
 ```txt
-This grant may take 3 hours to complete.
+This university application may take 3 hours to complete.
 Delegate it with an Apply For Me campaign pack.
 ```
 

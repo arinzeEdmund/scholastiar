@@ -10,12 +10,7 @@ It should routinely discover and process opportunities across:
 
 - jobs
 - scholarships
-- grants
 - universities
-- fellowships
-- awards
-- competitions
-- conferences and training
 
 This is primarily an admin and operations infrastructure system, not a public user feature first.
 
@@ -39,7 +34,7 @@ The platform needs to solve:
 - outdated deadlines
 - broken application links
 - duplicate listings across many websites
-- fake scholarships, grants, awards, and events
+- fake scholarships and programmes
 - unclear legitimacy of employers, funders, and providers
 - unstructured data that cannot power matching
 - opportunity pages that are too long or poorly formatted
@@ -69,12 +64,7 @@ Secondary platform beneficiaries:
 
 - job seekers
 - scholarship applicants
-- grant applicants
 - university applicants
-- fellowship applicants
-- award applicants
-- competition participants
-- conference/training applicants
 - employers and opportunity providers
 
 ## Core Workflows
@@ -110,21 +100,13 @@ The engine should classify scraped data into:
 - job
 - scholarship
 - university
-- grant
-- fellowship
-- award
-- competition
-- conference/training
 
 It should also detect subtypes.
 
 Examples:
 
 - scholarships: fully funded, partial, tuition waiver, government, university, foundation
-- grants: NGO, startup, research, climate, health, education, arts
-- conferences/training: academic conference, summit, bootcamp, workshop, academy, funded event
-- competitions: hackathon, startup competition, essay competition, case competition, innovation challenge
-- jobs: visa-sponsored, relocation-friendly, remote, graduate role, internship
+- jobs: student (part-time, holiday, campus, internship/placement) and post-study roles
 - universities: public, private, medical, technical, research, English-taught programs
 
 ### Data Extraction
@@ -164,7 +146,7 @@ Jobs should additionally capture:
 - role title
 - employer
 - location
-- visa sponsorship indicators
+- work eligibility indicators (hours, graduate visa sponsorship)
 - salary if available
 - job type
 - requirements
@@ -183,7 +165,7 @@ Universities should additionally capture:
 - deadlines and intakes
 - accreditation or recognition notes
 
-Scholarships, grants, and fellowships should additionally capture:
+Scholarships should additionally capture:
 
 - funding amount
 - coverage
@@ -249,11 +231,6 @@ Suggested roles:
 - scholarship reviewer
 - university reviewer
 - jobs reviewer
-- grants reviewer
-- fellowships reviewer
-- awards reviewer
-- competitions reviewer
-- conferences reviewer
 - data quality reviewer
 
 ### Delegated Admin System
@@ -264,8 +241,7 @@ Examples:
 
 - Scholarship reviewer only reviews scholarships.
 - University reviewer only verifies university profiles.
-- Jobs reviewer checks visa sponsorship and employer legitimacy.
-- Grants reviewer checks funder legitimacy.
+- Jobs reviewer checks stated hours, sponsorship claims and employer legitimacy; post-study jobs need employer-confirmed sponsorship before publishing.
 - Super admin sees and overrides everything.
 
 This keeps operations scalable and controlled.
@@ -378,7 +354,7 @@ Recommended strategy:
 
 1. Source-first crawling: Maintain a registry of trusted and candidate sources instead of randomly crawling the whole web.
 2. Sitemap/RSS/API first: Prefer official APIs, RSS feeds, sitemaps, JSON-LD, and structured data before raw HTML scraping.
-3. Category-specific spiders: Use separate spiders for jobs, scholarships, grants, universities, fellowships, awards, competitions, and conferences.
+3. Category-specific spiders: Use separate spiders for jobs, scholarships and universities.
 4. Domain-specific adapters: Build custom extraction adapters for high-value sources with stable formats.
 5. Generic fallback extractor: Use AI-assisted extraction for unfamiliar pages only after the safer structured methods fail.
 6. Respectful scheduling: Crawl based on source priority, freshness needs, rate limits, and robots/terms constraints.
@@ -441,9 +417,8 @@ Use a priority queue instead of a flat 24-hour cron for everything.
 Suggested crawl frequencies:
 
 - high-priority trusted job sources: every 6-12 hours
-- scholarship/grant/fellowship sources near deadline season: every 12-24 hours
+- scholarship sources near deadline season: every 12-24 hours
 - university pages: weekly or monthly unless monitored for intakes
-- conferences/competitions/awards: every 24-72 hours depending on source activity
 - risky or unknown sources: crawl only when admin-approved
 
 Scheduling factors:
@@ -701,7 +676,7 @@ The Discovery Engine is internal infrastructure, but it enables revenue by power
 - premium verified opportunity database
 - daily updated listings
 - advanced matching
-- fresh scholarship/grant/fellowship/job alerts
+- fresh scholarship/job alerts
 - deadline intelligence
 - verified university profiles
 - employer and provider confidence
@@ -765,7 +740,7 @@ Important constraints:
 
 - Which categories should Discovery Engine support first?
 - Which trusted sources should be seeded first?
-- Should jobs, scholarships, grants, and fellowships be the first crawl targets?
+- Should scholarships and universities be the first crawl targets?
 - What crawl frequency is acceptable per source?
 - Which crawler framework should be used in production?
 - Where should source snapshots be stored?
@@ -798,9 +773,7 @@ Build:
 Recommended first categories:
 
 - scholarships
-- grants
-- fellowships
-- visa-sponsored jobs
+- student and post-study jobs
 
 ### Phase 2: Source-Aware Crawling
 
@@ -842,9 +815,6 @@ Build:
 
 Expand to:
 
-- awards
-- competitions
-- conferences/training
 - universities
 
 ### Phase 6: Provider And Data Intelligence Layer

@@ -20,7 +20,7 @@ Employers struggle with:
 
 - too many unstructured applications
 - difficulty screening international applicants
-- unclear sponsorship needs
+- unclear student working hours and graduate sponsorship rules
 - repetitive candidate review
 - slow communication
 - pipeline disorganization
@@ -38,7 +38,7 @@ Employers struggle with:
 
 ### Employer Onboarding
 
-Collect company information, hiring needs, team members, and sponsorship capability.
+Collect company information, hiring needs, team members, and whether they hire students, sponsor graduates' work visas, or both.
 
 ### Company Profile
 
@@ -46,7 +46,7 @@ Employers manage public company information and hiring brand.
 
 ### Job Posting
 
-Employers create roles with AI-assisted descriptions, structured requirements, screening questions, and visa sponsorship settings.
+Employers create roles with AI-assisted descriptions, structured requirements, screening questions, and work eligibility settings (student hours, or sponsorship route, timing, start-on-permit and costs covered for post-study jobs).
 
 ### Applicant Review
 
@@ -72,7 +72,7 @@ Employers invite team members and assign permissions.
 - compatibility reports
 - Signia deep search and proof-of-work summaries
 - pipeline prioritization
-- visa complexity alerts
+- work eligibility alerts (student hours, graduate permit expiry before sponsorship)
 - recruiter fatigue reduction
 
 ## Data Model Notes
@@ -97,7 +97,7 @@ Important UX:
 
 - dashboard with pipeline health
 - ranked applicants
-- clear sponsorship indicators
+- clear work eligibility indicators
 - fast shortlist/reject/message actions
 - team permissions
 - evidence-backed Signia candidate cards
@@ -119,7 +119,8 @@ Important UX:
 - candidate data must only be shown through applications
 - prevent discriminatory ranking or misuse
 - employer verification may be required
-- sponsorship claims should be explicit
+- hours and sponsorship claims should be explicit; post-study jobs must have employer-confirmed sponsorship
+- employers pay at sign-up (Employer Starter $99, Employer Pro $249, Enterprise custom); post-study sponsored jobs need Employer Pro or Enterprise
 
 ## Later Phase Decisions (Non-Blocking)
 
@@ -139,4 +140,4 @@ Add team roles, screening library, analytics, and billing.
 
 ### Phase 3
 
-Add advanced candidate intelligence and sponsorship workflow tooling.
+Add advanced candidate intelligence and work eligibility tooling.

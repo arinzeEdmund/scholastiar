@@ -30,13 +30,8 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files
+# env files (can opt-in for committing if needed)
 .env*
-!.env.example
-
-# supabase local
-supabase/.temp/
-supabase/.branches/
 
 # vercel
 .vercel
@@ -44,3 +39,12 @@ supabase/.branches/
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# mock data store (Phase A)
+/.mock-db/
+.DS_Store
+!.env.example
+
+# playwright
+/test-results/
+/playwright-report/

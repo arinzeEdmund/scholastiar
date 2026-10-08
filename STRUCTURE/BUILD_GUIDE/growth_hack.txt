@@ -34,10 +34,10 @@ The current pricing source of truth is STRUCTURE/BUILD_GUIDE/PRICING.md.
 Applicant pricing assumptions:
 
 ```txt
-Starter:     $9-$15/month
-Pro:         $25-$39/month
-Premium:     $59-$99/month
-Concierge:   $199+/month or custom
+Starter:     $35/month
+Pro:         $79/month
+(Decided 2026-10-01: no free applicant plan, no Concierge plan. Scenarios below
+that assume free-to-paid conversion or Concierge subscribers need re-modelling.)
 ```
 
 Campaign assumptions:
@@ -147,7 +147,7 @@ Focus on users who have high migration intent and immediate application pressure
 Best segments:
 
 - final-year university students who want scholarships, jobs, or postgraduate study abroad
-- fresh graduates seeking visa-sponsored jobs, scholarships, fellowships, and internships
+- fresh graduates seeking post-study jobs, scholarships, and internships
 - young professionals in healthcare, tech, education, hospitality, construction, care work, logistics, and trades
 - African, South Asian, Latin American, and Middle Eastern applicants seeking international mobility
 - users already searching for Canada, UK, USA, Germany, Australia, New Zealand, UAE, Europe, and Gulf opportunities
@@ -164,10 +164,7 @@ Why they convert:
 
 These users can convert after trust is built:
 
-- undergraduate students seeking competitions, conferences, awards, and grants
-- researchers and academics seeking fellowships and funded conferences
-- founders and NGO operators seeking grants, competitions, and accelerator programs
-- creators and young leaders seeking global awards and travel-funded programs
+- undergraduate students seeking scholarships and university places
 
 ### B2B Audience
 
@@ -200,19 +197,18 @@ Use STRUCTURE/BUILD_GUIDE/PUBLISHING_INTELLIGENCE_ENGINE.md as the execution sou
 Examples:
 
 ```txt
-visa sponsored jobs in Canada for nurses
+student jobs in Toronto for international students
 fully funded scholarships in Germany
-UK care jobs with sponsorship
+UK graduate jobs with visa sponsorship
 DAAD scholarships for African students
 remote jobs that support relocation
-travel funded conferences for students
 ```
 
 Execution:
 
 - create country + opportunity category pages
 - create occupation + destination pages
-- create scholarship/fellowship/grant explainer pages
+- create scholarship explainer pages
 - attach real opportunity cards to every content page
 - add success score, application time, mobility tags, and deadline visibility
 - let users save, compare, and add to AI Apply Agent or Apply For Me
@@ -235,7 +231,7 @@ Execution:
 - create FAQ blocks for every major country/category page
 - make pages easy for search engines and AI systems to understand
 - maintain accurate source links, deadlines, eligibility, and country tags
-- create glossary pages for sponsorship, relocation, funding, proof of funds, statement of purpose, CV formats, and eligibility
+- create glossary pages for study visa work rules, post-study permits, relocation, funding, proof of funds, statement of purpose, CV formats, and eligibility
 
 Content should answer real user questions:
 
@@ -265,12 +261,10 @@ Execution:
 
 Best community themes:
 
-- Canada jobs with sponsorship
+- Canada student jobs
 - UK care jobs
 - Germany scholarships
 - scholarships for Africans
-- travel funded conferences
-- grants for NGOs and founders
 - AI apply for me opportunities
 
 Conversion path:
@@ -351,11 +345,10 @@ Execution:
 Examples:
 
 ```txt
-Apply to 30 visa-sponsored jobs in Canada
+Apply to 30 student jobs in Toronto
 Apply to 20 fully funded scholarships in Europe
-Apply to 15 UK care sponsorship jobs
+Apply to 15 UK post-study graduate jobs
 Apply to 10 universities in Russia
-Apply to 25 travel-funded conferences
 ```
 
 Best growth loop:
@@ -391,9 +384,9 @@ Execution:
 - allow verified providers to publish opportunities
 - create provider dashboards
 - offer applicant summaries and readiness analytics
-- let employers promote visa-sponsored jobs
+- let employers promote student and post-study jobs
 - let universities promote international programs
-- let scholarship/fellowship/grant providers receive better prepared applicants
+- let scholarship providers receive better prepared applicants
 
 This creates a two-sided growth loop:
 
@@ -693,7 +686,7 @@ Mitigation:
 Start with:
 
 ```txt
-Visa-sponsored jobs + scholarships + Apply For Me campaign packs
+Student jobs + scholarships + Apply For Me campaign packs
 ```
 
 Why:
@@ -708,11 +701,10 @@ Why:
 Recommended first campaigns:
 
 ```txt
-Canada visa-sponsored job campaign
-UK care sponsorship job campaign
+Toronto student job campaign
+UK post-study job campaign
 Germany scholarship campaign
 Europe fully funded scholarship campaign
-Travel-funded conference campaign
 ```
 
 ## Simple $1M MRR North Star

@@ -26,7 +26,7 @@ Steps:
 - AI CV selection/generation
 - screening questions
 - cover letter
-- visa/sponsorship answers
+- right-to-work answers (study visa hours, post-study permit, sponsorship needed)
 - PersonalityAI CV toggle
 - final review
 - submit
@@ -116,7 +116,7 @@ Sections:
 - screening answers
 - cover letter
 - PersonalityAI CV
-- visa/sponsorship indicators
+- work eligibility indicators
 - ranking score
 - pipeline actions
 

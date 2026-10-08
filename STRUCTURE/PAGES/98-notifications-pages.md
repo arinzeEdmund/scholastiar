@@ -37,7 +37,7 @@ Primary actions:
 
 Route: `/settings/notifications`
 
-Purpose: Manage email, in-app, and later push notification preferences.
+Purpose: Manage email, WhatsApp, in-app and push notification preferences per category. Security, payment and emergency messages stay on. Shows the WhatsApp number and opt-in status (change number, opt out). See `SERVICES/100-notifications.md`.
 
 ## Employer Pages
 

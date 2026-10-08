@@ -1,66 +1,68 @@
-const CACHE_VERSION = 'v2';
-const SHELL_CACHE = `scholastiar-shell-${CACHE_VERSION}`;
-const DYNAMIC_CACHE = `scholastiar-dynamic-${CACHE_VERSION}`;
+/* Scholastiar.ai service worker — STRUCTURE/BUILD_GUIDE/PWA_FIRST_WEB_APP.md
+ *
+ * - Static build assets and icons: cache-first (they are content-hashed).
+ * - Page navigations: network-only, with /offline as the fallback.
+ *   Pages are NOT cached: they can contain private profile/application data.
+ *   Safe caching of saved opportunities is added in later stages.
+ * - Never intercepts non-GET requests, so payments, applications and other
+ *   sensitive actions are never queued offline.
+ */
 
-const SHELL_URLS = [
-  '/',
-  '/manifest.webmanifest',
-];
+const VERSION = "v1";
+const STATIC_CACHE = `scholastiar-static-${VERSION}`;
+const OFFLINE_URL = "/offline";
+const PRECACHE = [OFFLINE_URL, "/icons/icon-192.png", "/icons/icon-512.png"];
 
-// Install: pre-cache app shell
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(SHELL_CACHE).then((cache) => cache.addAll(SHELL_URLS))
-  );
-  self.skipWaiting();
+self.addEventListener("install", (event) => {
+  event.waitUntil(caches.open(STATIC_CACHE).then((cache) => cache.addAll(PRECACHE)));
 });
 
-// Activate: purge old caches
-self.addEventListener('activate', (event) => {
-  const current = new Set([SHELL_CACHE, DYNAMIC_CACHE]);
+self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.filter((k) => !current.has(k)).map((k) => caches.delete(k)))
-    )
+    (async () => {
+      const keys = await caches.keys();
+      await Promise.all(
+        keys.filter((key) => key.startsWith("scholastiar-") && key !== STATIC_CACHE).map((key) => caches.delete(key)),
+      );
+      await self.clients.claim();
+    })(),
   );
-  self.clients.claim();
 });
 
-self.addEventListener('fetch', (event) => {
+// The page asks a waiting worker to take over after the user accepts the update toast.
+self.addEventListener("message", (event) => {
+  if (event.data?.type === "SKIP_WAITING") self.skipWaiting();
+});
+
+function isStaticAsset(url) {
+  return url.pathname.startsWith("/_next/static/") || url.pathname.startsWith("/icons/");
+}
+
+self.addEventListener("fetch", (event) => {
   const { request } = event;
+  if (request.method !== "GET") return;
+
   const url = new URL(request.url);
+  if (url.origin !== self.location.origin) return;
 
-  // Only handle GET over http(s)
-  if (request.method !== 'GET' || !url.protocol.startsWith('http')) return;
-
-  // Never cache: Supabase, API routes, auth flows, Next runtime chunks.
-  const skipPatterns = [
-    url.hostname.includes('supabase.co'),
-    url.pathname.startsWith('/api/'),
-    url.pathname.startsWith('/auth/'),
-    url.pathname.startsWith('/_next/'),
-    url.searchParams.has('sb-'),
-  ];
-  if (skipPatterns.some(Boolean)) return;
-
-  // Navigation requests: network-first, fall back to shell
-  if (request.mode === 'navigate') {
-    event.respondWith(
-      fetch(request)
-        .then((res) => {
-          const clone = res.clone();
-          caches.open(DYNAMIC_CACHE).then((c) => c.put(request, clone));
-          return res;
-        })
-        .catch(() =>
-          caches.match(request).then((cached) => cached || caches.match('/'))
-        )
-    );
+  if (request.mode === "navigate") {
+    event.respondWith(fetch(request).catch(() => caches.match(OFFLINE_URL)));
     return;
   }
-});
 
-// Listen for skip-waiting message from PWAUpdateToast
-self.addEventListener('message', (event) => {
-  if (event.data?.type === 'SKIP_WAITING') self.skipWaiting();
+  if (isStaticAsset(url)) {
+    event.respondWith(
+      caches.match(request).then(
+        (cached) =>
+          cached ||
+          fetch(request).then((response) => {
+            if (response.ok) {
+              const copy = response.clone();
+              caches.open(STATIC_CACHE).then((cache) => cache.put(request, copy));
+            }
+            return response;
+          }),
+      ),
+    );
+  }
 });

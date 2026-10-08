@@ -1,72 +1,75 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { Download, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Smartphone, X } from "lucide-react";
+import { useState } from "react";
 
-interface BeforeInstallPromptEvent extends Event {
-  prompt(): Promise<void>;
-  readonly userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
-}
+import { Button } from "@/components/ui/button";
+import {
+  ENGAGEMENT_THRESHOLD,
+  rememberInstallDismissed,
+  usePwaStore,
+  wasInstallDismissedRecently,
+} from "@/store/pwa-store";
 
+/**
+ * Non-blocking install card. Appears only when the browser supports install,
+ * the visitor has engaged meaningfully, and they haven't dismissed it recently.
+ */
 export function InstallPrompt() {
-  const [prompt, setPrompt] = useState<BeforeInstallPromptEvent | null>(null);
-  const [dismissed, setDismissed] = useState(false);
+  const installEvent = usePwaStore((s) => s.installEvent);
+  const engagement = usePwaStore((s) => s.engagement);
+  const setInstallEvent = usePwaStore((s) => s.setInstallEvent);
+  const [hidden, setHidden] = useState(false);
 
-  useEffect(() => {
-    const stored = localStorage.getItem('pwa-install-dismissed');
-    if (stored) {
-      setDismissed(true);
-      return;
-    }
+  if (!installEvent || hidden || engagement < ENGAGEMENT_THRESHOLD || wasInstallDismissedRecently()) return null;
 
-    const handler = (e: Event) => {
-      e.preventDefault();
-      setPrompt(e as BeforeInstallPromptEvent);
-    };
-
-    window.addEventListener('beforeinstallprompt', handler);
-    return () => window.removeEventListener('beforeinstallprompt', handler);
-  }, []);
-
-  async function handleInstall() {
-    if (!prompt) return;
-    await prompt.prompt();
-    const { outcome } = await prompt.userChoice;
-    if (outcome === 'accepted') setPrompt(null);
+  async function install() {
+    if (!installEvent) return;
+    await installEvent.prompt();
+    const { outcome } = await installEvent.userChoice;
+    if (outcome === "dismissed") rememberInstallDismissed();
+    setInstallEvent(null);
   }
 
-  function handleDismiss() {
-    localStorage.setItem('pwa-install-dismissed', '1');
-    setDismissed(true);
-    setPrompt(null);
+  function dismiss() {
+    rememberInstallDismissed();
+    setHidden(true);
   }
-
-  if (!prompt || dismissed) return null;
 
   return (
     <div
-      role="complementary"
-      aria-label="Install app prompt"
-      className="fixed bottom-20 inset-x-4 z-50 mx-auto max-w-sm rounded-lg border border-border bg-white p-4 shadow-lg md:bottom-6 md:right-6 md:left-auto md:inset-x-auto"
+      role="dialog"
+      aria-label="Install Scholastiar.ai"
+      className="fixed inset-x-3 bottom-[calc(5rem+env(safe-area-inset-bottom))] z-50 mx-auto max-w-md rounded-lg border bg-card p-4 shadow-lg lg:right-6 lg:bottom-20 lg:left-auto"
     >
-      <button
-        onClick={handleDismiss}
-        aria-label="Dismiss install prompt"
-        className="absolute right-3 top-3 text-[#8A8F98] hover:text-[#1E1E1E]"
-      >
-        <X className="h-4 w-4" />
-      </button>
-      <p className="pr-6 text-sm font-medium text-[#1E1E1E]">
-        Add Scholastiar.ai to your phone
-      </p>
-      <p className="mt-1 text-xs text-[#5F6368]">
-        Get deadline alerts and saved opportunities — right on your home screen.
-      </p>
-      <Button size="sm" onClick={handleInstall} className="mt-3 gap-2">
-        <Download className="h-3.5 w-3.5" />
-        Add to home screen
-      </Button>
+      <div className="flex gap-3">
+        <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-soft-green text-green-dark">
+          <Smartphone className="size-5" aria-hidden />
+        </span>
+        <div className="flex-1">
+          <p className="text-sm font-semibold text-primary-text">Add Scholastiar.ai to your phone</p>
+          <p className="mt-0.5 text-sm text-secondary-text">
+            Get deadline alerts and keep saved opportunities one tap away.
+          </p>
+          <div className="mt-3 flex gap-2">
+            <Button size="sm" onClick={install}>
+              Install app
+            </Button>
+            <Button size="sm" variant="ghost" onClick={dismiss}>
+              Not now
+            </Button>
+          </div>
+        </div>
+        <Button
+          size="icon-sm"
+          variant="ghost"
+          onClick={dismiss}
+          aria-label="Dismiss install prompt"
+          className="-mt-1 -mr-1"
+        >
+          <X />
+        </Button>
+      </div>
     </div>
   );
 }

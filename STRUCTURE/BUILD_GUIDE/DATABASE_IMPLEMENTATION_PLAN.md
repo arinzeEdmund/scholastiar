@@ -49,7 +49,8 @@ Source architecture: `DATABASE/db.md`
 
 - jobs
 - job_requirements
-- job_sponsorship_metadata
+- job_work_eligibility
+- post_study_permit_types
 - job_screening_questions
 - saved_jobs
 - job_match_scores

@@ -152,11 +152,6 @@ Sources:
 - saved jobs
 - saved scholarships
 - saved universities
-- saved grants
-- saved fellowships
-- saved awards
-- saved competitions
-- saved conferences/training
 - AI recommendations
 - opportunity cards using `Add to AI Apply Agent Board`
 
@@ -262,11 +257,11 @@ Primary actions:
 
 Route: `/apply-agent/categories/jobs`
 
-Purpose: Configure job-specific automation.
+Purpose: Configure job-specific automation. Pro plan only, like every Jobs surface; Starter sees it locked with an upgrade prompt.
 
 Rules:
 
-- visa sponsorship required
+- fits my study visa hours / sponsors my work visa
 - salary range
 - location
 - role type
@@ -306,25 +301,11 @@ Rules:
 - require final review before submit
 - no paid applications without approval
 
-### Grants Auto-Apply Settings Page
-
-Route: `/apply-agent/categories/grants`
-
-Purpose: Configure grant-specific automation.
-
-Rules:
-
-- project profile required
-- budget must be approved
-- no fabricated impact
-- human review required over funding threshold
-- no submission without organization documents
-
 ### Other Category Settings Page
 
 Route: `/apply-agent/categories/[category]`
 
-Purpose: Configure awards, competitions, conferences/training, and fellowships.
+Purpose: Configure rules for any other category.
 
 Primary actions:
 
@@ -651,7 +632,6 @@ This supports hosted auto-apply and review-then-apply before deep external autom
 - Jobs Auto-Apply Settings Page
 - Scholarships Auto-Apply Settings Page
 - Universities Auto-Apply Settings Page
-- Grants Auto-Apply Settings Page
 - Other Category Settings Page
 - Follow-Up Inbox Page
 - Follow-Up Tasks Page

@@ -10,12 +10,7 @@ It should apply on behalf of users to opportunities across:
 
 - jobs
 - scholarships
-- grants
 - universities
-- fellowships
-- awards
-- competitions
-- conferences and training
 
 It should support both:
 
@@ -80,14 +75,9 @@ The product should let users focus on their goals while the platform handles rep
 Primary users:
 
 - job seekers applying to many roles
-- visa-sponsored job applicants
+- students and post-study graduates applying to many jobs
 - scholarship applicants
 - university applicants
-- grant applicants
-- fellowship applicants
-- award applicants
-- competition applicants
-- conference/training applicants
 - premium users who want high-volume application execution
 
 Secondary users:
@@ -97,7 +87,7 @@ Secondary users:
 - opportunity providers
 - employers
 - universities
-- scholarship/fellowship/grant providers
+- scholarship providers
 
 ## Core Workflows
 
@@ -116,7 +106,7 @@ Mode 2: Review-Then-Apply
 - AI fills application package
 - user reviews once
 - AI submits after approval
-- best for sensitive categories such as grants, scholarships, fellowships, and universities
+- best for sensitive categories such as scholarships and universities
 
 Mode 3: Auto-Apply Within Rules
 
@@ -126,7 +116,7 @@ Mode 3: Auto-Apply Within Rules
 
 Example rules:
 
-- apply only to jobs with visa sponsorship
+- apply only to jobs that fit my study visa hours or sponsor my work visa
 - apply only to scholarships I am eligible for
 - apply only to universities under a specified tuition amount
 - do not apply if application fee is required
@@ -293,7 +283,6 @@ The agent should generate truthful, tailored content based on:
 The AI must not invent:
 
 - grades
-- awards
 - work experience
 - financial hardship
 - publications
@@ -439,11 +428,6 @@ AI should generate truthful, category-specific answers using existing platform e
 - job application answers
 - scholarship answers
 - university statements
-- grant proposals
-- fellowship essays
-- award narratives
-- competition submissions
-- conference/training statements
 
 ### Execution Monitoring AI
 
@@ -559,10 +543,8 @@ Paid features:
 
 - auto-apply credits
 - category-specific auto-apply plans
-- visa-sponsored job auto-apply
+- student job auto-apply within visa hours
 - scholarship auto-apply
-- fellowship auto-apply
-- grant auto-apply
 - university bulk apply
 - external portal agent
 - dedicated application inbox
@@ -730,8 +712,3 @@ Expand controlled auto-apply across:
 - jobs
 - scholarships
 - universities
-- fellowships
-- grants
-- awards
-- competitions
-- conferences/training

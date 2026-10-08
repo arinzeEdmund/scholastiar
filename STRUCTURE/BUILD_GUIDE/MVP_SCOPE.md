@@ -11,11 +11,6 @@ The product includes:
 - jobs
 - universities
 - scholarships
-- fellowships
-- grants
-- competitions
-- conferences/training
-- awards
 - AI Apply Agent
 - Apply For Me
 - Discovery Engine
@@ -46,18 +41,16 @@ Every service must be built around cross-border opportunity. The platform should
 
 ## Required Build Order
 
-1. Jobs
-2. Universities
-3. Scholarships
-4. Fellowships
-5. Grants
-6. Competitions
-7. Conferences / Training
-8. Awards
-9. AI Apply Agent
-10. Apply For Me
-11. Discovery Engine
-12. Migration Agencies
+1. Universities
+2. Scholarships
+3. AI Apply Agent
+4. Apply For Me
+5. Discovery Engine
+6. Relocation
+7. Migration Agencies
+8. Jobs (Pro-only job connections in the candidate dashboard; moved last on 2026-10-07)
+
+This order is followed twice: first for the UI (Phase A), then for the backend (Phase B). See `UI_FIRST_BUILD_PLAN.md`.
 
 ## Out Of Scope For First Launch
 

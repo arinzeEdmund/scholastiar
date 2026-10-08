@@ -8,7 +8,7 @@ Scholastiar.ai pricing should feel like users are paying for application power, 
 
 Core principle:
 
-> Free helps users discover opportunities. Paid plans help users prepare better, apply faster, automate safely, and get human support when the stakes are high.
+> Public discovery pages help people find opportunities. Paid plans help users prepare better, apply faster, automate safely, and get human support when the stakes are high.
 
 Pricing should support:
 
@@ -21,39 +21,14 @@ Pricing should support:
 
 ## Applicant Plans
 
-### Free
-
-Purpose: Let users discover the platform and understand opportunity value.
-
-Includes:
-
-- browse jobs, universities, scholarships, fellowships, grants, competitions, conferences/training, and awards
-- create basic profile
-- basic Signia profile draft
-- basic visa/mobility preferences
-- limited saved opportunities
-- basic opportunity card details
-- basic success/fit score
-- manual apply links
-- basic deadline visibility
-
-Limits:
-
-- limited saves
-- limited AI usage
-- no AI Apply Agent execution
-- no Apply For Me campaign creation
-- limited document storage
-- limited Signia media/storage
-
 ### Starter
 
-Purpose: For light applicants who want organization and basic AI help.
+Purpose: For applicants who want organization, AI help, and access to the application boards.
 
-Suggested price:
+Price (decided 2026-10-01):
 
 ```txt
-$9-$15/month
+$35/month (USD)
 ```
 
 Includes:
@@ -62,55 +37,35 @@ Includes:
 - full opportunity card details
 - application effort labels
 - success/fit score explanations
-- basic application tracker
 - deadline reminders
-- limited AI CV generation
-- limited AI answers
-- basic Signia social link hub
 - document checklist
-- basic mobility recommendations
+- AI CV, essay, and application answer credits
+- multiple CV versions
+- AI fit analysis
+- published Signia portfolio page and social link hub
+- Signia project showcases with proof attachments
+- AI Apply Agent board access
+- Apply For Me board access
+- advanced application tracker
+- application deadline dashboard
+- country and mobility recommendations
+- document readiness checks
 
 ### Pro
 
-Purpose: For serious applicants applying across multiple opportunity categories.
-
-Suggested price:
-
-```txt
-$25-$39/month
-```
-
-Includes:
-
-- higher AI CV, essay, and application answer credits
-- multiple CV versions
-- published Signia portfolio page
-- Signia project showcases with proof attachments
-- AI fit analysis
-- success score explanations
-- AI Apply Agent board access
-- Apply For Me board access
-- more saved opportunities
-- advanced application tracker
-- country and mobility recommendations
-- document readiness checks
-- application deadline dashboard
-
-### Premium
-
 Purpose: For heavy applicants who need high-volume preparation and stronger support.
 
-Suggested price:
+Price (decided 2026-10-01):
 
 ```txt
-$59-$99/month
+$79/month (USD)
 ```
 
-Includes:
+Includes everything in Starter, plus:
 
 - higher AI generation limits
 - priority scoring and readiness checks
-- scholarship/fellowship/grant essay support
+- scholarship essay support
 - interview preparation
 - advanced application intelligence
 - AI Apply Agent queue credits
@@ -120,28 +75,25 @@ Includes:
 - AI-assisted Signia project summaries
 - priority support
 - proof/archive workspace
+- job connections (Pro only): student jobs that fit your study visa hours, and post-study jobs with visa sponsorship, inside the dashboard. A way to get connected to employers — never a promise of a job.
 
-### Concierge
+### Jobs Are Pro Only (decided 2026-10-07)
 
-Purpose: For users who want serious human-assisted support.
+Jobs are not a headline service and not something the company promises to provide. They are a Pro feature inside the candidate dashboard: the ability to get connected to job openings that employers post.
 
-Suggested price:
+- Pro ($79): full access to Jobs and Post-study jobs (visa sponsorship): browse, save and apply.
+- Starter ($35): both sections are visible in the dashboard but locked; opening either shows an "Upgrade to Pro" prompt and no listings.
+- There is no public job board. Marketing pages mention jobs only as a Pro feature, worded as job connections with no promise of employment.
+- Employer plans are unchanged; employers' jobs are shown to Pro candidates only.
 
-```txt
-$199+/month or custom
-```
+### Plan Structure Decision (2026-10-01)
 
-Includes:
+Applicants have exactly two plans, both paid: Starter ($35/month) and Pro ($79/month), in USD. There is no free applicant plan.
 
-- human review credits
-- Apply For Me credits
-- Forwarder matching
-- document review
-- application strategy review
-- priority support
-- migration agency consultation discounts
-- proof-of-submission archive
-- custom application campaign planning
+- Visitors can still browse public pages (see `USER_ROLES_AND_PERMISSIONS.md` → Guest).
+- Human-assisted help (human review, Forwarder matching, campaign planning) is bought through Apply For Me pricing below.
+- Local-currency display for Paystack/Flutterwave checkout is a Phase B decision.
+- Every applicant chooses Starter or Pro during sign-up, before onboarding (see `PAGES/90-auth-pages.md`). There is no unsubscribed applicant account.
 
 ## AI Apply Agent Add-On
 
@@ -196,7 +148,6 @@ Best for:
 - one job application
 - one scholarship application
 - one university inquiry/application
-- one conference/training application
 
 ### Campaign Packs
 
@@ -211,10 +162,9 @@ Suggested ranges:
 
 Use cases:
 
-- apply to 30 visa-sponsored jobs in Canada
+- apply to 30 student jobs in Toronto
 - apply to 20 scholarships in Europe
 - apply to 10 universities in Russia
-- apply to 15 travel-funded conferences
 
 ### Concierge Campaign
 
@@ -234,137 +184,129 @@ Includes:
 - application status reporting
 - document review
 
+## Recruitment Commission (draft, 2026-10-07)
+
+Partner universities may pay Scholastiar a commission when a student it supported enrols (the model used by ApplyBoard, IDP, KEG, Adventus and Uni-Quest). Rates and terms are set per agreement. No partner label or fee notice is shown to students (decided 2026-10-07); commission never changes fit scores or eligibility results. See `SERVICES/21-study-catalogue.md`.
+
 ## Employer Plans
 
-### Employer Trial
-
-Purpose: Let employers test the hiring system.
-
-Includes:
-
-- limited job posts
-- basic applicant view
-- limited Signia profile view for applicants
-- basic messaging
-- basic company profile
+Decided 2026-10-01: employers pay at sign-up. There is no free trial. Prices in USD, billed monthly; annual billing may be added later.
 
 ### Employer Starter
 
-Suggested price:
+Price:
 
 ```txt
-$29-$59/month
+$99/month (USD)
 ```
 
 Includes:
 
-- more job posts
+- up to 3 active student jobs
 - applicant pipeline
 - screening questions
-- basic candidate ranking
-- limited Signia evidence review for applicants
-- limited team seats
+- basic AI candidate ranking
+- messaging
+- 2 team seats
 
 ### Employer Pro
 
-Suggested price:
+Price:
 
 ```txt
-$99-$199/month
+$249/month (USD)
 ```
 
-Includes:
+Includes everything in Employer Starter, plus:
 
-- AI candidate ranking
+- up to 15 active jobs
+- post-study jobs with visa sponsorship (Pro and Enterprise only)
+- full AI ranking with reasons and candidate summaries
+- work eligibility tools (student hours, sponsorship details)
+- Signia evidence highlights and limited Signia search across opted-in candidates
 - applicant analytics
-- team seats
 - employer branding
-- messaging
-- visa complexity indicators
-- candidate shortlists
-- Signia candidate evidence highlights
-- limited Signia search across opted-in candidates
-
-### Employer Business
-
-Suggested price:
-
-```txt
-$299-$799/month
-```
-
-Includes:
-
-- higher job limits
-- more team seats
-- advanced analytics
-- sponsorship filters
-- advanced Signia search and saved searches
-- Signia candidate comparison
-- priority support
-- audit logs
-- premium employer visibility
+- 5 team seats
 
 ### Employer Enterprise
 
 Pricing:
 
 ```txt
-custom
+custom (talk to sales)
+```
+
+Includes everything in Employer Pro, plus:
+
+- unlimited jobs
+- advanced Signia search, saved searches and candidate comparison
+- integrations
+- audit logs
+- custom billing and roles
+- dedicated support
+
+## Provider Plans
+
+Provider plans apply to universities, colleges, scholarship providers, and other verified school-related opportunity providers.
+
+Decided 2026-10-01: providers pay at sign-up. There is no free claim plan. Prices in USD, billed monthly.
+
+### Provider Verified
+
+Price:
+
+```txt
+$149/month (USD)
 ```
 
 Includes:
 
-- custom roles
-- advanced audit logs
-- integrations
-- custom billing
-- dedicated support
-- high-volume hiring workflows
-- custom Signia search limits and integrations
-
-## Provider Plans
-
-Provider plans apply to universities, scholarship providers, grant providers, fellowship providers, competition organizers, award organizers, conference/training providers, and other verified opportunity providers.
-
-### Free Claim
-
-Includes:
-
-- claim profile
-- basic listing updates
-- verification request
-
-### Verified Provider
-
-Includes:
-
 - verification badge
-- manage listings
-- receive applications or inquiries
+- up to 10 active opportunities
+- receive applications or enquiries
 - basic applicant dashboard
+- 2 team seats
 
 ### Provider Pro
 
-Includes:
+Price:
 
-- applicant dashboard
-- messaging
+```txt
+$399/month (USD)
+```
+
+Includes everything in Provider Verified, plus:
+
+- unlimited opportunities
 - AI applicant summaries
+- messaging
 - analytics
-- team access
 - priority verification
+- 10 team seats
 
-### Enterprise Provider
+### Provider Enterprise
 
-Includes:
+Pricing:
 
-- bulk opportunities
-- multiple teams
-- advanced analytics
-- API/integration support
+```txt
+custom (talk to sales)
+```
+
+Includes everything in Provider Pro, plus:
+
+- multiple teams or campuses
+- bulk opportunity uploads
+- API and integration support
 - custom review flows
 - dedicated support
+
+### Organisation Plan Decisions (2026-10-01)
+
+- Employers and providers choose a paid plan at sign-up and pay before onboarding, like applicants.
+- Enterprise plans are sales-led: "Talk to sales" instead of self-serve checkout.
+- Posting post-study jobs with visa sponsorship requires Employer Pro or Enterprise.
+- Employer jobs reach candidates on the Pro plan only (decided 2026-10-07; see Jobs Are Pro Only above).
+- Annual billing is not offered at launch.
 
 ## Migration Agency / Office Pricing
 
@@ -422,6 +364,33 @@ Trust rules:
 
 Sponsored products can be sold as one-time boosts, recurring featured profiles, campaign packages, newsletter placements, sponsored guides, or enterprise sponsorships.
 
+## Relocation Pricing (decided 2026-10-02)
+
+Source: `SERVICES/12-relocation.md`.
+
+### Year Check-in — $600 per year
+
+Ongoing support after a student has settled. Covers: medical emergency coordination (ambulance called, a companion up to 8 hours per incident, hospital liaison — not hospital charges); a partner lawyer with the **basic fee covered** (consultation + up to 3 hours per case — other legal costs paid by the student); police trouble response; accommodation dispute mediation and rehousing with no booking fee; job search through the Jobs service and agency; visa/permit, lost documents, bank and university help; monthly check-ins.
+
+Fair use per membership year: 2 legal cases with the basic fee covered; 3 pilot accompaniments. 14-day waiting period for non-emergency cases (emergencies covered from day one); issues that started before joining are excluded. Annual auto-renewal with reminders; no refund after the first case is opened. Paid extras at member rates: extended or court legal representation, extra pilot hours, moving help, translation, document replacement processing.
+
+### Pilot Services
+
+Standard packages with platform-set prices per city (airport pickup, registration and medical accompaniment, SIM and bank setup, house viewing, move-in help, city tour, arrival-week package; custom quotes). Each package has a solo price and a lower **cohort price per student**. Platform commission on freelance pilot bookings; staff pilot bookings are full revenue. Year Check-in members get a discount.
+
+### Pilot Incentives
+
+- **Year Check-in commission:** the referring pilot (freelance or staff) earns **20%** of the Year Check-in amount paid — $120 per $600 membership, also on renewals. Payable after a 30-day hold (or when the first case opens); clawed back on refund. Scholastiar keeps $480 per referred membership.
+- **Best Pilot Awards (yearly, voted by students):** Global Best Pilot **$10,000**; Country Best Pilot **$1,000** per active country. The global winner does not also take a country award.
+
+### Accommodation
+
+Booking fee per booking (waived for Year Check-in rehousing). Rent and deposits are passed through to the provider via settlement.
+
+### Handsoff → Alumni
+
+Free.
+
 ## Payment Provider Strategy
 
 Use:
@@ -429,6 +398,9 @@ Use:
 1. Stripe
 2. Paystack
 3. Flutterwave
+4. Cryptomus (crypto — decided 2026-10-02; more crypto providers can be added)
+
+Every checkout offers card, local payment and crypto (`SERVICES/103-billing-subscriptions.md`).
 
 Routing:
 
@@ -438,11 +410,11 @@ Routing:
 
 Provider fallback must not double-charge users.
 
-## Free Versus Paid Rule
+## Public Versus Paid Rule
 
-Free should include discovery, limited saving, and basic profile building.
+There is no free applicant plan. Public pages stay open to visitors for discovery.
 
-Paid should unlock:
+Paid plans unlock:
 
 - higher AI usage
 - success/fit explanations
@@ -459,22 +431,7 @@ Paid should unlock:
 
 ## Email Intelligence By Plan
 
-### Free
-
-- weekly opportunity digest
-- basic deadline reminders
-- limited score previews
-- limited upgrade prompts
-
 ### Starter
-
-- weekly digest
-- readiness updates
-- deadline reminders
-- save/apply recommendations
-- document checklist prompts
-
-### Pro
 
 - 2-3 opportunity emails weekly
 - full score breakdowns
@@ -482,21 +439,13 @@ Paid should unlock:
 - readiness updates
 - deadline reminders
 
-### Premium
+### Pro
 
 - active strategy emails
 - AI Apply Agent queue suggestions
 - Apply For Me recommendations
 - deadline planning
 - advanced readiness insights
-
-### Concierge
-
-- weekly high-touch strategy email
-- human support prompts
-- campaign planning
-- priority reminders
-- migration agency consultation suggestions
 
 ## Pricing Implementation Notes
 

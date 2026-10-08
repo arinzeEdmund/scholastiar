@@ -66,7 +66,7 @@ Before mutation:
 
 ## Opportunity Card Actions
 
-These actions should eventually support all apply-able opportunity categories: jobs, universities, scholarships, fellowships, grants, competitions, conferences/training, and awards.
+These actions should eventually support all apply-able opportunity categories: jobs, universities and scholarships.
 
 - calculateOpportunitySuccessScore
 - calculateOpportunityApplicationEffort

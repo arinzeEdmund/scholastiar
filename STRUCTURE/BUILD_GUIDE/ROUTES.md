@@ -30,12 +30,14 @@ Status: Canonical unified platform route map
 /auth/forgot-password
 /auth/reset-password
 /auth/verify-email
+/auth/verify-email/confirm   (route handler: consumes the emailed token, then redirects to /auth/verify-email)
 ```
 
 ## Candidate Core
 
 ```txt
 /dashboard
+/saved
 /onboarding
 /onboarding/personal
 /onboarding/visa
@@ -74,13 +76,13 @@ Status: Canonical unified platform route map
 
 ## Jobs
 
+Pro plan only, inside the candidate dashboard (decided 2026-10-07). There is no public job board: the former `/jobs` and `/jobs/[jobId]/public` routes were removed. Starter candidates see these routes as a locked page with an upgrade prompt. See `SERVICES/14-jobs.md` → Positioning.
+
 ```txt
-/jobs
-/jobs/[jobId]/public
 /dashboard/jobs
 /dashboard/jobs/[jobId]
 /dashboard/jobs/saved
-/dashboard/jobs/visa-sponsored
+/dashboard/jobs/post-study
 /applications/apply/[jobId]
 /applications/apply/[jobId]/review
 ```
@@ -120,17 +122,23 @@ Status: Canonical unified platform route map
 /employers/settings/notifications
 /employers/billing
 /employers/billing/checkout
-/employers/visa-complexity
+/employers/work-eligibility
 ```
 
 ## Universities
 
+Includes the public study catalogue (`SERVICES/21-study-catalogue.md`). Outbound "official site" links go through the `/out/[linkId]` route handler, which is not a page and is not listed here.
+
 ```txt
+/programs
+/programs/[levelSlug]
+/programs/[levelSlug]/[fieldSlug]
 /universities
 /universities/search
 /universities/country/[countrySlug]
 /universities/[universitySlug]
 /universities/[universitySlug]/programs
+/universities/[universitySlug]/programs/[programSlug]
 /universities/[universitySlug]/eligibility
 /universities/[universitySlug]/apply
 /universities/saved
@@ -155,93 +163,6 @@ Status: Canonical unified platform route map
 /scholarships/applications/[applicationId]/answers
 /scholarships/deadlines
 /scholarships/verification
-```
-
-## Fellowships
-
-```txt
-/fellowships
-/fellowships/search
-/fellowships/[fellowshipSlug]
-/fellowships/[fellowshipSlug]/eligibility
-/fellowships/[fellowshipSlug]/apply
-/fellowships/matcher
-/fellowships/purpose
-/fellowships/leadership
-/fellowships/saved
-/fellowships/applications
-/fellowships/applications/[applicationId]
-/fellowships/applications/[applicationId]/answers
-```
-
-## Grants
-
-```txt
-/grants
-/grants/search
-/grants/[grantSlug]
-/grants/[grantSlug]/eligibility
-/grants/[grantSlug]/apply
-/grants/matcher
-/grants/projects
-/grants/projects/[projectId]
-/grants/projects/[projectId]/budget
-/grants/saved
-/grants/applications
-/grants/applications/[applicationId]
-/grants/applications/[applicationId]/proposal
-/grants/deadlines
-```
-
-## Competitions
-
-```txt
-/competitions
-/competitions/search
-/competitions/[competitionSlug]
-/competitions/[competitionSlug]/eligibility
-/competitions/[competitionSlug]/apply
-/competitions/matcher
-/competitions/projects
-/competitions/projects/[projectId]/builder
-/competitions/teams/[teamId]
-/competitions/saved
-/competitions/applications
-/competitions/applications/[applicationId]
-/competitions/applications/[applicationId]/submission
-```
-
-## Conferences And Training
-
-```txt
-/conferences
-/conferences/search
-/conferences/[opportunitySlug]
-/conferences/[opportunitySlug]/eligibility
-/conferences/[opportunitySlug]/apply
-/conferences/matcher
-/conferences/saved
-/conferences/applications
-/conferences/applications/[applicationId]
-/conferences/applications/[applicationId]/builder
-/conferences/travel-readiness
-```
-
-## Awards
-
-```txt
-/awards
-/awards/search
-/awards/[awardSlug]
-/awards/[awardSlug]/eligibility
-/awards/[awardSlug]/apply
-/awards/matcher
-/awards/achievements
-/awards/achievements/[achievementId]/builder
-/awards/saved
-/awards/applications
-/awards/applications/[applicationId]
-/awards/applications/[applicationId]/answers
 ```
 
 ## AI CV And PersonalityAI CV
@@ -302,6 +223,91 @@ Status: Canonical unified platform route map
 /admin/discovery/coverage
 ```
 
+## Relocation
+
+Public, candidate and Year Check-in screens for `SERVICES/12-relocation.md` (Pre-Arrival Processes, Post-Arrival Processes, accommodation, roommates, communities, city guide, pilots, cohorts, Handsoff).
+
+```txt
+/relocation
+/relocation/[countrySlug]
+/pilots/apply
+/journey
+/journey/setup
+/journey/pre-arrival
+/journey/post-arrival
+/journey/steps/[stepId]
+/journey/costs
+/journey/travel
+/journey/cohort
+/journey/handsoff
+/accommodation
+/accommodation/[listingId]
+/accommodation/[listingId]/book
+/accommodation/bookings
+/accommodation/bookings/[bookingId]
+/roommates
+/roommates/profile
+/roommates/requests
+/communities
+/communities/[communityId]
+/communities/suggest
+/city-guide/[citySlug]
+/pilots
+/pilots/awards
+/pilots/awards/vote
+/pilots/[pilotId]
+/pilots/bookings
+/pilots/bookings/[bookingId]
+/support
+/support/join
+/support/cases/new
+/support/cases/[caseId]
+```
+
+## Relocation Operations
+
+Pilot workspace, housing-provider workspace and relocation admin (rules library, embassies, communities approval, pilots, cohorts, accommodation verification, settlements, support cases).
+
+```txt
+/pilot/onboarding
+/pilot/dashboard
+/pilot/requests
+/pilot/bookings/[bookingId]
+/pilot/cohorts
+/pilot/cohorts/[cohortId]
+/pilot/cases
+/pilot/earnings
+/pilot/referrals
+/pilot/profile
+/housing/onboarding
+/housing/dashboard
+/housing/listings
+/housing/listings/new
+/housing/listings/[listingId]
+/housing/bookings
+/housing/bookings/[bookingId]
+/housing/payouts
+/admin/relocation
+/admin/relocation/countries/[countryCode]
+/admin/relocation/steps/[stepId]
+/admin/relocation/embassies
+/admin/relocation/embassies/[embassyId]
+/admin/relocation/preview
+/admin/relocation/reviews
+/admin/relocation/costs
+/admin/communities
+/admin/pilots
+/admin/pilots/[pilotId]
+/admin/pilot-commissions
+/admin/pilot-awards
+/admin/cohorts
+/admin/accommodation
+/admin/settlements
+/admin/support-cases
+/admin/support-cases/[caseId]
+/admin/partner-lawyers
+```
+
 ## Migration Agencies
 
 ```txt
@@ -352,11 +358,6 @@ These are used as opportunity provider surfaces beyond employers.
 /admin/jobs
 /admin/universities
 /admin/scholarships
-/admin/fellowships
-/admin/grants
-/admin/competitions
-/admin/conferences
-/admin/awards
 /admin/applications
 /admin/reports
 /admin/ai-generations
@@ -378,4 +379,5 @@ These are used as opportunity provider surfaces beyond employers.
 /not-found
 /server-error
 /maintenance
+/offline
 ```

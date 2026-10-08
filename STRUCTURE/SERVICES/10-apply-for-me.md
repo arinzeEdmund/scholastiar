@@ -11,11 +11,6 @@ It is similar to an Upwork-style marketplace, but purpose-built for applications
 - jobs
 - scholarships
 - universities
-- grants
-- fellowships
-- awards
-- competitions
-- conferences and training
 
 The core idea:
 
@@ -28,6 +23,8 @@ The emotional promise:
 > You do not have to apply alone, and you do not have to trust automation blindly.
 
 The service must keep the greener-pasture mission at the center. Forwarders should help customers apply to opportunities that can realistically support work abroad, study abroad, funded travel, relocation, migration, international credibility, or movement toward the customer's country of choice.
+
+Forwarders and Pilots are different roles: a **Forwarder** applies to opportunities on the customer's behalf; a **Pilot** (`12-relocation.md`) guides a student in person in the destination country. One person can hold both roles, each verified separately.
 
 ## Apply For Me Board
 
@@ -60,7 +57,7 @@ The service solves:
 - repetitive application work
 - external portal difficulty
 - CAPTCHA/login blocks that AI cannot complete
-- complex scholarship, grant, university, and fellowship applications
+- complex scholarship and university applications
 - poor application organization
 - lack of follow-up
 - missed deadlines
@@ -79,7 +76,6 @@ Human Forwarders help when:
 - documents need careful matching
 - universities or organizations require email follow-up
 - essays need manual review
-- grant proposals need detailed packaging
 - applications require multiple portal accounts
 - the user wants premium concierge execution
 
@@ -88,14 +84,9 @@ Human Forwarders help when:
 Customers:
 
 - job seekers
-- visa-sponsored job applicants
+- students and graduates applying to many student or post-study jobs
 - scholarship applicants
 - university applicants
-- grant applicants
-- fellowship applicants
-- award applicants
-- competition applicants
-- conference/training applicants
 - busy professionals
 - international applicants
 - users who want human support instead of full automation
@@ -126,14 +117,9 @@ Customers create structured application missions.
 
 Example requests:
 
-- apply to 50 visa-sponsored software engineering jobs in the UK
+- apply to 50 post-study software engineering jobs in the UK
 - apply to 20 fully funded scholarships for master's programs in Europe
 - apply to 10 Russian medical universities under $5,000 tuition
-- apply to 15 grants for a youth education nonprofit
-- apply to 8 fellowships related to public policy and leadership
-- apply to 12 conferences with travel funding
-- submit a project to 10 startup competitions
-- apply to 5 international awards for a social impact project
 
 Customers can set:
 
@@ -170,7 +156,7 @@ Proposal types:
 Example:
 
 ```txt
-Apply to 30 visa-sponsored jobs in Canada within 14 days.
+Apply to 30 student jobs in Toronto within 14 days.
 Budget: $120
 Includes: CV tailoring, cover letters, proof of submission
 Review before submit: No
@@ -239,13 +225,9 @@ Forwarder specializations:
 - job application forwarder
 - scholarship forwarder
 - university admissions forwarder
-- grant forwarder
-- fellowship forwarder
-- awards/competitions forwarder
-- conference/training forwarder
 - country specialist
 - language specialist
-- visa-sponsored job specialist
+- student and post-study job specialist
 
 ### Bidding And Negotiation
 
@@ -367,7 +349,6 @@ AI helps Forwarders:
 - tailor CVs
 - write cover letters
 - prepare scholarship essays
-- adapt grant proposals
 - summarize requirements
 - detect missing documents
 - create application checklists
@@ -403,7 +384,7 @@ Examples:
 - missing document needs judgment
 - legal declaration requires human review
 - user requests concierge help
-- high-value grant or fellowship requires manual quality control
+- high-value scholarship or university application requires manual quality control
 
 ### Forwarder Workspace
 
@@ -674,11 +655,9 @@ High-value paid offerings:
 - dedicated Forwarder
 - senior specialist Forwarder
 - country-specialist application campaign
-- visa-sponsored job campaign
+- student job campaign
 - scholarship campaign
 - university admissions campaign
-- grant proposal submission campaign
-- fellowship application campaign
 - urgent deadline campaign
 - AI + human application review
 - follow-up management
@@ -710,12 +689,6 @@ University Application Campaign
 - admissions email handling
 - document matching
 - application tracking
-
-Grant Forwarding Campaign
-- 5 grant applications
-- proposal adaptation
-- budget/document upload
-- human review
 ```
 
 ## Differentiators
@@ -819,10 +792,9 @@ Build:
 
 Recommended first categories:
 
-- visa-sponsored jobs
+- student and post-study jobs
 - scholarships
 - universities
-- grants
 
 ### Phase 2: Forwarder Quality And AI Assist
 

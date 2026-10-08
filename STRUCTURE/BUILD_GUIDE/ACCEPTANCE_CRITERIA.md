@@ -47,10 +47,14 @@ Every completed service must satisfy:
 ## Jobs
 
 - employer can create, edit, submit, pause, and close a job
-- admin approval is required before a first-launch job becomes public
-- candidate can browse public jobs
-- candidate can use personalized job feed after onboarding
-- visa sponsorship, relocation, work mode, country, and employer trust signals are visible
+- admin approval is required before a first-launch job becomes visible to Pro candidates
+- there is no public job board; visitors and search engines never see job listings
+- a Pro candidate can use the personalized job feed after onboarding
+- a Starter candidate sees Jobs and Post-study jobs locked, with an upgrade prompt and no listings, counts or job details, on every Jobs route
+- after upgrading to Pro, both sections unlock without signing in again
+- job copy says "job connections" and never promises a job
+- job track (student or post-study), hours and pay, or visa sponsorship details for post-study jobs, the work eligibility label, work mode, country and employer trust signals are visible
+- a post-study job cannot be published without employer-confirmed visa sponsorship and a visa route
 - candidate can save jobs and add eligible jobs to AI Apply Agent or Apply For Me boards according to plan
 - candidate can start and submit an application after review
 - employer can view submitted applicants and move them through a basic pipeline
@@ -71,41 +75,6 @@ Every completed service must satisfy:
 - student can check eligibility, save, generate draft answers, review, and track scholarship applications
 - scam/risk reporting and verification states exist
 - admin can moderate scholarship listings and reports
-
-## Fellowships
-
-- user can search fellowships by country, format, career stage, sector, funding, deadline, and verification
-- fellowship cards show stipend/travel support, deadline, effort, fit score, verification, and board actions
-- user can build purpose/leadership profile, draft essays, manage references, and track applications
-- interview preparation can be generated without fabricating experience
-
-## Grants
-
-- user can search grants by eligible country, applicant type, sector, funding amount, deadline, and verification
-- grant cards show amount, deadline, effort, readiness score, verification, and board actions
-- user can build project profile, budget basics, proposal answers, and application tracker
-- grant readiness score is explained responsibly
-
-## Competitions
-
-- user can search competitions by country, format, field, applicant type, prize, deadline, and verification
-- competition cards show prize/exposure value, deadline, effort, fit score, deliverables, verification, and board actions
-- user can manage project/team workspace and submission tracker
-- pitch/submission support does not fabricate traction, results, code, or portfolio work
-
-## Conferences And Training
-
-- user can search events by country/city, format, field, funding, visa support, certificate, deadline, and verification
-- opportunity cards show event dates, funding/travel/visa signals, effort, fit score, verification, and board actions
-- user can generate bios, abstracts, motivation statements, and travel support statements with review
-- travel/visa readiness checklist exists without legal guarantees
-
-## Awards
-
-- user can search awards by country, field, stage, prize, nomination requirement, deadline, and verification
-- award cards show recognition value, deadline, effort, fit score, evidence/nomination needs, verification, and board actions
-- user can build achievement profiles, attach evidence, request nomination support, and track award applications
-- achievement and impact claims remain user-verifiable
 
 ## AI Apply Agent
 
@@ -130,6 +99,24 @@ Every completed service must satisfy:
 - extracted opportunities include deadline, effort inputs, fit/success inputs, verification status, and mobility value
 - human approval is required before publication at launch
 - source snapshots and verification notes are auditable
+
+## Relocation
+
+- a student can create a journey (from an accepted offer or manually) and receives a checklist built from the layered rules: destination, the embassy for their residence country and region, visa type, city and school
+- every step shows instructions, documents, deadline, duration, offices with map, directions and transport notes, contacts, costs with confidence, official source and last verified date
+- students can mark steps Need it / Not needed / Done and request a pilot on any step
+- Pre-Arrival and Post-Arrival progress percentages are correct; reaching 100% Post-Arrival awards the badge
+- the cost estimator totals match the cost lines; public country cost pages use the same engine
+- admins can add, edit, remove, copy and reorder rules per layer, preview as a student, version with effective dates, and activate a country only after the verification gate passes
+- rule changes notify students with active journeys and keep their completed steps
+- accommodation can be booked and paid (card, local, crypto); funds are held until move-in; payout tasks settle providers with proof
+- communities appear only after admin approval
+- pilots move Applicant → Verified → Staff; only Verified pilots are bookable; check-in codes and SOS work
+- a Year Check-in bought through a pilot's code or "Recommended by" creates a 20% commission for that pilot (renewals too), payable after the hold and clawed back on refund
+- only students served by a pilot that year can vote, once per cycle; admins confirm one global winner ($10,000) and one winner per active country ($1,000), and the global winner doesn't also take a country award
+- cohorts group students by city, school, embassy and arrival window; joining is opt-in
+- Handsoff produces Alumni status; Year Check-in can be bought for $600/year and support cases follow the coverage, limits and response targets
+- every event sends email + WhatsApp (opted-in users) + in-app
 
 ## Migration Agencies
 
